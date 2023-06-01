@@ -13,6 +13,8 @@ extern unsigned char PumpAll_State;		        //气泵状态
 extern unsigned char View_Servo_State;          //图传舵机,1表示抬升,2表示下降
 extern unsigned char Longitudinal_Ready_State;	//伸缩电机一键取矿收回时是否已经完全收回,0表示未完全收回,1表示已完全收回
 extern unsigned char Lift_Ready_State;          //抬升电机是否达到预定高度
+extern unsigned char Pump_State;                //气泵
+extern unsigned char ROLL_Ready_State;          //ROLL可使用	
 
 extern unsigned char UpperBoard_Data[];
 extern unsigned char Receive_UpperBoard_Data[];

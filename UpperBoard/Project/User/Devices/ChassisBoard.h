@@ -15,6 +15,7 @@ extern unsigned char ChassisBoard_Data[];
 extern unsigned char Transmit_ChassisBoard_Data[];
 extern unsigned char pChassisBoard_DataH;
 extern unsigned char pChassisBoard_DataL;
+extern unsigned char Roll_Ready_State;
 
 void Resolve_ChassisBoard_Data(void);
 void Load_ChassisBoard_Data(void);

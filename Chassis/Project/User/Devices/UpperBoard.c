@@ -26,6 +26,8 @@ unsigned char PumpAll_State=0;		        //气泵状态
 unsigned char View_Servo_State=0;          //图传舵机,1表示抬升,2表示下降
 unsigned char Longitudinal_Ready_State=0;	//伸缩电机一键取矿收回时是否已经完全收回,0表示未完全收回,1表示已完全收回
 unsigned char Lift_Ready_State = 0;				//抬升电机是否抬升到指定位置
+unsigned char Pump_State=0;
+unsigned char ROLL_Ready_State=0;
 
 unsigned char UpperBoard_Data[16] = {0};
 unsigned char Receive_UpperBoard_Data[100] = {0};
@@ -77,6 +79,7 @@ void Resolve_UpperBoard_Data(void)
 		{
 			case 0x0001:	Longitudinal_Ready_State = target_UpperBoard_Data & 0x0f; break;
 			case 0x0002:  Lift_Ready_State				 = target_UpperBoard_Data & 0x0f; break;
+			case 0x0003:  ROLL_Ready_State				 = target_UpperBoard_Data & 0x0f; break;
 
 			//...(最多支持十六个)...
 			default:break;

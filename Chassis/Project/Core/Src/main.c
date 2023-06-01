@@ -31,6 +31,9 @@
 #include "bsp_led.h"
 #include "DR16.h"
 #include "UpperBoard.h"
+#include "bsp_referee.h"
+#include "referee.h"
+#include "referee_UI.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -99,6 +102,7 @@ int main(void)
   MX_USART3_UART_Init();
   MX_USART6_UART_Init();
   MX_TIM1_Init();
+  MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
@@ -109,8 +113,12 @@ int main(void)
 	remote_control_init();
 	HAL_TIM_Base_Start_IT(&htim6);//¿ªÆô¶¨Ê±Æ÷6
 	HAL_UART_Receive_IT(&huart6, (uint8_t *)&UpperBoard_Data, 1);
+	referee_usart_fifo_init();
+	init_referee_struct_data();
   while (1)
   {
+	  referee_usart_task();
+	  HAL_Delay(10);
 		//HAL_UART_Transmit(&huart1, UpperBoard_Data, 16, 1000);
     /* USER CODE END WHILE */
 

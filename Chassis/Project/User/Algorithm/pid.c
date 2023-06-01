@@ -4,10 +4,10 @@
 
 /*六个参数分别为：Kp，Ki，Kd，积分分离值，积分限幅值，输出限幅值*/
 /*四个底盘电机的速度环pid参数*/
-float ChassisMotor1_PID_Parameters[6] = {12.0, 0.01, 0, 10000, 10000, 10000};
+float ChassisMotor1_PID_Parameters[6] = {12.0, 0, 0, 10000, 10000, 10000};
 float ChassisMotor2_PID_Parameters[6] = {8.0, 0, 0, 10000, 10000, 10000};
-float ChassisMotor3_PID_Parameters[6] = {12.0, 0.01, 0, 10000, 10000, 10000};
-float ChassisMotor4_PID_Parameters[6] = {8.0, 0.05, 0, 10000, 10000, 10000};
+float ChassisMotor3_PID_Parameters[6] = {16.0, 0, 0, 10000, 10000, 10000};
+float ChassisMotor4_PID_Parameters[6] = {5.0, 0, 0, 10000, 10000, 10000};
 
 /*两个外侧抬升电机的速度环和角度环pid参数*/
 float Outboard_MotorL_vPID_Parameters[6] = {28	,	0.05	, 0 , 10000, 10000 , 15000};

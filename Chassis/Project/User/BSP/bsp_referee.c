@@ -6,10 +6,10 @@
 #include "referee.h"
 #include "usart.h"
 
-#define RE_huart  huart6
-#define RE_UART		USART6
-#define RE_dma_rx		hdma_usart6_rx
-#define RE_dma_tx   hdma_usart6_tx
+#define RE_huart  huart1
+#define RE_UART		USART1
+#define RE_dma_rx		hdma_usart1_rx
+#define RE_dma_tx   hdma_usart1_tx
 
 
 //接收原始数据，为18个字节，给了36个字节长度，防止DMA传输越界
@@ -46,7 +46,7 @@ static void REFEREE_init(uint8_t *rx1_buf, uint8_t *rx2_buf, uint16_t dma_buf_nu
     //失效DMA
     __HAL_DMA_DISABLE(&RE_dma_rx);
     
-    while(hdma_usart6_rx.Instance->CR & DMA_SxCR_EN)
+    while(hdma_usart1_rx.Instance->CR & DMA_SxCR_EN)
     {
         __HAL_DMA_DISABLE(&RE_dma_rx);
     }
@@ -87,7 +87,7 @@ static void REFEREE_init(uint8_t *rx1_buf, uint8_t *rx2_buf, uint16_t dma_buf_nu
 
 
 //写入stm32f4xx_it.c串口usart1中断
-void USART6_IRQHandler(void)
+void USART1_IRQHandler(void)
 {
 	static volatile uint8_t res;
     if(RE_UART->SR & UART_FLAG_IDLE)

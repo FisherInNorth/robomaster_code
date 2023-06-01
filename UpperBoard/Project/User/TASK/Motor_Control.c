@@ -19,12 +19,23 @@ void Motor_Control(void)
 		inside_lift_motorL.apid.target_angle -=80;
 		inside_lift_motorR.apid.target_angle +=80;
 	}
+	else if(Lift_Motor_State==6)
+	{
+		inside_lift_motorL.apid.target_angle -=40;
+		inside_lift_motorR.apid.target_angle +=40;
+	}
+	else if(Lift_Motor_State==7)
+	{
+		inside_lift_motorL.apid.target_angle +=40;
+		inside_lift_motorR.apid.target_angle -=40;
+	}
 	else if(Lift_Motor_State == 5)
 	{
 		if(Longitudinal_Ready_State == 0)
 		{
 			if(end_flag == 0)
 			{	
+			  chuck_roll.apid.target_angle=0;
 			  chuck_pitch.apid.target_angle -=60;				
 			  inside_lift_motorL.apid.target_angle +=15;
 			  inside_lift_motorR.apid.target_angle -=15;
@@ -59,6 +70,7 @@ void Motor_Control(void)
 						if(chuck_pitch.apid.target_angle > 112050)
 						{
 							chuck_pitch.apid.target_angle = 112050;
+							
 							longitudinal_motorL.apid.target_angle -=400;
 							longitudinal_motorR.apid.target_angle += 400;		
 							if((longitudinal_motorL.apid.target_angle < 0) || (longitudinal_motorR.apid.target_angle > 0))
@@ -177,6 +189,13 @@ void Motor_Control(void)
 	{
 		chuck_roll.apid.target_angle -= 30;
 	}
+	else if(Chuck_Roll_State==5)
+		chuck_roll.apid.target_angle=0;
+	
+	if(chuck_roll.apid.target_angle==0)
+		Roll_Ready_State=1;
+	else
+		Roll_Ready_State=0;
 	
 
 //	if((longitudinal_motorL.apid.total_angle < 1000) || (longitudinal_motorR.apid.total_angle > -1000))

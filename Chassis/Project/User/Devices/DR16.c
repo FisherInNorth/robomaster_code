@@ -509,12 +509,18 @@ void Key_Control(void)
 			chassis_vy=0;		
 	}
 	
+	//Æø±Ã
 	if(rc_ctrl.mouse.press_l)
+		Pump_State=1;
+	if(rc_ctrl.mouse.press_r)
+		Pump_State=2;
+	
+	if(Pump_State==1)
 	{
 		Pump1_ON;
 		Pump2_ON;
 	}
-	if(rc_ctrl.mouse.press_r)
+	else if(Pump_State==2)
 	{
 		Pump1_OFF;
 		Pump2_OFF;
@@ -523,8 +529,10 @@ void Key_Control(void)
 	if((rc_ctrl.key.v & KEY_Q) && (!(rc_ctrl.key.v & KEY_E)) && (!(rc_ctrl.key.v & KEY_SHIFT)))
 	{
 		Lift_Motor_State = 4;
-		outboard_lift_motorL.apid.target_angle +=2250;
-		outboard_lift_motorR.apid.target_angle -=2250;
+//		outboard_lift_motorL.apid.target_angle +=2250;
+//		outboard_lift_motorR.apid.target_angle -=2250;
+		outboard_lift_motorL.apid.target_angle +=3500;
+		outboard_lift_motorR.apid.target_angle -=3500;
 		Chuck_Pitch_State = 0;
 	}
 	else if((rc_ctrl.key.v & KEY_E) && (!(rc_ctrl.key.v & KEY_Q)) && (!(rc_ctrl.key.v & KEY_SHIFT)))
@@ -544,7 +552,11 @@ void Key_Control(void)
 		Lift_Motor_State = 0;
 		Chuck_Pitch_State = 3;
 	}
-
+	else if((rc_ctrl.key.v & KEY_V) && (!(rc_ctrl.key.v & KEY_B))&& (!(rc_ctrl.key.v & KEY_SHIFT)))
+	{
+		Lift_Motor_State = 6;
+		Chuck_Pitch_State =0;
+	}	
 	
 	if(outboard_lift_motorL.apid.target_angle>0)
 	{
@@ -575,6 +587,11 @@ void Key_Control(void)
 		Longitudinal_Motor_State = 0;
 		Chuck_Roll_State = 4;
 	}
+	else if((rc_ctrl.key.v & KEY_V) && (!(rc_ctrl.key.v & KEY_B))&& (rc_ctrl.key.v & KEY_SHIFT))
+	{
+		Chuck_Roll_State = 5;
+		Longitudinal_Motor_State =0;
+	}
 
 	
 	if(rc_ctrl.key.v & KEY_F)
@@ -593,32 +610,55 @@ void Key_Control(void)
     
 	}
 
-	if(rc_ctrl.key.v & KEY_F)
-	{
-		Outboard_MotorL_aPID_Parameters[5] = 1700;
-		Outboard_MotorR_aPID_Parameters[5] = 1700;
-	}
-	else
-	{
-		Outboard_MotorL_aPID_Parameters[5] = 1100;
-		Outboard_MotorR_aPID_Parameters[5] = 1100;
-	}
-//	if(rc_ctrl.key.v & KEY_V)
+//	if(rc_ctrl.key.v & KEY_F)
 //	{
-//		Longitudinal_Motor_State = 4;
-//		if(Longitudinal_Ready_State == 1)
-//		{
-//			Longitudinal_Motor_State = 0;
-//			outboard_lift_motorL.apid.target_angle +=2250;
-//			outboard_lift_motorR.apid.target_angle -=2250;
-//			Lift_Motor_State = 4;
-//		}
+//		Outboard_MotorL_aPID_Parameters[5] = 1700;
+//		Outboard_MotorR_aPID_Parameters[5] = 1700;
 //	}
-//	else
+//	else 
 //	{
-//		Lift_Motor_State = 0;
-//		Longitudinal_Motor_State = 0;
+//		Outboard_MotorL_aPID_Parameters[5] = 1100;
+//		Outboard_MotorR_aPID_Parameters[5] = 1100;
 //	}
+//		
+	
+//if(rc_ctrl.key.v & KEY_B)
+//{
+////		Longitudinal_Motor_State = 4;
+////		if(Longitudinal_Ready_State == 1)
+////		{
+////			Longitudinal_Motor_State = 0;
+////			outboard_lift_motorL.apid.target_angle -=2250;
+////			outboard_lift_motorR.apid.target_angle +=2250;
+////			
+////		}
+//	Lift_Motor_State = 7;
+//}
+//else
+//{
+//	Lift_Motor_State = 0;
+////		Longitudinal_Motor_State = 0;
+//}
+
+//if(rc_ctrl.key.v & KEY_V)
+//{
+////		Longitudinal_Motor_State = 4;
+////		if(Longitudinal_Ready_State == 1)
+////		{
+////			Longitudinal_Motor_State = 0;
+////			outboard_lift_motorL.apid.target_angle +=2250;
+////			outboard_lift_motorR.apid.target_angle -=2250;
+////			
+////		}
+//	Lift_Motor_State = 6;
+//}
+//else
+//{
+//	Lift_Motor_State = 0;
+////		Longitudinal_Motor_State = 0;
+//}
+	
+
 }
 
 void Key_Mode_Judge(void)

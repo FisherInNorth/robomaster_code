@@ -504,6 +504,11 @@
               <FileType>1</FileType>
               <FilePath>..\User\BSP\bsp_servo.c</FilePath>
             </File>
+            <File>
+              <FileName>bsp_referee.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\BSP\bsp_referee.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

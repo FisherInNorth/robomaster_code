@@ -1,5 +1,6 @@
 #include "Timer_Task.h"
 #include "bsp_servo.h"
+#include "referee.h"
 int time_count = -1;
 
 int target;
@@ -10,10 +11,9 @@ int out;
 uint8_t servo_angle;
 extern RC_ctrl_t rc_ctrl;
 extern int Key_Mode;
-extern float Outboard_MotorL_aPID_Parameters[];
-extern float Outboard_MotorR_aPID_Parameters[];
 void Timer_Task()
 {
+
 	//≥ı ºªØ
 	if(time_count == -1)
 	{
@@ -34,6 +34,7 @@ void Timer_Task()
 		Key_Control();			
 		}
 		Key_Mode_Judge();
+		referee_unpack_fifo_data();
 		ChassisMove();
 	}
 	
