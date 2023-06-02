@@ -18,6 +18,7 @@ extern unsigned char ROLL_Ready_State;          //ROLLø… π”√
 extern unsigned char Longitudinal_Location;
 extern unsigned char Lift_Location;
 extern unsigned char Chuck_Roll_Location;
+extern unsigned char HP_Zero;
 
 extern unsigned char UpperBoard_Data[];
 extern unsigned char Receive_UpperBoard_Data[];

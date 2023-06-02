@@ -31,6 +31,7 @@ unsigned char ROLL_Ready_State=0;
 unsigned char Longitudinal_Location=0;
 unsigned char Lift_Location=0;
 unsigned char Chuck_Roll_Location=0;
+unsigned char HP_Zero=0;
 
 unsigned char UpperBoard_Data[16] = {0};
 unsigned char Receive_UpperBoard_Data[100] = {0};
@@ -64,6 +65,9 @@ void Load_UpperBoard_Data(void)
 	
 	UpperBoard_Data[6] = 0x07<<4;
 	UpperBoard_Data[6] |= View_Servo_State;
+	
+	UpperBoard_Data[7] = 0x08<<4;
+	UpperBoard_Data[7] |= HP_Zero;
 }
 
 void Resolve_UpperBoard_Data(void)

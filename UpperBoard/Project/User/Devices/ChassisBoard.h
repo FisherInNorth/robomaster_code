@@ -19,6 +19,7 @@ extern unsigned char Roll_Ready_State;
 extern unsigned char Longitudinal_Location;
 extern unsigned char Lift_Location;
 extern unsigned char Chuck_Roll_Location;
+extern unsigned char HP_Zero;
 
 void Resolve_ChassisBoard_Data(void);
 void Load_ChassisBoard_Data(void);

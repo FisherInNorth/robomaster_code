@@ -15,6 +15,7 @@ unsigned char Roll_Ready_State=0;
 unsigned char Longitudinal_Location=0;
 unsigned char Lift_Location=0;
 unsigned char Chuck_Roll_Location=0;
+unsigned char HP_Zero=0;
 
 //...(其他状态标志位)...
 
@@ -46,6 +47,7 @@ void Resolve_ChassisBoard_Data(void)
 			case 0x0005:  Chuck_Pitch_State = target_ChassisBoard_Data & 0x0f;break;
 			case 0x0006:  Chuck_Roll_State = target_ChassisBoard_Data & 0x0f;break;
 			case 0x0007:  View_Servo_State = target_ChassisBoard_Data & 0x0f;break;
+			case 0x0008:  HP_Zero = target_ChassisBoard_Data & 0x0f;break;
 
 			//...(最多支持十六个)...
 			default:break;

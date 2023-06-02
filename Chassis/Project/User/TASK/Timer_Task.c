@@ -13,7 +13,14 @@ extern RC_ctrl_t rc_ctrl;
 extern int Key_Mode;
 void Timer_Task()
 {
-
+	if(Game_Robot_State.remain_HP == 0)
+	{
+		HP_Zero = 1;
+	}
+	else
+	{
+		HP_Zero = 0;
+	}
 
 	//≥ı ºªØ
 	if(time_count == -1)

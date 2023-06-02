@@ -6,6 +6,7 @@ int target;
 int actual;
 int error;
 int out;
+unsigned char Last_HP_Zero=0;
 
 extern RC_ctrl_t rc_ctrl;
 extern float chuck_pitch_vPID_Parameters[6];
@@ -14,6 +15,18 @@ extern float Longitudinal_MotorR_aPID_Parameters[6];
 
 void Timer_Task()
 {
+	if(Last_HP_Zero == 1)
+	{
+		if(HP_Zero == 0)
+		{
+			calibrate_chuck_flag = 1;
+			calibrate_lift_flag = 1;
+			calibrate_longitudinal_flag = 1;
+			start_flag = 0;
+			time_count = -1;
+		}
+	}
+	Last_HP_Zero = HP_Zero;
 	if((calibrate_lift_flag == 0) && (calibrate_chuck_flag == 0) && (calibrate_longitudinal_flag == 0))
 	{
 	//≥ı ºªØ
