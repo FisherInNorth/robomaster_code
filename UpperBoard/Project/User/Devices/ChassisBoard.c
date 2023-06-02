@@ -12,6 +12,9 @@ unsigned char View_Servo_State=0;		        //图传舵机
 unsigned char Longitudinal_Ready_State=0;	//伸缩电机一键取矿收回时是否已经完全收回
 unsigned char Lift_Ready_State=0;         //抬升电机是否抬到预定高度
 unsigned char Roll_Ready_State=0;
+unsigned char Longitudinal_Location=0;
+unsigned char Lift_Location=0;
+unsigned char Chuck_Roll_Location=0;
 
 //...(其他状态标志位)...
 
@@ -60,4 +63,13 @@ void Load_ChassisBoard_Data(void)
 	
 	Transmit_ChassisBoard_Data[2] = 0x03 << 4;
 	Transmit_ChassisBoard_Data[2] |= Roll_Ready_State;
+	
+	Transmit_ChassisBoard_Data[3] = 0x04 << 4;
+	Transmit_ChassisBoard_Data[3] |= Longitudinal_Location;
+	
+	Transmit_ChassisBoard_Data[4] = 0x05 << 4;
+	Transmit_ChassisBoard_Data[4] |= Lift_Location;
+	
+	Transmit_ChassisBoard_Data[5] = 0x06 << 4;
+	Transmit_ChassisBoard_Data[5] |= Chuck_Roll_Location;
 }

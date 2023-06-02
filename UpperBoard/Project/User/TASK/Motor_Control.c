@@ -37,12 +37,12 @@ void Motor_Control(void)
 			{	
 			  chuck_roll.apid.target_angle=0;
 			  chuck_pitch.apid.target_angle -=60;				
-			  inside_lift_motorL.apid.target_angle +=15;
-			  inside_lift_motorR.apid.target_angle -=15;
-				if((inside_lift_motorL.apid.target_angle > 48000) || (inside_lift_motorR.apid.target_angle < -48000))		
+			  inside_lift_motorL.apid.target_angle +=2;
+			  inside_lift_motorR.apid.target_angle -=2;
+				if((inside_lift_motorL.apid.target_angle > 2000) || (inside_lift_motorR.apid.target_angle < -2000))		
 				{
-					  inside_lift_motorL.apid.target_angle = 48000;
-					  inside_lift_motorR.apid.target_angle = -48000;
+					  inside_lift_motorL.apid.target_angle = 2000;
+					  inside_lift_motorR.apid.target_angle = -2000;
 						longitudinal_motorL.apid.target_angle +=400;
 						longitudinal_motorR.apid.target_angle -= 400;
 						if((longitudinal_motorL.apid.target_angle > 700000) || (longitudinal_motorR.apid.target_angle < -700000))
@@ -197,6 +197,14 @@ void Motor_Control(void)
 	else
 		Roll_Ready_State=0;
 	
+	if(chuck_roll.apid.target_angle > 77823)
+	{
+		chuck_roll.apid.target_angle = 77823;
+	}
+	else if(chuck_roll.apid.target_angle < -77823)
+	{
+		chuck_roll.apid.target_angle = -77823;
+	}
 
 //	if((longitudinal_motorL.apid.total_angle < 1000) || (longitudinal_motorR.apid.total_angle > -1000))
 //	{
@@ -248,12 +256,12 @@ void Motor_Lift_Calibrate(void)
 {
 	inside_lift_motorL.apid.target_angle -=40;
 	inside_lift_motorR.apid.target_angle +=40;
-  if((abs(inside_lift_motorL.apid.target_angle - inside_lift_motorL.apid.total_angle) > 40000) && (abs(inside_lift_motorR.apid.target_angle - inside_lift_motorR.apid.total_angle) > 40000))
+  if((abs(inside_lift_motorL.apid.target_angle - inside_lift_motorL.apid.total_angle) > 10000) && (abs(inside_lift_motorR.apid.target_angle - inside_lift_motorR.apid.total_angle) > 10000))
 	{
 		if( (abs(inside_lift_motorL.vpid.actual_speed) < 200) && (abs(inside_lift_motorR.vpid.actual_speed) < 200) )
 		{
-			inside_lift_motorL.apid.target_angle = 0;
-			inside_lift_motorR.apid.target_angle = 0;
+			inside_lift_motorL.apid.target_angle = inside_lift_motorL.apid.total_angle;
+			inside_lift_motorR.apid.target_angle = inside_lift_motorR.apid.total_angle;
 			inside_lift_motorL.round_cnt = 0;
 			inside_lift_motorR.round_cnt = 0;
 			calibrate_lift_flag = 0;
@@ -268,7 +276,7 @@ void Motor_Chuck_Calibrate(void)
 	{
 		if(abs(chuck_pitch.vpid.actual_speed) < 200)
 		{
-			chuck_pitch.apid.target_angle = 0;
+			chuck_pitch.apid.target_angle = chuck_pitch.apid.total_angle;
 			chuck_pitch.round_cnt = 0;
 			calibrate_chuck_flag = 0;
 		}
@@ -279,12 +287,12 @@ void Motor_Longitudinal_Calibrate(void)
 {
 	longitudinal_motorL.apid.target_angle -=40;
 	longitudinal_motorR.apid.target_angle +=40;
-	if((abs(longitudinal_motorR.apid.target_angle - longitudinal_motorR.apid.total_angle) > 80000))
+	if((abs(longitudinal_motorR.apid.target_angle - longitudinal_motorR.apid.total_angle) > 60000))
 	{
 		if((abs(longitudinal_motorR.vpid.actual_speed) < 200))
 		{
-			longitudinal_motorL.apid.target_angle = 0;
-			longitudinal_motorR.apid.target_angle = 0;
+			longitudinal_motorL.apid.target_angle = longitudinal_motorL.apid.total_angle;
+			longitudinal_motorR.apid.target_angle = longitudinal_motorR.apid.total_angle;
 			longitudinal_motorL.round_cnt = 0;
 			longitudinal_motorR.round_cnt = 0;
 			calibrate_longitudinal_flag = 0;

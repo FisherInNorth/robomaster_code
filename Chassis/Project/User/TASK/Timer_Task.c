@@ -14,6 +14,7 @@ extern int Key_Mode;
 void Timer_Task()
 {
 
+
 	//≥ı ºªØ
 	if(time_count == -1)
 	{

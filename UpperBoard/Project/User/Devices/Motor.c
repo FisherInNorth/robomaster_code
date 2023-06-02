@@ -155,7 +155,14 @@ static void Motor_RecordData(MOTOR_t *motor, unsigned char * data)
 	{
 		motor->round_cnt ++;
 	}
-	motor->apid.total_angle = motor->round_cnt * 8192 + motor->apid.actual_angle;	// - motor->start_angle;
+	if(motor == &chuck_roll)
+	{
+		motor->apid.total_angle = motor->round_cnt * 8192 + motor->apid.actual_angle;
+	}
+	else
+	{
+		motor->apid.total_angle = motor->round_cnt * 8192 + motor->apid.actual_angle - motor->start_angle;
+	}
 }
 
 

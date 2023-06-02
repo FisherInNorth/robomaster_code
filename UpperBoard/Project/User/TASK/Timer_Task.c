@@ -32,6 +32,10 @@ void Timer_Task()
 		}
 	
 		time_count++;
+		
+		Longitudinal_Location = longitudinal_motorL.apid.actual_angle/66251;
+		Lift_Location = inside_lift_motorL.apid.actual_angle/12501;
+		Chuck_Roll_Location = (chuck_roll.apid.actual_angle+77824)/155648;
 	
 		if(time_count%7 == 0)
 		{

@@ -6,13 +6,12 @@
 /*四个底盘电机的速度环pid参数*/
 float ChassisMotor1_PID_Parameters[6] = {12.0, 0, 0, 10000, 10000, 10000};
 float ChassisMotor2_PID_Parameters[6] = {8.0, 0, 0, 10000, 10000, 10000};
-float ChassisMotor3_PID_Parameters[6] = {16.0, 0, 0, 10000, 10000, 10000};
-float ChassisMotor4_PID_Parameters[6] = {5.0, 0, 0, 10000, 10000, 10000};
+float ChassisMotor3_PID_Parameters[6] = {12.0, 0, 0, 10000, 10000, 10000};
+float ChassisMotor4_PID_Parameters[6] = {8.0, 0, 0, 10000, 10000, 10000};
 
 /*两个外侧抬升电机的速度环和角度环pid参数*/
 float Outboard_MotorL_vPID_Parameters[6] = {28	,	0.05	, 0 , 10000, 10000 , 15000};
 float Outboard_MotorL_aPID_Parameters[6] = {0.5	, 0	, 0 , 10000, 100	 , 1700};
-
 float Outboard_MotorR_vPID_Parameters[6] = {28	,	0.05	, 0 , 10000, 10000 , 15000};
 float Outboard_MotorR_aPID_Parameters[6] = {0.5	, 0	, 0 , 10000, 100	 , 1700};
 

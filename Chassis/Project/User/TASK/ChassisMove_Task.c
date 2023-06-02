@@ -50,7 +50,7 @@ static void speed_optimize(void)
 		{
 			if(chassis_vx>last_xspeed)
 				real_chassis_vx+=max_d_speed_x;
-			else if(chassis_vx<-last_xspeed)
+			else if(chassis_vx<last_xspeed)
 				real_chassis_vx-=max_d_speed_x;
 		}
 		else real_chassis_vx=chassis_vx;
@@ -59,7 +59,7 @@ static void speed_optimize(void)
 		{
 			if(chassis_vy>last_yspeed)
 				real_chassis_vy+=max_d_speed_y;
-			else if(chassis_vy<-last_yspeed)
+			else if(chassis_vy<last_yspeed)
 				real_chassis_vy-=max_d_speed_y;
 		}
 		else real_chassis_vy=chassis_vy;
@@ -97,8 +97,8 @@ static void speed_optimize(void)
 		}
 	}
 
-	chassis_vx=real_chassis_vx;
-	chassis_vy=real_chassis_vy;
+//	chassis_vx=real_chassis_vx;
+//	chassis_vy=real_chassis_vy;
 }
 
 static void speed_z_optimize(void)
@@ -124,7 +124,7 @@ void ChassisMove(void)
 	
 	//int max;
 		//速度换算，运动学分解
-	BaseVel_To_WheelVel(chassis_vx, chassis_vy, chassis_wz);
+	BaseVel_To_WheelVel(real_chassis_vx, real_chassis_vy, chassis_wz);
 	
 	//max=find_max();
 //	if(max>MAX_MOTOR_SPEED)

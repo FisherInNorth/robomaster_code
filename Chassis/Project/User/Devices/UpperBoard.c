@@ -28,6 +28,9 @@ unsigned char Longitudinal_Ready_State=0;	//伸缩电机一键取矿收回时是否已经完全收
 unsigned char Lift_Ready_State = 0;				//抬升电机是否抬升到指定位置
 unsigned char Pump_State=0;
 unsigned char ROLL_Ready_State=0;
+unsigned char Longitudinal_Location=0;
+unsigned char Lift_Location=0;
+unsigned char Chuck_Roll_Location=0;
 
 unsigned char UpperBoard_Data[16] = {0};
 unsigned char Receive_UpperBoard_Data[100] = {0};
@@ -80,6 +83,9 @@ void Resolve_UpperBoard_Data(void)
 			case 0x0001:	Longitudinal_Ready_State = target_UpperBoard_Data & 0x0f; break;
 			case 0x0002:  Lift_Ready_State				 = target_UpperBoard_Data & 0x0f; break;
 			case 0x0003:  ROLL_Ready_State				 = target_UpperBoard_Data & 0x0f; break;
+			case 0x0004:  Longitudinal_Location 	 = target_UpperBoard_Data & 0x0f; break;
+			case 0x0005:  Lift_Location						 = target_UpperBoard_Data & 0x0f; break;
+			case 0x0006:  Chuck_Roll_Location			 = target_UpperBoard_Data & 0x0f; break;
 
 			//...(最多支持十六个)...
 			default:break;

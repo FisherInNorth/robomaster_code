@@ -15,6 +15,9 @@ extern unsigned char Longitudinal_Ready_State;	//ÉìËõµç»úÒ»¼üÈ¡¿óÊÕ»ØÊ±ÊÇ·ñÒÑ¾­Í
 extern unsigned char Lift_Ready_State;          //Ì§Éıµç»úÊÇ·ñ´ïµ½Ô¤¶¨¸ß¶È
 extern unsigned char Pump_State;                //Æø±Ã
 extern unsigned char ROLL_Ready_State;          //ROLL¿ÉÊ¹ÓÃ	
+extern unsigned char Longitudinal_Location;
+extern unsigned char Lift_Location;
+extern unsigned char Chuck_Roll_Location;
 
 extern unsigned char UpperBoard_Data[];
 extern unsigned char Receive_UpperBoard_Data[];
