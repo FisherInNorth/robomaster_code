@@ -9,13 +9,22 @@ float Longitudinal_MotorL_aPID_Parameters[6] = {1	, 0	, 0 , 10000, 10000	 , 500}
 
 float Longitudinal_MotorR_vPID_Parameters[6] = {10	,	0.05	, 0 , 10000, 10000 , 9000};
 float Longitudinal_MotorR_aPID_Parameters[6] = {1	, 0	, 0 , 10000, 10000	 , 500};
+//float Longitudinal_MotorL_vPID_Parameters[6] = {5	,	0.05	, 0 , 10000, 10000 , 9000};
+//float Longitudinal_MotorL_aPID_Parameters[6] = {0.5	, 0	, 0 , 10000, 10000	 , 500};
 
+//float Longitudinal_MotorR_vPID_Parameters[6] = {5	,	0.05	, 0 , 10000, 10000 , 9000};
+//float Longitudinal_MotorR_aPID_Parameters[6] = {0.5	, 0	, 0 , 10000, 10000	 , 500};
 /*两个内侧抬升电机的速度环和角度环pid参数*/
 float Inside_MotorL_vPID_Parameters[6] = { 28 ,	0.05	, 0 , 10000, 10000 , 15000};
 float Inside_MotorL_aPID_Parameters[6] = {0.5	, 0	, 0, 10000, 100	 , 1000};
 
 float Inside_MotorR_vPID_Parameters[6] = { 28 ,	0.05	, 0 , 10000, 10000 , 15000};
 float Inside_MotorR_aPID_Parameters[6] = {0.5	, 0	, 0 , 10000, 100 , 1000};
+//float Inside_MotorL_vPID_Parameters[6] = { 7 ,	0.05	, 0 , 10000, 10000 , 15000};
+//float Inside_MotorL_aPID_Parameters[6] = {0.2	, 0	, 0, 10000, 100	 , 1000};
+
+//float Inside_MotorR_vPID_Parameters[6] = { 7 ,	0.05	, 0 , 10000, 10000 , 15000};
+//float Inside_MotorR_aPID_Parameters[6] = {0.2	, 0	, 0 , 10000, 100 , 1000};
 
 /*控制横向移动的电机的速度环和角度环pid参数*/
 //float horizontal_motor_vPID_Parameters[6]={0.5	,	0.5	, 0 , 10000, 100 , 9000};

@@ -70,15 +70,15 @@ void CAN1_Motor_HandleMsg(uint32_t StdId, unsigned char * Data)
 		
 		case CANRX_Inside_Lift_MotorL_ID:	
 			Motor_RecordData(&inside_lift_motorL,Data);	
-			InsideLiftMotor_PID_Calc(&inside_lift_motorL, &Inside_MotorL_aPID_Parameters, &Inside_MotorL_vPID_Parameters); 
-			Set_CAN1_Low_Current();
+//			InsideLiftMotor_PID_Calc(&inside_lift_motorL, &Inside_MotorL_aPID_Parameters, &Inside_MotorL_vPID_Parameters); 
+//			Set_CAN1_Low_Current();
 			start_flag=1;
 		break;
 		
 		case CANRX_Inside_Lift_MotorR_ID:	
 			Motor_RecordData(&inside_lift_motorR,Data);	
-			InsideLiftMotor_PID_Calc(&inside_lift_motorR, &Inside_MotorR_aPID_Parameters, &Inside_MotorR_vPID_Parameters);
-			Set_CAN1_Low_Current();
+//			InsideLiftMotor_PID_Calc(&inside_lift_motorR, &Inside_MotorR_aPID_Parameters, &Inside_MotorR_vPID_Parameters);
+//			Set_CAN1_Low_Current();
 		break;
 	}
 }
@@ -89,15 +89,15 @@ void CAN2_Motor_HandleMsg(uint32_t StdId, unsigned char * Data)
 	{
 		case CANRX_Longitudinal_MotorL_ID:		
 			Motor_RecordData(&longitudinal_motorL,Data);	
-			Longitudinal_Motor_PID_Calc(&longitudinal_motorL, &Longitudinal_MotorL_aPID_Parameters, &Longitudinal_MotorL_vPID_Parameters);	
-			Set_CAN2_Low_Current();
+//			Longitudinal_Motor_PID_Calc(&longitudinal_motorL, &Longitudinal_MotorL_aPID_Parameters, &Longitudinal_MotorL_vPID_Parameters);	
+//			Set_CAN2_Low_Current();
 			start_flag=1;
 		break;
 		
 		case CANRX_Longitudinal_MotorR_ID:		
 			Motor_RecordData(&longitudinal_motorR,Data);	
-			Longitudinal_Motor_PID_Calc(&longitudinal_motorR, &Longitudinal_MotorR_aPID_Parameters, &Longitudinal_MotorR_vPID_Parameters);	
-			Set_CAN2_Low_Current();
+//			Longitudinal_Motor_PID_Calc(&longitudinal_motorR, &Longitudinal_MotorR_aPID_Parameters, &Longitudinal_MotorR_vPID_Parameters);	
+//			Set_CAN2_Low_Current();
 		break;
 		
 //		case CANRX_Horizontal_Motor_ID:	
@@ -112,15 +112,32 @@ void CAN2_Motor_HandleMsg(uint32_t StdId, unsigned char * Data)
 //		break;
 		case CANRX_Chuck_Pitch_ID:	
 			Motor_RecordData(&chuck_pitch,Data);	
-			ChuckYaw_PID_Calc(&chuck_pitch, &chuck_pitch_aPID_Parameters, &chuck_pitch_vPID_Parameters); 
-			Set_CAN2_Low_Current(); 
+//			ChuckYaw_PID_Calc(&chuck_pitch, &chuck_pitch_aPID_Parameters, &chuck_pitch_vPID_Parameters); 
+//			Set_CAN2_Low_Current(); 
 		break;
 		case CANRX_Chuck_Roll_ID:	
 			Motor_RecordData(&chuck_roll,Data);	
-			ChuckRoll_PID_Calc(&chuck_roll, &chuck_roll_aPID_Parameters, &chuck_roll_vPID_Parameters); 
-			Set_CAN2_Low_Current(); 
+//			ChuckRoll_PID_Calc(&chuck_roll, &chuck_roll_aPID_Parameters, &chuck_roll_vPID_Parameters); 
+//			Set_CAN2_Low_Current(); 
 		break;
 	}
+}
+
+void CAN1_Motor_ControlMsg(void)
+{
+	
+  InsideLiftMotor_PID_Calc(&inside_lift_motorL, &Inside_MotorL_aPID_Parameters, &Inside_MotorL_vPID_Parameters);
+  InsideLiftMotor_PID_Calc(&inside_lift_motorR, &Inside_MotorR_aPID_Parameters, &Inside_MotorR_vPID_Parameters);
+  Set_CAN1_Low_Current();	
+}
+
+void CAN2_Motor_ControlMsg(void)
+{
+	Longitudinal_Motor_PID_Calc(&longitudinal_motorL, &Longitudinal_MotorL_aPID_Parameters, &Longitudinal_MotorL_vPID_Parameters);
+  Longitudinal_Motor_PID_Calc(&longitudinal_motorR, &Longitudinal_MotorR_aPID_Parameters, &Longitudinal_MotorR_vPID_Parameters);
+	ChuckPitch_PID_Calc(&chuck_pitch, &chuck_pitch_aPID_Parameters, &chuck_pitch_vPID_Parameters);
+	ChuckRoll_PID_Calc(&chuck_roll, &chuck_roll_aPID_Parameters, &chuck_roll_vPID_Parameters);
+	Set_CAN2_Low_Current();
 }
 
 /**
@@ -155,14 +172,7 @@ static void Motor_RecordData(MOTOR_t *motor, unsigned char * data)
 	{
 		motor->round_cnt ++;
 	}
-	if(motor == &chuck_roll)
-	{
-		motor->apid.total_angle = motor->round_cnt * 8192 + motor->apid.actual_angle;
-	}
-	else
-	{
-		motor->apid.total_angle = motor->round_cnt * 8192 + motor->apid.actual_angle - motor->start_angle;
-	}
+	motor->apid.total_angle = motor->round_cnt * 8192 + motor->apid.actual_angle - motor->start_angle;
 }
 
 

@@ -23,6 +23,8 @@ extern float Outboard_MotorR_aPID_Parameters[];
 
 int Key_Mode = 0;
 
+uint8_t calibrate_lift_flag=1;
+
 RC_ctrl_t rc_ctrl = {{0x0400,0x0400,0x0400,0x0400,2,2,0x0400},{0,0,0,0,0,},{0}};
 
 /*******
@@ -563,14 +565,14 @@ void Key_Control(void)
 		Chuck_Pitch_State =0;
 	}	
 	
-	if(outboard_lift_motorL.apid.target_angle>0)
-	{
-		outboard_lift_motorL.apid.target_angle = 0;
-	}
-	if(outboard_lift_motorR.apid.target_angle<0)
-	{
-		outboard_lift_motorR.apid.target_angle = 0;
-	}
+//	if(outboard_lift_motorL.apid.target_angle>0)
+//	{
+//		outboard_lift_motorL.apid.target_angle = 0;
+//	}
+//	if(outboard_lift_motorR.apid.target_angle<0)
+//	{
+//		outboard_lift_motorR.apid.target_angle = 0;
+//	}
 	
 	if((rc_ctrl.key.v & KEY_Z) && (!(rc_ctrl.key.v & KEY_C)) && (!(rc_ctrl.key.v & KEY_SHIFT)))
 	{
@@ -675,5 +677,22 @@ void Key_Mode_Judge(void)
 	else
 	{
 		Key_Mode = 0;
+	}
+}
+
+void Motor_Lift_Calibrate()
+{
+	outboard_lift_motorL.apid.target_angle +=40;
+	outboard_lift_motorR.apid.target_angle -=40;
+  if((abs(outboard_lift_motorL.apid.target_angle - outboard_lift_motorL.apid.total_angle) > 40000) && (abs(outboard_lift_motorR.apid.target_angle - outboard_lift_motorR.apid.total_angle) > 40000))
+	{
+		if( (abs(outboard_lift_motorL.vpid.actual_speed) < 200) && (abs(outboard_lift_motorR.vpid.actual_speed) < 200) )
+		{
+			outboard_lift_motorL.apid.target_angle = outboard_lift_motorL.apid.total_angle;
+			outboard_lift_motorR.apid.target_angle = outboard_lift_motorR.apid.total_angle;
+			outboard_lift_motorL.round_cnt = 0;
+			outboard_lift_motorR.round_cnt = 0;
+			calibrate_lift_flag = 0;
+		}
 	}
 }

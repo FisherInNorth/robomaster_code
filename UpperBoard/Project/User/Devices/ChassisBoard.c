@@ -17,6 +17,7 @@ unsigned char Lift_Location=0;
 unsigned char Chuck_Roll_Location=0;
 unsigned char HP_Zero=0;
 
+
 //...(其他状态标志位)...
 
 unsigned char ChassisBoard_Data[100] = {0};
@@ -67,11 +68,20 @@ void Load_ChassisBoard_Data(void)
 	Transmit_ChassisBoard_Data[2] |= Roll_Ready_State;
 	
 	Transmit_ChassisBoard_Data[3] = 0x04 << 4;
-	Transmit_ChassisBoard_Data[3] |= Longitudinal_Location;
+	Transmit_ChassisBoard_Data[3] |= Longitudinal_Location & 0x0f;
 	
 	Transmit_ChassisBoard_Data[4] = 0x05 << 4;
-	Transmit_ChassisBoard_Data[4] |= Lift_Location;
+	Transmit_ChassisBoard_Data[4] |= Longitudinal_Location >> 4;
 	
 	Transmit_ChassisBoard_Data[5] = 0x06 << 4;
-	Transmit_ChassisBoard_Data[5] |= Chuck_Roll_Location;
+	Transmit_ChassisBoard_Data[5] |= Lift_Location & 0x0f;
+	
+	Transmit_ChassisBoard_Data[6] = 0x07 << 4;
+	Transmit_ChassisBoard_Data[6] |= Lift_Location >> 4;
+	
+	Transmit_ChassisBoard_Data[7] = 0x08 << 4;
+	Transmit_ChassisBoard_Data[7] |= Chuck_Roll_Location & 0x0f;
+	
+	Transmit_ChassisBoard_Data[8] = 0x09 << 4;
+	Transmit_ChassisBoard_Data[8] |= Chuck_Roll_Location >> 4;
 }

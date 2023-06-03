@@ -46,13 +46,15 @@ void Timer_Task()
 	
 		time_count++;
 		
-		Longitudinal_Location = longitudinal_motorL.apid.actual_angle/66251;
-		Lift_Location = inside_lift_motorL.apid.actual_angle/12501;
-		Chuck_Roll_Location = (chuck_roll.apid.actual_angle+77824)/155648;
+		Longitudinal_Location = abs(longitudinal_motorL.apid.actual_angle)/4141;
+		Lift_Location = abs(inside_lift_motorL.apid.actual_angle)/782;
+		Chuck_Roll_Location = (chuck_roll.apid.actual_angle+77824)/609;
 	
 		if(time_count%7 == 0)
 		{
 			GetDR16_Data();
+//			CAN1_Motor_ControlMsg();
+//			CAN2_Motor_ControlMsg();
 		}
 	
 		if(time_count%30 == 0)
@@ -116,6 +118,10 @@ void Timer_Task()
 			{
 				Motor_Longitudinal_Calibrate();
 			}
+//			CAN1_Motor_ControlMsg();
+//			CAN2_Motor_ControlMsg();
 		}
 	}
+	CAN1_Motor_ControlMsg();
+	CAN2_Motor_ControlMsg();
 }

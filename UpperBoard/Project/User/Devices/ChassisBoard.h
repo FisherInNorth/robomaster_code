@@ -21,6 +21,7 @@ extern unsigned char Lift_Location;
 extern unsigned char Chuck_Roll_Location;
 extern unsigned char HP_Zero;
 
+
 void Resolve_ChassisBoard_Data(void);
 void Load_ChassisBoard_Data(void);
 

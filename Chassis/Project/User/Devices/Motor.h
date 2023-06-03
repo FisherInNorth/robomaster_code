@@ -27,7 +27,7 @@ extern MOTOR_t mineral_motor2;//2号矿石运动电机
 extern MOTOR_t mineral_motor3;//3号矿石运动电机
 extern MOTOR_t mineral_motor4;//4号矿石运动电机
 
-
+extern uint8_t start_flag;
 
 //extern TaskHandle_t Motor_Task_Handle;
 
@@ -38,4 +38,6 @@ void Debug_CAN_Send_Mineral_Msg(uint8_t* msg);
 void Debug_CAN_Send_Flip_Msg(uint8_t* msg);
 void CAN_Send_Flip_Msg(uint8_t* msg);
 void abs_motor(void);
+void CAN1_Motor_ControlMsg(void);
+void CAN2_Motor_ControlMsg(void);
 #endif

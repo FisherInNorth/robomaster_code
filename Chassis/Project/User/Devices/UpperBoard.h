@@ -19,6 +19,12 @@ extern unsigned char Longitudinal_Location;
 extern unsigned char Lift_Location;
 extern unsigned char Chuck_Roll_Location;
 extern unsigned char HP_Zero;
+extern unsigned char Longitudinal_Location_Low;
+extern unsigned char Longitudinal_Location_High;
+extern unsigned char Lift_Location_Low;
+extern unsigned char Lift_Location_High;
+extern unsigned char Chuck_Roll_Location_Low;
+extern unsigned char Chuck_Roll_Location_High;
 
 extern unsigned char UpperBoard_Data[];
 extern unsigned char Receive_UpperBoard_Data[];

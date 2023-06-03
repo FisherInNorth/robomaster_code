@@ -32,6 +32,12 @@ unsigned char Longitudinal_Location=0;
 unsigned char Lift_Location=0;
 unsigned char Chuck_Roll_Location=0;
 unsigned char HP_Zero=0;
+unsigned char Longitudinal_Location_Low=0;
+unsigned char Longitudinal_Location_High=0;
+unsigned char Lift_Location_Low=0;
+unsigned char Lift_Location_High=0;
+unsigned char Chuck_Roll_Location_Low=0;
+unsigned char Chuck_Roll_Location_High=0;
 
 unsigned char UpperBoard_Data[16] = {0};
 unsigned char Receive_UpperBoard_Data[100] = {0};
@@ -84,15 +90,21 @@ void Resolve_UpperBoard_Data(void)
 		
 		switch(target_UpperBoard_Data >> 4)
 		{
-			case 0x0001:	Longitudinal_Ready_State = target_UpperBoard_Data & 0x0f; break;
-			case 0x0002:  Lift_Ready_State				 = target_UpperBoard_Data & 0x0f; break;
-			case 0x0003:  ROLL_Ready_State				 = target_UpperBoard_Data & 0x0f; break;
-			case 0x0004:  Longitudinal_Location 	 = target_UpperBoard_Data & 0x0f; break;
-			case 0x0005:  Lift_Location						 = target_UpperBoard_Data & 0x0f; break;
-			case 0x0006:  Chuck_Roll_Location			 = target_UpperBoard_Data & 0x0f; break;
+			case 0x0001:	Longitudinal_Ready_State		 = target_UpperBoard_Data & 0x0f; break;
+			case 0x0002:  Lift_Ready_State						 = target_UpperBoard_Data & 0x0f; break;
+			case 0x0003:  ROLL_Ready_State						 = target_UpperBoard_Data & 0x0f; break;
+			case 0x0004:  Longitudinal_Location_Low 	 = target_UpperBoard_Data & 0x0f; break;
+			case 0x0005:  Longitudinal_Location_High	 = target_UpperBoard_Data & 0x0f; break;
+			case 0x0006:  Lift_Location_Low						 = target_UpperBoard_Data & 0x0f; break;
+			case 0x0007:  Lift_Location_High					 = target_UpperBoard_Data & 0x0f; break;
+			case 0x0008:  Chuck_Roll_Location_Low      = target_UpperBoard_Data & 0x0f; break;
+			case 0x0009:  Chuck_Roll_Location_High     = target_UpperBoard_Data & 0x0f; break;
 
 			//...(最多支持十六个)...
 			default:break;
 		}
+		Longitudinal_Location = (Longitudinal_Location_High << 4)|(Longitudinal_Location_Low);
+		Lift_Location = (Lift_Location_High << 4)|(Lift_Location_Low);
+		Chuck_Roll_Location = (Chuck_Roll_Location_High << 4)|(Chuck_Roll_Location_Low);
 	}
 }

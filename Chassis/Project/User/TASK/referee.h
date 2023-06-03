@@ -448,7 +448,7 @@ extern ext_referee_warning_t           Referee_Warning;
 extern ext_dart_remaining_time_t       Dart_Remaining_Time;
 
 /* 0x020X */
-extern ext_game_robot_state_t Game_Robot_State;
+extern ext_game_robot_state_t robot_state;
 extern ext_power_heat_data_t  Power_Heat_Data;
 extern ext_game_robot_pos_t   Game_Robot_Pos;
 extern ext_buff_musk_t        Buff_Musk;

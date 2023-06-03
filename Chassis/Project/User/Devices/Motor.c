@@ -35,6 +35,8 @@ int abs_chassis2 = 0;
 int abs_chassis3 = 0;
 int abs_chassis4 = 0;
 
+uint8_t start_flag=0;
+
 /**
 	* @function	函数：Motor_HandleMsg
 	* @brief		描述：处理电机消息
@@ -48,10 +50,10 @@ void CAN1_Motor_HandleMsg(uint32_t StdId, unsigned char * Data)
 {
 	switch (StdId)
 	{
-		case CANRX_Chassis_Motor1_ID:		Motor_RecordData(&chassis_motor1,Data);	ChassisMotorPID_Calc(&chassis_motor1, &ChassisMotor1_PID_Parameters);	Set_Chassis_Current();	break;
-		case CANRX_Chassis_Motor2_ID:		Motor_RecordData(&chassis_motor2,Data);	ChassisMotorPID_Calc(&chassis_motor2, &ChassisMotor2_PID_Parameters);	Set_Chassis_Current();	break;
-		case CANRX_Chassis_Motor3_ID:		Motor_RecordData(&chassis_motor3,Data);	ChassisMotorPID_Calc(&chassis_motor3, &ChassisMotor3_PID_Parameters);	Set_Chassis_Current();	break;
-		case CANRX_Chassis_Motor4_ID:		Motor_RecordData(&chassis_motor4,Data);	ChassisMotorPID_Calc(&chassis_motor4, &ChassisMotor4_PID_Parameters);	Set_Chassis_Current();	break;
+		case CANRX_Chassis_Motor1_ID:		Motor_RecordData(&chassis_motor1,Data);/*	ChassisMotorPID_Calc(&chassis_motor1, &ChassisMotor1_PID_Parameters);	Set_Chassis_Current();*/	break;
+		case CANRX_Chassis_Motor2_ID:		Motor_RecordData(&chassis_motor2,Data);/*	ChassisMotorPID_Calc(&chassis_motor2, &ChassisMotor2_PID_Parameters);	Set_Chassis_Current();*/	break;
+		case CANRX_Chassis_Motor3_ID:		Motor_RecordData(&chassis_motor3,Data);/*	ChassisMotorPID_Calc(&chassis_motor3, &ChassisMotor3_PID_Parameters);	Set_Chassis_Current();*/	break;
+		case CANRX_Chassis_Motor4_ID:		Motor_RecordData(&chassis_motor4,Data);/*	ChassisMotorPID_Calc(&chassis_motor4, &ChassisMotor4_PID_Parameters);	Set_Chassis_Current();*/	break;
 	}
 //	Vpid_Calc(motor, Mineral_Kp, Mineral_Ki, Mineral_Kd);
 //	Set_Mineral_Current();
@@ -61,8 +63,8 @@ void CAN2_Motor_HandleMsg(uint32_t StdId, unsigned char * Data)
 {
 	switch (StdId)
 	{
-		case CANRX_Outboard_Lift_MotorL_ID:	Motor_RecordData(&outboard_lift_motorL,Data);	OutboardLiftMotor_PID_Calc(&outboard_lift_motorL, &Outboard_MotorL_aPID_Parameters, &Outboard_MotorL_vPID_Parameters); Set_Lift_Current(); break;
-		case CANRX_Outboard_Lift_MotorR_ID:	Motor_RecordData(&outboard_lift_motorR,Data);	OutboardLiftMotor_PID_Calc(&outboard_lift_motorR, &Outboard_MotorR_aPID_Parameters, &Outboard_MotorR_vPID_Parameters); Set_Lift_Current(); break;
+		case CANRX_Outboard_Lift_MotorL_ID:	Motor_RecordData(&outboard_lift_motorL,Data);/*	OutboardLiftMotor_PID_Calc(&outboard_lift_motorL, &Outboard_MotorL_aPID_Parameters, &Outboard_MotorL_vPID_Parameters); Set_Lift_Current();*/start_flag=1; break;
+		case CANRX_Outboard_Lift_MotorR_ID:	Motor_RecordData(&outboard_lift_motorR,Data);/*	OutboardLiftMotor_PID_Calc(&outboard_lift_motorR, &Outboard_MotorR_aPID_Parameters, &Outboard_MotorR_vPID_Parameters); Set_Lift_Current();*/ break;
 		case CANRX_Mineral_Motor1_ID:    Motor_RecordData(&mineral_motor1,Data); MineralMotorPID_Calc(&mineral_motor1, &MineralMotor_PID_Parameters); Set_Mineral_Current(); break;
 		case CANRX_Mineral_Motor2_ID:    Motor_RecordData(&mineral_motor2,Data); MineralMotorPID_Calc(&mineral_motor2, &MineralMotor_PID_Parameters); Set_Mineral_Current(); break;
 		case CANRX_Mineral_Motor3_ID:    Motor_RecordData(&mineral_motor3,Data); MineralMotorPID_Calc(&mineral_motor3, &MineralMotor_PID_Parameters); Set_Mineral_Current(); break;
@@ -104,7 +106,7 @@ static void Motor_RecordData(MOTOR_t *motor, unsigned char * data)
 	{
 		motor->round_cnt ++;
 	}
-	motor->apid.total_angle = motor->round_cnt * 8192 + motor->apid.actual_angle - motor->start_angle;
+	motor->apid.total_angle = motor->round_cnt * 8192 + motor->apid.actual_angle- motor->start_angle;//+ motor->start_angle;
 }
 
 
@@ -193,4 +195,25 @@ void abs_motor(void)
 	abs_chassis2 = abs(chassis_motor2.vpid.actual_speed);
 	abs_chassis3 = abs(chassis_motor3.vpid.actual_speed);
 	abs_chassis4 = abs(chassis_motor4.vpid.actual_speed);
+}
+
+void CAN1_Motor_ControlMsg(void)
+{
+	ChassisMotorPID_Calc(&chassis_motor1, &ChassisMotor1_PID_Parameters);
+	ChassisMotorPID_Calc(&chassis_motor2, &ChassisMotor2_PID_Parameters);
+	ChassisMotorPID_Calc(&chassis_motor3, &ChassisMotor3_PID_Parameters);
+	ChassisMotorPID_Calc(&chassis_motor4, &ChassisMotor4_PID_Parameters);
+	Set_Chassis_Current();
+}
+
+void CAN2_Motor_ControlMsg(void)
+{
+	OutboardLiftMotor_PID_Calc(&outboard_lift_motorL, &Outboard_MotorL_aPID_Parameters, &Outboard_MotorL_vPID_Parameters);
+	OutboardLiftMotor_PID_Calc(&outboard_lift_motorR, &Outboard_MotorR_aPID_Parameters, &Outboard_MotorR_vPID_Parameters);
+//	MineralMotorPID_Calc(&mineral_motor1, &MineralMotor_PID_Parameters);
+//	MineralMotorPID_Calc(&mineral_motor2, &MineralMotor_PID_Parameters);
+//	MineralMotorPID_Calc(&mineral_motor3, &MineralMotor_PID_Parameters);
+//	MineralMotorPID_Calc(&mineral_motor4, &MineralMotor_PID_Parameters);
+	Set_Lift_Current();
+//	Set_Mineral_Current();
 }
