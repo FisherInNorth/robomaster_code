@@ -137,9 +137,10 @@ void Timer_Task()
 	}
 	else
 	{
-		if(start_flag == 1)
+		if(start_flag == 2)
 			Motor_Lift_Calibrate();
 	}
+	if(start_flag==2)
+		CAN2_Motor_ControlMsg();
 	CAN1_Motor_ControlMsg();
-	CAN2_Motor_ControlMsg();
 }

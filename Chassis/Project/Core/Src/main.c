@@ -118,7 +118,7 @@ int main(void)
   while (1)
   {
 	  referee_usart_task();
-	  HAL_Delay(10);
+	  HAL_Delay(1);
 		//HAL_UART_Transmit(&huart1, UpperBoard_Data, 16, 1000);
     /* USER CODE END WHILE */
 

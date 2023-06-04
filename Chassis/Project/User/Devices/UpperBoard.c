@@ -36,6 +36,7 @@ unsigned char Longitudinal_Location_Low=0;
 unsigned char Longitudinal_Location_High=0;
 unsigned char Lift_Location_Low=0;
 unsigned char Lift_Location_High=0;
+unsigned char Lift_Location_UI=0;
 unsigned char Chuck_Roll_Location_Low=0;
 unsigned char Chuck_Roll_Location_High=0;
 
@@ -45,7 +46,7 @@ unsigned char pUpperBoard_DataH = 0;
 unsigned char pUpperBoard_DataL = 0;
 
 unsigned char target_UpperBoard_Data;
-
+uint16_t Chuck_Roll_Location_UI=0;
 
 extern RC_ctrl_t rc_ctrl;
 
@@ -103,8 +104,10 @@ void Resolve_UpperBoard_Data(void)
 			//...(最多支持十六个)...
 			default:break;
 		}
-		Longitudinal_Location = (Longitudinal_Location_High << 4)|(Longitudinal_Location_Low);
-		Lift_Location = (Lift_Location_High << 4)|(Lift_Location_Low);
-		Chuck_Roll_Location = (Chuck_Roll_Location_High << 4)|(Chuck_Roll_Location_Low);
+		Longitudinal_Location = (uint8_t)((Longitudinal_Location_High << 4)|(Longitudinal_Location_Low));
+		Lift_Location = (uint8_t)((Lift_Location_High << 4)|(Lift_Location_Low));
+		Lift_Location_UI=((Lift_Location*782+abs(outboard_lift_motorL.apid.target_angle+12192))*255)/(300000-12192+200000);
+		Chuck_Roll_Location = (uint8_t)((Chuck_Roll_Location_High << 4)|(Chuck_Roll_Location_Low));
+		Chuck_Roll_Location_UI=(uint16_t)(((float)Chuck_Roll_Location)/255*360);
 	}
 }

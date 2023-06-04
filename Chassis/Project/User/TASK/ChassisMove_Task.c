@@ -8,6 +8,8 @@ float max_d_speed_x;
 float max_d_speed_y;
 float max_d_speed_x_stop;
 float max_d_speed_y_stop;
+float max_d_speed_x_change;
+float max_d_speed_y_change;
 float max_d_speed_z = 10.0f;
 
 
@@ -21,17 +23,21 @@ static void judge_height(void)
 {
 	if(outboard_lift_motorL.round_cnt<-12)
 	{
-	  max_d_speed_x=1.0f;
-		max_d_speed_y=2.0f;
-		max_d_speed_x_stop=4.0f;
-		max_d_speed_y_stop=5.0f;
+		max_d_speed_x=2.0f;
+		max_d_speed_y=3.0f;
+		max_d_speed_x_stop=5.0f;
+		max_d_speed_y_stop=6.0f;
+		max_d_speed_x_change=8.0f;
+		max_d_speed_y_change=9.0f;
 	}
 	else
 	{
-	  max_d_speed_x=1.0f;
+		max_d_speed_x=1.0f;
 		max_d_speed_y=2.0f;
-		max_d_speed_x_stop=5.0f;
-		max_d_speed_y_stop=6.0f;
+		max_d_speed_x_stop=4.0f;
+		max_d_speed_y_stop=5.0f;
+		max_d_speed_x_change=6.0f;
+		max_d_speed_y_change=7.0f;
 	}
 }
 
@@ -41,64 +47,74 @@ static void judge_height(void)
 static void speed_optimize(void)
 {
 	judge_height();
-	
 	static float last_xspeed,last_yspeed;
+	if(chassis_vx!=0)
+	{
+		if((last_xspeed*chassis_vx)<0) //异号  反向加速
+			{
+				if(chassis_vx-last_xspeed > max_d_speed_x_change)  
+					real_chassis_vx+=max_d_speed_x_change;
+			  else 
+					real_chassis_vx=chassis_vx;
+			}
+		else  //同号  同向加速/减速
+			{
+				if(chassis_vx-last_xspeed > max_d_speed_x)  
+					real_chassis_vx+=max_d_speed_x;
+				else if(chassis_vx-last_xspeed < -max_d_speed_x)   
+					real_chassis_vx-=max_d_speed_x;
+				else 
+					real_chassis_vx=chassis_vx;                   
+			}
+	}
+	else //刹车
+	{
+		if(abs(last_xspeed)>max_d_speed_x_stop)  
+      {
+				if(last_xspeed>0)  
+					real_chassis_vx-=max_d_speed_x_stop;
+        else  
+					real_chassis_vx+=max_d_speed_x_stop;
+       }
+    else 
+			real_chassis_vx=chassis_vx;
+	}
 	
-	if((chassis_vx!=0)||(chassis_vy!=0))
+	if(chassis_vy!=0)
 	{
-		if(abs(chassis_vx-last_xspeed)>max_d_speed_x)
-		{
-			if(chassis_vx>last_xspeed)
-				real_chassis_vx+=max_d_speed_x;
-			else if(chassis_vx<last_xspeed)
-				real_chassis_vx-=max_d_speed_x;
-		}
-		else real_chassis_vx=chassis_vx;
-
-		if(abs(chassis_vy-last_yspeed)>max_d_speed_y)
-		{
-			if(chassis_vy>last_yspeed)
-				real_chassis_vy+=max_d_speed_y;
-			else if(chassis_vy<last_yspeed)
-				real_chassis_vy-=max_d_speed_y;
-		}
-		else real_chassis_vy=chassis_vy;
-		
-		last_xspeed=real_chassis_vx;
-		last_yspeed=real_chassis_vy;
+		if((last_yspeed*chassis_vy)<0) //异号  反向加速
+			{
+				if(chassis_vy-last_yspeed > max_d_speed_y_change)  
+					real_chassis_vy+=max_d_speed_y_change;
+			  else if(chassis_vy-last_yspeed < -max_d_speed_y_change)  
+					real_chassis_vy-=max_d_speed_y_change;  
+        else 
+					real_chassis_vy=chassis_vy;
+      }
+     else  //同号  同向加速/减速
+			 {
+				 if(chassis_vy-last_yspeed > max_d_speed_y)  
+					 real_chassis_vy+=max_d_speed_y;
+				 else if(chassis_vy-last_yspeed < -max_d_speed_y)   
+					 real_chassis_vy-=max_d_speed_y;
+         else 
+					 real_chassis_vy=chassis_vy;                   
+       }
 	}
-	else
+	else //刹车
 	{
+		if(abs(last_yspeed)>max_d_speed_y_stop)  
+			{
+				if(last_yspeed>0)  real_chassis_vy-=max_d_speed_y_stop;
+        else  real_chassis_vy+=max_d_speed_y_stop;
+       }
+    else 
+			real_chassis_vy=chassis_vy;
+	}       
 
-		if(real_chassis_vx>0)
-		{
-			real_chassis_vx-=max_d_speed_x_stop;
-			if(real_chassis_vx<0)
-				real_chassis_vx=0;
-		}
-		else 
-		{
-			real_chassis_vx+=max_d_speed_x_stop;
-			if(real_chassis_vx>0)
-				real_chassis_vx=0;
-		}
-		
-		if(real_chassis_vy>0)
-		{
-			real_chassis_vy-=max_d_speed_y_stop;
-			if(real_chassis_vy<0)
-				real_chassis_vy=0;
-		}
-		else 
-		{
-			real_chassis_vy+=max_d_speed_y_stop;
-			if(real_chassis_vy>0)
-				real_chassis_vy=0;
-		}
-	}
+   last_xspeed=real_chassis_vx;
+   last_yspeed=real_chassis_vy;
 
-//	chassis_vx=real_chassis_vx;
-//	chassis_vy=real_chassis_vy;
 }
 
 static void speed_z_optimize(void)

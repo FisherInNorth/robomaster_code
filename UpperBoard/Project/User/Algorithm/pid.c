@@ -38,7 +38,7 @@ float chuck_yaw_aPID_Parameters[6] = {0.45, 0	, 70 , 10000, 100	 , 4000};
 
 /*吸盘pitch的速度环和角度环pid参数*/
 float chuck_pitch_vPID_Parameters[6] = {4	,	0.1	, 0 , 10000, 10000 , 9000};
-float chuck_pitch_aPID_Parameters[6] = {0.1	, 0	, 0 , 10000, 100	 , 500};
+float chuck_pitch_aPID_Parameters[6] = {0.1	, 0	, 0 , 10000, 100	 , 1000};
 
 /*吸盘roll的速度环和角度环pid参数*/
 float chuck_roll_vPID_Parameters[6] = {12	,	0.05	, 0 , 10000, 10000 , 6000};

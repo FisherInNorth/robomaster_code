@@ -1,5 +1,6 @@
 #include "Timer_Task.h"
 #include "bsp_servo.h"
+#include <math.h>
 int time_count = -1;
 
 int target;
@@ -46,9 +47,9 @@ void Timer_Task()
 	
 		time_count++;
 		
-		Longitudinal_Location = abs(longitudinal_motorL.apid.actual_angle)/4141;
-		Lift_Location = abs(inside_lift_motorL.apid.actual_angle)/782;
-		Chuck_Roll_Location = (chuck_roll.apid.actual_angle+77824)/609;
+		Longitudinal_Location = abs(longitudinal_motorL.apid.total_angle)/4141;
+		Lift_Location = abs(inside_lift_motorL.apid.total_angle)/782;
+		Chuck_Roll_Location = abs(chuck_roll.apid.total_angle+77824)/609;
 	
 		if(time_count%7 == 0)
 		{
@@ -123,5 +124,6 @@ void Timer_Task()
 		}
 	}
 	CAN1_Motor_ControlMsg();
-	CAN2_Motor_ControlMsg();
+	if(start_flag==1)
+		CAN2_Motor_ControlMsg();
 }

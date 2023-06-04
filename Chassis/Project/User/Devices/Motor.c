@@ -63,8 +63,8 @@ void CAN2_Motor_HandleMsg(uint32_t StdId, unsigned char * Data)
 {
 	switch (StdId)
 	{
-		case CANRX_Outboard_Lift_MotorL_ID:	Motor_RecordData(&outboard_lift_motorL,Data);/*	OutboardLiftMotor_PID_Calc(&outboard_lift_motorL, &Outboard_MotorL_aPID_Parameters, &Outboard_MotorL_vPID_Parameters); Set_Lift_Current();*/start_flag=1; break;
-		case CANRX_Outboard_Lift_MotorR_ID:	Motor_RecordData(&outboard_lift_motorR,Data);/*	OutboardLiftMotor_PID_Calc(&outboard_lift_motorR, &Outboard_MotorR_aPID_Parameters, &Outboard_MotorR_vPID_Parameters); Set_Lift_Current();*/ break;
+		case CANRX_Outboard_Lift_MotorL_ID:	Motor_RecordData(&outboard_lift_motorL,Data);if(start_flag==0) start_flag++;/*	OutboardLiftMotor_PID_Calc(&outboard_lift_motorL, &Outboard_MotorL_aPID_Parameters, &Outboard_MotorL_vPID_Parameters); Set_Lift_Current();*/ break;
+		case CANRX_Outboard_Lift_MotorR_ID:	Motor_RecordData(&outboard_lift_motorR,Data);if(start_flag==1) start_flag++;/*	OutboardLiftMotor_PID_Calc(&outboard_lift_motorR, &Outboard_MotorR_aPID_Parameters, &Outboard_MotorR_vPID_Parameters); Set_Lift_Current();*/ break;
 		case CANRX_Mineral_Motor1_ID:    Motor_RecordData(&mineral_motor1,Data); MineralMotorPID_Calc(&mineral_motor1, &MineralMotor_PID_Parameters); Set_Mineral_Current(); break;
 		case CANRX_Mineral_Motor2_ID:    Motor_RecordData(&mineral_motor2,Data); MineralMotorPID_Calc(&mineral_motor2, &MineralMotor_PID_Parameters); Set_Mineral_Current(); break;
 		case CANRX_Mineral_Motor3_ID:    Motor_RecordData(&mineral_motor3,Data); MineralMotorPID_Calc(&mineral_motor3, &MineralMotor_PID_Parameters); Set_Mineral_Current(); break;

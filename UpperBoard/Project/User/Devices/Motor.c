@@ -91,7 +91,7 @@ void CAN2_Motor_HandleMsg(uint32_t StdId, unsigned char * Data)
 			Motor_RecordData(&longitudinal_motorL,Data);	
 //			Longitudinal_Motor_PID_Calc(&longitudinal_motorL, &Longitudinal_MotorL_aPID_Parameters, &Longitudinal_MotorL_vPID_Parameters);	
 //			Set_CAN2_Low_Current();
-			start_flag=1;
+			
 		break;
 		
 		case CANRX_Longitudinal_MotorR_ID:		
@@ -117,6 +117,7 @@ void CAN2_Motor_HandleMsg(uint32_t StdId, unsigned char * Data)
 		break;
 		case CANRX_Chuck_Roll_ID:	
 			Motor_RecordData(&chuck_roll,Data);	
+			start_flag=1;
 //			ChuckRoll_PID_Calc(&chuck_roll, &chuck_roll_aPID_Parameters, &chuck_roll_vPID_Parameters); 
 //			Set_CAN2_Low_Current(); 
 		break;
