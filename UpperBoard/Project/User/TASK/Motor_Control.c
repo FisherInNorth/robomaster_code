@@ -172,9 +172,9 @@ void Motor_Control(void)
 //		chuck_pitch.apid.target_angle = 0;
 //	}
 	
-	if(chuck_pitch.apid.target_angle < 10800)
+	if(chuck_pitch.apid.target_angle < 8000)
 	{
-		chuck_pitch.apid.target_angle = 10800;
+		chuck_pitch.apid.target_angle = 8000;
 	}
 	if(chuck_pitch.apid.target_angle > 213300)
 	{

@@ -39,8 +39,8 @@ void Timer_Task()
 
 			chuck_pitch.round_cnt = -2;
 			chuck_pitch_vPID_Parameters[5] = 9000;
-			Longitudinal_MotorL_aPID_Parameters[5] = 2200;
-			Longitudinal_MotorR_aPID_Parameters[5] = 2200;
+			Longitudinal_MotorL_aPID_Parameters[5] = 2500;
+			Longitudinal_MotorR_aPID_Parameters[5] = 2500;
 
 		}
 	
