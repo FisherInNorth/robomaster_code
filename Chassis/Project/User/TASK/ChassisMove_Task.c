@@ -23,21 +23,22 @@ static void judge_height(void)
 {
 	if(outboard_lift_motorL.round_cnt<-12)
 	{
-		max_d_speed_x=2.0f;
-		max_d_speed_y=3.0f;
-		max_d_speed_x_stop=5.0f;
-		max_d_speed_y_stop=6.0f;
-		max_d_speed_x_change=8.0f;
-		max_d_speed_y_change=9.0f;
-	}
-	else
-	{
+
 		max_d_speed_x=1.0f;
 		max_d_speed_y=2.0f;
 		max_d_speed_x_stop=4.0f;
 		max_d_speed_y_stop=5.0f;
 		max_d_speed_x_change=6.0f;
 		max_d_speed_y_change=7.0f;
+	}
+	else
+	{
+		max_d_speed_x=2.0f;
+		max_d_speed_y=3.0f;
+		max_d_speed_x_stop=5.0f;
+		max_d_speed_y_stop=6.0f;
+		max_d_speed_x_change=8.0f;
+		max_d_speed_y_change=9.0f;
 	}
 }
 
@@ -54,6 +55,8 @@ static void speed_optimize(void)
 			{
 				if(chassis_vx-last_xspeed > max_d_speed_x_change)  
 					real_chassis_vx+=max_d_speed_x_change;
+				else if(chassis_vx-last_xspeed < -max_d_speed_x_change)
+					real_chassis_vx-=max_d_speed_x_change;
 			  else 
 					real_chassis_vx=chassis_vx;
 			}
