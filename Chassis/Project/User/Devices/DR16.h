@@ -91,7 +91,7 @@ typedef __packed struct
 ************************************************************************************/
 /* ----------------------- Data Struct ------------------------------------- */
 
-extern uint8_t calibrate_lift_flag;
+extern uint8_t calibrate_lift_flag,flag_v;
 
 void remote_control_init(void);
 void RC_IRQHandler(void);
@@ -100,4 +100,5 @@ void HandleDR16_Data(void);
 void Key_Control(void);
 void Key_Mode_Judge(void);
 void Motor_Lift_Calibrate(void);
+void judge_v(void);
 #endif

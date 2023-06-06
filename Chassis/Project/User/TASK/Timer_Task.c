@@ -20,6 +20,15 @@ extern int Key_Mode;
 
 void Timer_Task()
 {
+	
+	if(time_count%7==0)
+	{
+		judge_v();
+	}
+	
+	
+	
+	
 	refree_time_count++;
 	if(robot_state.remain_HP == 0)
 	{

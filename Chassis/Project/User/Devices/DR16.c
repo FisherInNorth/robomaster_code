@@ -22,6 +22,10 @@ extern float Outboard_MotorL_aPID_Parameters[];
 extern float Outboard_MotorR_aPID_Parameters[];
 
 int Key_Mode = 0;
+uint16_t last_key=0;
+uint16_t time_count_v=0;
+uint16_t KEY_COUNT=6;
+uint8_t flag_v=0;
 
 uint8_t calibrate_lift_flag=1;
 
@@ -478,7 +482,11 @@ void Key_Control(void)
 	}
 	else
 		View_Servo_State=0;
-	if((rc_ctrl.key.v & KEY_SHIFT) == 0)
+	
+	
+	
+	
+	if(flag_v == 0)
 	{
 		if((rc_ctrl.key.v & KEY_W) && (!(rc_ctrl.key.v&KEY_S)))
 			chassis_vx=70;
@@ -493,6 +501,34 @@ void Key_Control(void)
 			chassis_vy=-70;
 		else
 			chassis_vy=0;
+		
+		if((rc_ctrl.key.v & KEY_Q) && (!(rc_ctrl.key.v & KEY_E)) && (!(rc_ctrl.key.v & KEY_SHIFT)))
+		{
+			Lift_Motor_State = 4;
+	//		outboard_lift_motorL.apid.target_angle +=2250;
+	//		outboard_lift_motorR.apid.target_angle -=2250;
+			outboard_lift_motorL.apid.target_angle +=3500;
+			outboard_lift_motorR.apid.target_angle -=3500;
+			Chuck_Pitch_State = 0;
+		}
+		else if((rc_ctrl.key.v & KEY_E) && (!(rc_ctrl.key.v & KEY_Q)) && (!(rc_ctrl.key.v & KEY_SHIFT)))
+		{
+			Lift_Motor_State = 3;
+			outboard_lift_motorL.apid.target_angle -=3500;
+			outboard_lift_motorR.apid.target_angle +=3500;
+			Chuck_Pitch_State = 0;
+		}
+		
+		if((rc_ctrl.key.v & KEY_Z) && (!(rc_ctrl.key.v & KEY_C)) && (!(rc_ctrl.key.v & KEY_SHIFT)))
+		{
+			Longitudinal_Motor_State = 4;
+			Chuck_Roll_State = 0;
+		}
+		else if((rc_ctrl.key.v & KEY_C) && (!(rc_ctrl.key.v & KEY_Z)) && (!(rc_ctrl.key.v & KEY_SHIFT)))
+		{
+			Longitudinal_Motor_State = 3;
+			Chuck_Roll_State = 0;
+		}
  }
 	else
 	{
@@ -509,6 +545,28 @@ void Key_Control(void)
 			chassis_vy=-20;
 		else
 			chassis_vy=0;		
+		
+		if((rc_ctrl.key.v & KEY_Q) && (!(rc_ctrl.key.v & KEY_E)) && (!(rc_ctrl.key.v & KEY_SHIFT)))
+		{
+			Lift_Motor_State = 6;
+			Chuck_Pitch_State = 0;
+		}
+		else if((rc_ctrl.key.v & KEY_E) && (!(rc_ctrl.key.v & KEY_Q)) && (!(rc_ctrl.key.v & KEY_SHIFT)))
+		{
+			Lift_Motor_State = 7;
+			Chuck_Pitch_State = 0;
+		}
+		
+		if((rc_ctrl.key.v & KEY_Z) && (!(rc_ctrl.key.v & KEY_C)) && (!(rc_ctrl.key.v & KEY_SHIFT)))
+		{
+			Longitudinal_Motor_State = 6;
+			Chuck_Roll_State = 0;
+		}
+		else if((rc_ctrl.key.v & KEY_C) && (!(rc_ctrl.key.v & KEY_Z)) && (!(rc_ctrl.key.v & KEY_SHIFT)))
+		{
+			Longitudinal_Motor_State = 7;
+			Chuck_Roll_State = 0;
+		}
 	}
 	
 	//Æø±Ã
@@ -528,23 +586,8 @@ void Key_Control(void)
 		Pump2_OFF;
 	}
 	
-	if((rc_ctrl.key.v & KEY_Q) && (!(rc_ctrl.key.v & KEY_E)) && (!(rc_ctrl.key.v & KEY_SHIFT)))
-	{
-		Lift_Motor_State = 4;
-//		outboard_lift_motorL.apid.target_angle +=2250;
-//		outboard_lift_motorR.apid.target_angle -=2250;
-		outboard_lift_motorL.apid.target_angle +=3500;
-		outboard_lift_motorR.apid.target_angle -=3500;
-		Chuck_Pitch_State = 0;
-	}
-	else if((rc_ctrl.key.v & KEY_E) && (!(rc_ctrl.key.v & KEY_Q)) && (!(rc_ctrl.key.v & KEY_SHIFT)))
-	{
-		Lift_Motor_State = 3;
-		outboard_lift_motorL.apid.target_angle -=3500;
-		outboard_lift_motorR.apid.target_angle +=3500;
-		Chuck_Pitch_State = 0;
-	}
-	else if((rc_ctrl.key.v & KEY_Q) && (!(rc_ctrl.key.v & KEY_E)) && (rc_ctrl.key.v & KEY_SHIFT))
+
+	if((rc_ctrl.key.v & KEY_Q) && (!(rc_ctrl.key.v & KEY_E)) && (rc_ctrl.key.v & KEY_SHIFT))
 	{
 		Lift_Motor_State = 0;
 		Chuck_Pitch_State = 4;
@@ -554,17 +597,17 @@ void Key_Control(void)
 		Lift_Motor_State = 0;
 		Chuck_Pitch_State = 3;
 	}
-	else if((rc_ctrl.key.v & KEY_V) && (!(rc_ctrl.key.v & KEY_B))&& (!(rc_ctrl.key.v & KEY_SHIFT)))
-	{
-		Lift_Motor_State = 6;
-		Chuck_Pitch_State =0;
-	}
+//	else if((rc_ctrl.key.v & KEY_V) && (!(rc_ctrl.key.v & KEY_B))&& (!(rc_ctrl.key.v & KEY_SHIFT)))
+//	{
+//		Lift_Motor_State = 6;
+//		Chuck_Pitch_State =0;
+//	}
+//	else if((rc_ctrl.key.v & KEY_B) && (!(rc_ctrl.key.v & KEY_V))&& (!(rc_ctrl.key.v & KEY_SHIFT)))
+//	{
+//		Lift_Motor_State = 7;
+//		Chuck_Pitch_State =0;
+//	}	
 	else if((rc_ctrl.key.v & KEY_B) && (!(rc_ctrl.key.v & KEY_V))&& (!(rc_ctrl.key.v & KEY_SHIFT)))
-	{
-		Lift_Motor_State = 7;
-		Chuck_Pitch_State =0;
-	}	
-	else if((rc_ctrl.key.v & KEY_B) && (!(rc_ctrl.key.v & KEY_V))&& (rc_ctrl.key.v & KEY_SHIFT))
 	{
 		Lift_Motor_State = 0;
 		Chuck_Pitch_State = 5;
@@ -579,16 +622,7 @@ void Key_Control(void)
 //		outboard_lift_motorR.apid.target_angle = 0;
 //	}
 	
-	if((rc_ctrl.key.v & KEY_Z) && (!(rc_ctrl.key.v & KEY_C)) && (!(rc_ctrl.key.v & KEY_SHIFT)))
-	{
-		Longitudinal_Motor_State = 4;
-		Chuck_Roll_State = 0;
-	}
-	else if((rc_ctrl.key.v & KEY_C) && (!(rc_ctrl.key.v & KEY_Z)) && (!(rc_ctrl.key.v & KEY_SHIFT)))
-	{
-		Longitudinal_Motor_State = 3;
-		Chuck_Roll_State = 0;
-	}
+
 	else if((rc_ctrl.key.v & KEY_Z) && (!(rc_ctrl.key.v & KEY_C)) && (rc_ctrl.key.v & KEY_SHIFT))
 	{
 		Longitudinal_Motor_State = 0;
@@ -599,7 +633,7 @@ void Key_Control(void)
 		Longitudinal_Motor_State = 0;
 		Chuck_Roll_State = 4;
 	}
-	else if((rc_ctrl.key.v & KEY_V) && (!(rc_ctrl.key.v & KEY_B))&& (rc_ctrl.key.v & KEY_SHIFT))
+	else if(!(rc_ctrl.key.v & KEY_V) && (rc_ctrl.key.v & KEY_B)&& (rc_ctrl.key.v & KEY_SHIFT))
 	{
 		Chuck_Roll_State = 5;
 		Longitudinal_Motor_State =0;
@@ -700,4 +734,25 @@ void Motor_Lift_Calibrate()
 			calibrate_lift_flag = 0;
 		}
 	}
+}
+
+	void judge_v(void)
+{
+	if(rc_ctrl.key.v&KEY_V)
+		time_count_v++;
+	else
+	{
+		if(last_key&KEY_V)
+		{
+			if(time_count_v>=KEY_COUNT)
+			{
+				if(flag_v==0)
+					flag_v=1;
+				else 
+					flag_v=0;
+			}
+		}
+		time_count_v=0;		
+	}
+	last_key = rc_ctrl.key.v;
 }

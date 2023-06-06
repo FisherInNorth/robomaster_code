@@ -510,7 +510,7 @@ void referee_usart_task()
 		{ 
 			UI_Draw_Arc(&UI_Graph5_Arc.Graphic[0],"106",UI_Graph_Add,2,UI_Color_Yellow,0,360,5,180,  590,15,15);
 			UI_Draw_Arc(&UI_Graph5_Arc.Graphic[1],"107",UI_Graph_Add,2,UI_Color_Yellow,0,360,5,180,640,15,15);
-	       // UI_Draw_Arc(&UI_Graph5_Arc.Graphic[2],"108",UI_Graph_Add,2,UI_Color_Green,0,360,5,50,550,30,30);
+	    UI_Draw_Arc(&UI_Graph5_Arc.Graphic[2],"108",UI_Graph_Add,2,UI_Color_Yellow,0,360,5,180,550,15,15);
 			UI_Draw_Arc(&UI_Graph5_Arc.Graphic[3],"109",UI_Graph_Add,2,UI_Color_Orange,0,360,50,300,650,28,28);
 //			UI_Draw_Arc(&UI_Graph5_Arc.Graphic[4],"110",UI_Graph_Add,2,UI_Color_Yellow,0,360,0,180,690,15,15);
 			UI_PushUp_Graphs(5, &UI_Graph5_Arc, Robot_ID_Current);
@@ -548,10 +548,14 @@ void referee_usart_task()
 			UI_Draw_String(&UI_String1.String, "405", UI_Graph_Add, 2, UI_Color_White, 18, 6, 3,  38, 650, "roll");//
 			UI_PushUp_String(&UI_String1, Robot_ID_Current);			
 		}
+		if(UI_PushUp_Counter % 191 == 0) //动态UI预绘制 字符串3
+		{
+			UI_Draw_String(&UI_String1.String, "406", UI_Graph_Add, 2, UI_Color_White, 18, 6, 3,  38, 550, "slow");//
+			UI_PushUp_String(&UI_String1, Robot_ID_Current);			
+		}
 
 
-
-		if(UI_PushUp_Counter % 11 == 0) //动态UI更新 圆圈位置和颜色
+		if(UI_PushUp_Counter % 21 == 0) //动态UI更新 圆圈位置和颜色
 		{
 		
 			if(Pump_State==1)
@@ -564,23 +568,24 @@ void referee_usart_task()
 			}
 			if( ROLL_Ready_State==0)
 			{
-				UI_Draw_Arc(&UI_Graph5_Arc.Graphic[2],"107",UI_Graph_Change,2,UI_Color_Yellow ,0,360,5,180, 640,15,15);//supercup_off
+				UI_Draw_Arc(&UI_Graph5_Arc.Graphic[1],"107",UI_Graph_Change,2,UI_Color_Yellow ,0,360,5,180, 640,15,15);//supercup_off
 			}
 			if( ROLL_Ready_State==1)
 			{
-				UI_Draw_Arc(&UI_Graph5_Arc.Graphic[2],"107",UI_Graph_Change,2,UI_Color_Green ,0,360,5,200,  640,15,15);//supercup_on
+				UI_Draw_Arc(&UI_Graph5_Arc.Graphic[1],"107",UI_Graph_Change,2,UI_Color_Green ,0,360,5,200,  640,15,15);//supercup_on
 			}
-			UI_Draw_Line(&UI_Graph5_Arc.Graphic[1], "205", UI_Graph_Change, 1, UI_Color_Orange,3,  1850,  Lift_Location_UI+450,  1900,  Lift_Location_UI+450); 	
 			
-			
-           UI_Draw_Line(&UI_Graph5_Arc.Graphic[3], "305", UI_Graph_Change, 5, UI_Color_Orange,3, 12+Longitudinal_Location, 700, 12+Longitudinal_Location,750); 	
+			if(flag_v==1)
+				UI_Draw_Arc(&UI_Graph5_Arc.Graphic[2],"108",UI_Graph_Change,2,UI_Color_Green ,0,360,5,200,  540,15,15);//supercup_on
+			else if(flag_v==0)
+				UI_Draw_Arc(&UI_Graph5_Arc.Graphic[2],"108",UI_Graph_Change,2,UI_Color_Yellow ,0,360,5,180,  540,15,15);//supercup_on
 //           if(Chuck_Roll_Location_UI<=270)
 //		   {
 //			   UI_Draw_Arc(&UI_Graph5_Arc.Graphic[4],"109",UI_Graph_Change,2,UI_Color_Orange,0,Chuck_Roll_Location_UI,50,300,650,28,28);
 //		   }
 //			else if(Chuck_Roll_Location_UI>270)
 //			{
-		   UI_Draw_Arc(&UI_Graph5_Arc.Graphic[4],"109",UI_Graph_Change,2,UI_Color_Orange,0,Chuck_Roll_Location_UI,50,300,650,28,28);
+		  UI_Draw_Arc(&UI_Graph5_Arc.Graphic[4],"109",UI_Graph_Change,2,UI_Color_Orange,0,Chuck_Roll_Location_UI,50,300,650,28,28);
 		   
 //			}
 			//			 if(chassis_control_order.chassis_mode==CHASSIS_FOLLOW)
@@ -593,7 +598,31 @@ void referee_usart_task()
 //			}
 			UI_PushUp_Graphs(5, &UI_Graph5_Arc, Robot_ID_Current);	
 		}
+		if(UI_PushUp_Counter % 11 == 0) //动态UI更新 圆圈位置和颜色
+		{
+			UI_Draw_Line(&UI_Graph5.Graphic[0], "205", UI_Graph_Change, 1, UI_Color_Orange,3,  1850,  Lift_Location_UI+450,  1900,  Lift_Location_UI+450); 	
 			
+			
+      UI_Draw_Line(&UI_Graph5.Graphic[1], "305", UI_Graph_Change, 5, UI_Color_Orange,3, 12+Longitudinal_Location, 700, 12+Longitudinal_Location,750); 
+			UI_PushUp_Graphs(5, &UI_Graph5.Graphic, Robot_ID_Current);				
+//           if(Chuck_Roll_Location_UI<=270)
+//		   {
+//			   UI_Draw_Arc(&UI_Graph5_Arc.Graphic[4],"109",UI_Graph_Change,2,UI_Color_Orange,0,Chuck_Roll_Location_UI,50,300,650,28,28);
+//		   }
+//			else if(Chuck_Roll_Location_UI>270)
+//			{
+		   
+//			}
+			//			 if(chassis_control_order.chassis_mode==CHASSIS_FOLLOW)
+//			{
+//				UI_Draw_Arc(&UI_Graph5_Arc.Graphic[1],"108",UI_Graph_Change,2,UI_Color_Yellow,0,360,5,180,690,15,15);//spin_off
+//			}
+//			else if(chassis_control_order.chassis_mode==CHASSIS_SPIN)
+//			{
+//				UI_Draw_Arc(&UI_Graph5_Arc.Graphic[1],"108",UI_Graph_Change,2,UI_Color_Green ,0,360,5,200,690,15,15);//spin_on
+//			}
+			
+		}	
 //			if(UI_PushUp_Counter % 50 == 0)  //动态UI更新 图形
 //		{
 //		

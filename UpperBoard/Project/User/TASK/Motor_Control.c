@@ -124,6 +124,16 @@ void Motor_Control(void)
 		longitudinal_motorL.apid.target_angle -=400;
 		longitudinal_motorR.apid.target_angle +=400;
 	}
+	else if(Longitudinal_Motor_State==6)
+	{
+		longitudinal_motorL.apid.target_angle -=200;
+		longitudinal_motorR.apid.target_angle +=200;		
+	}
+	else if(Longitudinal_Motor_State==7)
+	{
+		longitudinal_motorL.apid.target_angle +=200;
+		longitudinal_motorR.apid.target_angle -=200;
+	}		
 	//伸缩电机限位
 	if(longitudinal_motorL.apid.target_angle < 0)
 	{
