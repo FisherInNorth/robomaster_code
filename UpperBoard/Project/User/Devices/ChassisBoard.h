@@ -20,6 +20,11 @@ extern unsigned char Longitudinal_Location;
 extern unsigned char Lift_Location;
 extern unsigned char Chuck_Roll_Location;
 extern unsigned char HP_Zero;
+extern unsigned char Pump_State;
+extern unsigned char Out_Lift_Motor_State;
+extern unsigned char Chassis_vx_State;
+extern unsigned char Chassis_vy_State;
+extern unsigned char Chassis_wz_State;
 
 
 void Resolve_ChassisBoard_Data(void);

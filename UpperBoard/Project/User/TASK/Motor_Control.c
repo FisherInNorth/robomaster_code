@@ -31,69 +31,69 @@ void Motor_Control(void)
 	}
 	else if(Lift_Motor_State == 5)
 	{
-		if(Longitudinal_Ready_State == 0)
-		{
-			if(end_flag == 0)
-			{	
+//		if(Longitudinal_Ready_State == 0)
+//		{
+//			if(end_flag == 0)
+//			{	
 			  chuck_roll.apid.target_angle=0;
-			  chuck_pitch.apid.target_angle -=60;				
+			  chuck_pitch.apid.target_angle =25000;				
 			  inside_lift_motorL.apid.target_angle +=2;
 			  inside_lift_motorR.apid.target_angle -=2;
 				if((inside_lift_motorL.apid.target_angle > 2000) || (inside_lift_motorR.apid.target_angle < -2000))		
 				{
 					  inside_lift_motorL.apid.target_angle = 2000;
 					  inside_lift_motorR.apid.target_angle = -2000;
-						longitudinal_motorL.apid.target_angle +=400;
-						longitudinal_motorR.apid.target_angle -= 400;
-						if((longitudinal_motorL.apid.target_angle > 700000) || (longitudinal_motorR.apid.target_angle < -700000))
-						{
-							longitudinal_motorL.apid.target_angle = 700000;
-							longitudinal_motorR.apid.target_angle = -700000;
-							time_mineral_count++;
-							if(time_mineral_count == 2000)
-							{
-								time_mineral_count = 0;
-								end_flag = 1;
-							}
-						}
+//						longitudinal_motorL.apid.target_angle +=400;
+//						longitudinal_motorR.apid.target_angle -= 400;
+//						if((longitudinal_motorL.apid.target_angle > 700000) || (longitudinal_motorR.apid.target_angle < -700000))
+//						{
+//							longitudinal_motorL.apid.target_angle = 700000;
+//							longitudinal_motorR.apid.target_angle = -700000;
+//							time_mineral_count++;
+//							if(time_mineral_count == 2000)
+//							{
+//								time_mineral_count = 0;
+//								end_flag = 1;
+//							}
+//						}
 					}
-				}
-				else
-				{
-			    inside_lift_motorL.apid.target_angle +=30;
-			    inside_lift_motorR.apid.target_angle -=30;
-					if((inside_lift_motorL.apid.target_angle > 180000) || (inside_lift_motorR.apid.target_angle < -180000))
-					{
-						inside_lift_motorL.apid.target_angle = 180000;
-						inside_lift_motorR.apid.target_angle = -180000;
-						chuck_pitch.apid.target_angle +=60;
-						if(chuck_pitch.apid.target_angle > 112050)
-						{
-							chuck_pitch.apid.target_angle = 112050;
-							
-							longitudinal_motorL.apid.target_angle -=400;
-							longitudinal_motorR.apid.target_angle += 400;		
-							if((longitudinal_motorL.apid.target_angle < 0) || (longitudinal_motorR.apid.target_angle > 0))
-							{
-								longitudinal_motorL.apid.target_angle = 0;
-								longitudinal_motorR.apid.target_angle = 0;
-								Longitudinal_Ready_State = 1;
-							}
-					 }
-					}
-				}
-			}
-		else
-		{
-			inside_lift_motorL.apid.target_angle -= 80;
-			inside_lift_motorR.apid.target_angle += 80;
-	  }
+//				}
+//				else
+//				{
+//			    inside_lift_motorL.apid.target_angle +=30;
+//			    inside_lift_motorR.apid.target_angle -=30;
+//					if((inside_lift_motorL.apid.target_angle > 180000) || (inside_lift_motorR.apid.target_angle < -180000))
+//					{
+//						inside_lift_motorL.apid.target_angle = 180000;
+//						inside_lift_motorR.apid.target_angle = -180000;
+//						chuck_pitch.apid.target_angle +=60;
+//						if(chuck_pitch.apid.target_angle > 112050)
+//						{
+//							chuck_pitch.apid.target_angle = 112050;
+//							
+//							longitudinal_motorL.apid.target_angle -=400;
+//							longitudinal_motorR.apid.target_angle += 400;		
+//							if((longitudinal_motorL.apid.target_angle < 0) || (longitudinal_motorR.apid.target_angle > 0))
+//							{
+//								longitudinal_motorL.apid.target_angle = 0;
+//								longitudinal_motorR.apid.target_angle = 0;
+//								Longitudinal_Ready_State = 1;
+//							}
+//					 }
+//					}
+//				}
+//			}
+//		else
+//		{
+//			inside_lift_motorL.apid.target_angle -= 80;
+//			inside_lift_motorR.apid.target_angle += 80;
+//	  }
 	}
-	else if(Lift_Motor_State == 0)
-	{
-		end_flag = 0;
-		Longitudinal_Ready_State = 0;
-	}
+//	else if(Lift_Motor_State == 0)
+//	{
+//		end_flag = 0;
+//		Longitudinal_Ready_State = 0;
+//	}
 	
 	//Ì§ÉýÏÂÏÞ
 	if(inside_lift_motorL.apid.target_angle < 0)

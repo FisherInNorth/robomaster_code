@@ -53,6 +53,15 @@ static void Set_CAN2_Low_Current(void);
 
 
 
+void motor_angle_init(void)
+{
+//	longitudinal_motorL.last_angle=
+	inside_lift_motorL.last_angle=4096;
+	inside_lift_motorR.last_angle=4096;
+	chuck_pitch.last_angle=4096;
+	chuck_roll.last_angle=4096;
+
+}
 /**
 	* @function	函数：Motor_HandleMsg
 	* @brief		描述：处理电机消息
@@ -72,7 +81,7 @@ void CAN1_Motor_HandleMsg(uint32_t StdId, unsigned char * Data)
 			Motor_RecordData(&inside_lift_motorL,Data);	
 //			InsideLiftMotor_PID_Calc(&inside_lift_motorL, &Inside_MotorL_aPID_Parameters, &Inside_MotorL_vPID_Parameters); 
 //			Set_CAN1_Low_Current();
-			start_flag=1;
+//			start_flag=1;
 		break;
 		
 		case CANRX_Inside_Lift_MotorR_ID:	
@@ -152,7 +161,6 @@ void CAN2_Motor_ControlMsg(void)
 	*/
 static void Motor_RecordData(MOTOR_t *motor, unsigned char * data)
 {
-	motor->last_angle 				= 	motor->apid.actual_angle;
 	motor->apid.actual_angle 	= 	(int16_t)((data[0] << 8) + data[1]);
 	motor->vpid.actual_speed 	= 	(int16_t)((data[2] << 8) + data[3]);
 	motor->actual_current 		= 	(int16_t)((data[4] << 8) + data[5]);
@@ -174,6 +182,7 @@ static void Motor_RecordData(MOTOR_t *motor, unsigned char * data)
 		motor->round_cnt ++;
 	}
 	motor->apid.total_angle = motor->round_cnt * 8192 + motor->apid.actual_angle - motor->start_angle;
+	motor->last_angle 				= 	motor->apid.actual_angle;
 }
 
 

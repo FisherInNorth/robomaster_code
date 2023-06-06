@@ -32,6 +32,7 @@
 #include "DR16.h"
 #include "UpperBoard.h"
 #include "bsp_referee.h"
+#include "motor.h"
 #include "referee.h"
 #include "referee_UI.h"
 /* USER CODE END Includes */
@@ -111,6 +112,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
 	CAN_Filter_Config();
 	remote_control_init();
+	motor_angle_init();
 	HAL_TIM_Base_Start_IT(&htim6);//¿ªÆô¶¨Ê±Æ÷6
 	HAL_UART_Receive_IT(&huart6, (uint8_t *)&UpperBoard_Data, 1);
 	referee_usart_fifo_init();

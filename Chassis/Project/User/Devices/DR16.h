@@ -101,4 +101,5 @@ void Key_Control(void);
 void Key_Mode_Judge(void);
 void Motor_Lift_Calibrate(void);
 void judge_v(void);
+void Motor_Control(void);
 #endif

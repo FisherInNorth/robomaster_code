@@ -39,6 +39,10 @@ unsigned char Lift_Location_High=0;
 unsigned char Lift_Location_UI=0;
 unsigned char Chuck_Roll_Location_Low=0;
 unsigned char Chuck_Roll_Location_High=0;
+unsigned char Out_Lift_Motor_State=0;
+unsigned char Chassis_vx_State=0;
+unsigned char Chassis_vy_State=0;
+unsigned char Chassis_wz_State=0;
 
 unsigned char UpperBoard_Data[16] = {0};
 unsigned char Receive_UpperBoard_Data[100] = {0};
@@ -100,6 +104,11 @@ void Resolve_UpperBoard_Data(void)
 			case 0x0007:  Lift_Location_High					 = target_UpperBoard_Data & 0x0f; break;
 			case 0x0008:  Chuck_Roll_Location_Low      = target_UpperBoard_Data & 0x0f; break;
 			case 0x0009:  Chuck_Roll_Location_High     = target_UpperBoard_Data & 0x0f; break;
+			case 0x000A:  Out_Lift_Motor_State				 = target_UpperBoard_Data & 0x0f; break;
+			case 0x000B:  Chassis_vx_State						 = target_UpperBoard_Data & 0x0f; break;
+			case 0x000C:  Chassis_vy_State						 = target_UpperBoard_Data & 0x0f; break;
+			case 0x000D:  Chassis_wz_State						 = target_UpperBoard_Data & 0x0f; break;
+			case 0x000E:  Pump_State									 = target_UpperBoard_Data & 0x0f; break;
 
 			//...(最多支持十六个)...
 			default:break;
@@ -110,4 +119,5 @@ void Resolve_UpperBoard_Data(void)
 		Chuck_Roll_Location = (uint8_t)((Chuck_Roll_Location_High << 4)|(Chuck_Roll_Location_Low));
 		Chuck_Roll_Location_UI=(uint16_t)(((float)Chuck_Roll_Location)/255*360);
 	}
+
 }

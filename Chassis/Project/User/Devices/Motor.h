@@ -38,6 +38,7 @@ void Debug_CAN_Send_Mineral_Msg(uint8_t* msg);
 void Debug_CAN_Send_Flip_Msg(uint8_t* msg);
 void CAN_Send_Flip_Msg(uint8_t* msg);
 void abs_motor(void);
+void motor_angle_init(void);
 void CAN1_Motor_ControlMsg(void);
 void CAN2_Motor_ControlMsg(void);
 #endif

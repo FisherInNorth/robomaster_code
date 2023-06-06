@@ -31,6 +31,7 @@
 #include "bsp_led.h"
 #include "DR16.h"
 #include "ChassisBoard.h"
+#include "motor.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -101,6 +102,8 @@ int main(void)
   MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
 	CAN_Filter_Config();
+	remote_control_init();
+	motor_angle_init();
   /* USER CODE END 2 */
 
   /* Infinite loop */

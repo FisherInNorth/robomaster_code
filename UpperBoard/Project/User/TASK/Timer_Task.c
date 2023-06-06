@@ -9,6 +9,8 @@ int error;
 int out;
 unsigned char Last_HP_Zero=0;
 
+extern int Key_Mode;
+
 extern RC_ctrl_t rc_ctrl;
 extern float chuck_pitch_vPID_Parameters[6];
 extern float Longitudinal_MotorL_aPID_Parameters[6];
@@ -16,6 +18,10 @@ extern float Longitudinal_MotorR_aPID_Parameters[6];
 
 void Timer_Task()
 {
+	if(time_count%7==0)
+	{
+		judge_v();
+	}
 	if(Last_HP_Zero == 1)
 	{
 		if(HP_Zero == 0)
@@ -58,7 +64,7 @@ void Timer_Task()
 //			CAN2_Motor_ControlMsg();
 		}
 	
-		if(time_count%30 == 0)
+		if(time_count%15 == 0)
 		{
 			RemoteChassisBoard();
 			Resolve_ChassisBoard_Data();
@@ -78,6 +84,19 @@ void Timer_Task()
 	{
 		//LED_Green_Toggle();
 		SERVO_SET_ANGLE();
+	}
+	
+	if(time_count%15==0)
+	{
+		if(Key_Mode == 0)
+		{
+			HandleDR16_Data();			
+		}
+		else
+		{
+			Key_Control();			
+		}
+		Key_Mode_Judge();
 	}
 //	
 //	

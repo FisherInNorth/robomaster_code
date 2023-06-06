@@ -27,7 +27,7 @@ extern MOTOR_t chuck_pitch;//pitchµÄµç»ú
 extern uint8_t start_flag;
 
 void Mineral_Init(void);
-
+void motor_angle_init(void);
 void CAN1_Motor_HandleMsg(uint32_t StdId, unsigned char * Data);
 void CAN2_Motor_HandleMsg(uint32_t StdId, unsigned char * Data);
 void Debug_CAN_Send_Mineral_Msg(uint8_t* msg);

@@ -37,6 +37,12 @@ int abs_chassis4 = 0;
 
 uint8_t start_flag=0;
 
+void motor_angle_init(void)
+{
+	outboard_lift_motorL.last_angle=4096;
+	outboard_lift_motorR.last_angle=4096;
+
+}
 /**
 	* @function	函数：Motor_HandleMsg
 	* @brief		描述：处理电机消息
@@ -85,7 +91,6 @@ void CAN2_Motor_HandleMsg(uint32_t StdId, unsigned char * Data)
 	*/
 static void Motor_RecordData(MOTOR_t *motor, unsigned char * data)
 {
-	motor->last_angle 				= 	motor->apid.actual_angle;
 	motor->apid.actual_angle 	= 	(int16_t)((data[0] << 8) + data[1]);
 	motor->vpid.actual_speed 	= 	(int16_t)((data[2] << 8) + data[3]);
 	motor->actual_current 		= 	(int16_t)((data[4] << 8) + data[5]);
@@ -107,6 +112,7 @@ static void Motor_RecordData(MOTOR_t *motor, unsigned char * data)
 		motor->round_cnt ++;
 	}
 	motor->apid.total_angle = motor->round_cnt * 8192 + motor->apid.actual_angle- motor->start_angle;//+ motor->start_angle;
+	motor->last_angle 				= 	motor->apid.actual_angle;
 }
 
 

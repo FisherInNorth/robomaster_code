@@ -2,6 +2,7 @@
 #include "dma.h"
 #include "usart.h"
 #include "bsp_led.h"
+#include "ChassisBoard.h"
 
 #define RC_huart    huart3
 #define RC_UART		USART3
@@ -29,6 +30,19 @@ static void RC_init(uint8_t *rx1_buf, uint8_t *rx2_buf, uint16_t dma_buf_num);
 static int16_t RC_abs(int16_t value);
 static void RC_restart(uint16_t dma_buf_num);
 static float caculate_linear_speed(int width,int mid,int min,int max);
+
+
+int Key_Mode = 0;
+uint16_t last_key=0;
+uint16_t time_count_v=0;
+uint16_t KEY_COUNT=6;
+uint8_t flag_v=0;
+
+
+
+
+
+//uint8_t calibrate_lift_flag=1;
 
 static float caculate_linear_speed(int width,int mid,int min,int max)
 {
@@ -285,4 +299,504 @@ static void sbus_to_rc(volatile const uint8_t *sbus_buf, RC_ctrl_t *rc_ctrl)
 void GetDR16_Data()
 {
 
+}
+
+void HandleDR16_Data(void)
+{
+	 Out_Lift_Motor_State = 0;
+		
+	/*操作模式一：抬升以及底盘运动 @判定方式：左拨杆开关为上*/
+	if(rc_ctrl.rc.s[1] == 1)
+	{
+		if(rc_ctrl.rc.s[0] == 3)//右拨杆开关为中：停止抬升
+		{
+			Lift_Motor_State = 0;
+		}
+		else if(rc_ctrl.rc.s[0] == 1)//右拨杆开关为上：抬升
+		{
+			Lift_Motor_State = 3;
+			Out_Lift_Motor_State = 3;
+		}
+		else if(rc_ctrl.rc.s[0] == 2)//右拨杆开关为下：下降
+		{
+			Lift_Motor_State = 4;
+			Out_Lift_Motor_State = 4;
+		}
+		
+//		chassis_vy=caculate_linear_speed(rc_ctrl.rc.ch[2],RC_MIDD,RC_MINN,RC_MAXX);
+//		chassis_vx=caculate_linear_speed(rc_ctrl.rc.ch[3],RC_MIDD,RC_MINN,RC_MAXX);
+//		chassis_wz=-caculate_rotational_speed(rc_ctrl.rc.ch[0],RC_MIDD,RC_MINN,RC_MAXX);
+		if(rc_ctrl.rc.ch[2]>1374)
+		{
+			Chassis_vx_State = 3;
+		}
+		else if(rc_ctrl.rc.ch[2]<674)
+		{
+			Chassis_vx_State = 4;
+		}
+		else
+		{
+			Chassis_vx_State = 0;
+		}
+		
+		if(rc_ctrl.rc.ch[3]>1374)
+		{
+			Chassis_vy_State = 3;
+		}
+		else if(rc_ctrl.rc.ch[3]<674)
+		{
+			Chassis_vy_State = 4;
+		}
+		else
+		{
+			Chassis_vy_State = 0;
+		}
+		
+		if(rc_ctrl.rc.ch[0]>1374)
+		{
+			Chassis_wz_State = 3;
+		}
+		else if(rc_ctrl.rc.ch[0]<674)
+		{
+			Chassis_wz_State = 4;
+		}
+		else
+		{
+			Chassis_wz_State = 0;
+		}
+	}
+	
+	/*操作模式二：前后伸缩、两轴机械臂 @判定方式：左拨杆开关为中*/
+	if(rc_ctrl.rc.s[1] == 3)
+	{
+		if(rc_ctrl.rc.s[0] == 3)//右拨杆开关为中：停止伸缩
+		{
+			Longitudinal_Motor_State = 0;
+		}
+		else if(rc_ctrl.rc.s[0] == 1)//右拨杆开关为上：伸出
+		{
+			Longitudinal_Motor_State = 3;
+		}
+		else if(rc_ctrl.rc.s[0] == 2)//右拨杆开关为下：收回
+		{
+			Longitudinal_Motor_State = 4;
+		}
+		
+		
+		//右摇杆上下，控制pitch轴
+		if(rc_ctrl.rc.ch[1] > 1374)
+		{
+			Chuck_Pitch_State = 3;
+		}
+		else if(rc_ctrl.rc.ch[1] < 674)
+		{
+			Chuck_Pitch_State = 4;
+		}
+		else 
+		{
+			Chuck_Pitch_State = 0;
+		}
+		//右摇杆左右，控制roll轴
+		if(rc_ctrl.rc.ch[0] > 1374)  //roll
+		{
+			Chuck_Roll_State = 3;
+		}
+		else if(rc_ctrl.rc.ch[0] < 674)
+		{
+			Chuck_Roll_State = 4;
+		}
+		else
+		{
+			Chuck_Roll_State = 0;
+		}
+		
+
+
+
+//		if(rc_ctrl.rc.ch[3]<674)//左摇杆向下，矿石向后翻转
+//		{
+//			mineral_motor1.vpid.target_speed = (rc_ctrl.rc.ch[3] - 1024) * 5;
+//			mineral_motor2.vpid.target_speed = - (rc_ctrl.rc.ch[3] - 1024) * 5;
+//			mineral_motor3.vpid.target_speed = - (rc_ctrl.rc.ch[3] - 1024) * 5;
+//			mineral_motor4.vpid.target_speed = - (rc_ctrl.rc.ch[3] - 1024) * 5;
+//		}
+//		else if(rc_ctrl.rc.ch[3]>1374)//左摇杆向上，矿石向前翻转
+//		{
+//			mineral_motor1.vpid.target_speed = (rc_ctrl.rc.ch[3] - 1024) * 5;
+//			mineral_motor2.vpid.target_speed = - (rc_ctrl.rc.ch[3] - 1024) * 5;
+//			mineral_motor3.vpid.target_speed = (rc_ctrl.rc.ch[3] - 1024) * 5;
+//			mineral_motor4.vpid.target_speed = (rc_ctrl.rc.ch[3] - 1024) * 5;
+//		}
+//		else
+//		{
+//			mineral_motor1.vpid.target_speed = 0;
+//			mineral_motor2.vpid.target_speed = 0;
+//			mineral_motor3.vpid.target_speed = 0;
+//			mineral_motor4.vpid.target_speed = 0;
+//		}
+//		//上下
+			
+		
+		
+	}
+	
+		
+	/*操作模式三：气泵 @判定方式：左拨杆开关为下*/
+	if(rc_ctrl.rc.s[1] == 2)
+	{
+		if (rc_ctrl.rc.s[0] == 1)
+		{
+      Pump_State=1;
+		}
+		else
+		{
+			Pump_State=0;
+		}
+		
+//		if(rc_ctrl.rc.ch[3]>1374)//左摇杆向上，矿石向上抬升
+//		{
+//			mineral_motor1.vpid.target_speed = - (rc_ctrl.rc.ch[3] - 1024) * 5;
+//			mineral_motor2.vpid.target_speed = - (rc_ctrl.rc.ch[3] - 1024) * 5;
+//			mineral_motor3.vpid.target_speed = (rc_ctrl.rc.ch[3] - 1024) * 5;
+//			mineral_motor4.vpid.target_speed = (rc_ctrl.rc.ch[3] - 1024) * 5;
+//		}
+//		else if(rc_ctrl.rc.ch[3]<674)//左摇杆向下，矿石向下存储
+//		{
+//			mineral_motor1.vpid.target_speed = - (rc_ctrl.rc.ch[3] - 1024) * 5;
+//			mineral_motor2.vpid.target_speed = - (rc_ctrl.rc.ch[3] - 1024) * 5;
+//			mineral_motor3.vpid.target_speed = (rc_ctrl.rc.ch[3] - 1024) * 5;
+//			mineral_motor4.vpid.target_speed = (rc_ctrl.rc.ch[3] - 1024) * 5;
+//		}
+//		else
+//		{
+//			mineral_motor1.vpid.target_speed = 0;
+//			mineral_motor2.vpid.target_speed = 0;
+//			mineral_motor3.vpid.target_speed = 0;
+//			mineral_motor4.vpid.target_speed = 0;
+//		}
+	}
+
+
+}
+
+//void remote_control(void)
+//{
+//		chassis_control_order.vy_set=caculate_linear_speed(rc_ctrl.rc.ch[0],RC_MIDD,RC_MINN,RC_MAXX);
+//		chassis_control_order.vx_set=caculate_linear_speed(rc_ctrl.rc.ch[1],RC_MIDD,RC_MINN,RC_MAXX);
+//		chassis_control_order.wz_set=caculate_rotational_speed(rc_ctrl.rc.ch[2],RC_MIDD,RC_MINN,RC_MAXX);
+//	
+//	switch(rc_ctrl.rc.s[1])
+//	{
+//		case 3: {chassis_control_order.chassis_mode=CHASSIS_NO_FORCE;} break;
+//		case 1: {chassis_control_order.chassis_mode=CHASSIS_FOLLOW;} break;
+//		case 2: {chassis_control_order.chassis_mode=CHASSIS_SPIN;} break;
+//		default:break;
+//	}
+//}
+
+void Key_Control(void)
+{
+	Lift_Motor_State = 0;
+	Longitudinal_Motor_State = 0;
+	Chuck_Pitch_State = 0;
+	Chuck_Roll_State = 0;
+	Out_Lift_Motor_State = 0;
+	
+	
+	
+	if(rc_ctrl.mouse.x<500 && rc_ctrl.mouse.x>20)
+	{
+//		chassis_wz=-caculate_rotational_speed(rc_ctrl.mouse.x,0,-500,500)*3;
+		Chassis_wz_State = 3;
+	}
+	else if(rc_ctrl.mouse.x<-20 && rc_ctrl.mouse.x>-500)
+	{
+		Chassis_wz_State = 4;
+	}
+	else Chassis_wz_State=0;
+	
+	//图传舵机抬升和下降
+	if(abs(rc_ctrl.mouse.y)<500 && abs(rc_ctrl.mouse.y)>20)
+	{
+		if(caculate_rotational_speed(rc_ctrl.mouse.y,0,-500,500)>0)
+			View_Servo_State=1;
+		else if(caculate_rotational_speed(rc_ctrl.mouse.y,0,-500,500)<0)
+			View_Servo_State=2;
+	}
+	else
+		View_Servo_State=0;
+	
+	
+	
+	
+	if(flag_v == 0)
+	{
+		if((rc_ctrl.key.v & KEY_W) && (!(rc_ctrl.key.v&KEY_S)))
+//			chassis_vx=70;
+		Chassis_vx_State = 3;
+		else if((rc_ctrl.key.v & KEY_S) && (!(rc_ctrl.key.v & KEY_W)))
+//			chassis_vx=-70;
+		Chassis_vx_State = 4;
+		else
+//			chassis_vx=0;
+		Chassis_vx_State = 0;
+		
+		if((rc_ctrl.key.v & KEY_D) && (!(rc_ctrl.key.v&KEY_A)))
+//			chassis_vy=70;
+		Chassis_vy_State = 3;
+		else if((rc_ctrl.key.v & KEY_A) && (!(rc_ctrl.key.v&KEY_D)))
+//			chassis_vy=-70;
+		Chassis_vy_State = 4;
+		else
+//			chassis_vy=0;
+		Chassis_vy_State = 0;
+		
+		if((rc_ctrl.key.v & KEY_Q) && (!(rc_ctrl.key.v & KEY_E)) && (!(rc_ctrl.key.v & KEY_SHIFT)))
+		{
+			Lift_Motor_State = 4;
+	//		outboard_lift_motorL.apid.target_angle +=2250;
+	//		outboard_lift_motorR.apid.target_angle -=2250;
+//			outboard_lift_motorL.apid.target_angle +=3500;
+//			outboard_lift_motorR.apid.target_angle -=3500;
+			Out_Lift_Motor_State = 4;
+			Chuck_Pitch_State = 0;
+		}
+		else if((rc_ctrl.key.v & KEY_E) && (!(rc_ctrl.key.v & KEY_Q)) && (!(rc_ctrl.key.v & KEY_SHIFT)))
+		{
+			Lift_Motor_State = 3;
+//			outboard_lift_motorL.apid.target_angle -=3500;
+//			outboard_lift_motorR.apid.target_angle +=3500;
+			Out_Lift_Motor_State = 3;
+			Chuck_Pitch_State = 0;
+		}
+		
+		if((rc_ctrl.key.v & KEY_Z) && (!(rc_ctrl.key.v & KEY_C)) && (!(rc_ctrl.key.v & KEY_SHIFT)))
+		{
+			Longitudinal_Motor_State = 4;
+			Chuck_Roll_State = 0;
+		}
+		else if((rc_ctrl.key.v & KEY_C) && (!(rc_ctrl.key.v & KEY_Z)) && (!(rc_ctrl.key.v & KEY_SHIFT)))
+		{
+			Longitudinal_Motor_State = 3;
+			Chuck_Roll_State = 0;
+		}
+ }
+	else
+	{
+		if((rc_ctrl.key.v & KEY_W) && (!(rc_ctrl.key.v&KEY_S)))
+//			chassis_vx=20;
+		Chassis_vx_State = 6;
+		else if((rc_ctrl.key.v & KEY_S) && (!(rc_ctrl.key.v & KEY_W)))
+//			chassis_vx=-20;
+		Chassis_vx_State = 7;
+		else
+//			chassis_vx=0;
+		Chassis_vx_State = 0;
+		
+		if((rc_ctrl.key.v & KEY_D) && (!(rc_ctrl.key.v&KEY_A)))
+//			chassis_vy=20;
+		Chassis_vy_State = 6;
+		else if((rc_ctrl.key.v & KEY_A) && (!(rc_ctrl.key.v&KEY_D)))
+//			chassis_vy=-20;
+		Chassis_vy_State = 7;
+		else
+//			chassis_vy=0;		
+		Chassis_vy_State = 0;
+		
+		if((rc_ctrl.key.v & KEY_Q) && (!(rc_ctrl.key.v & KEY_E)) && (!(rc_ctrl.key.v & KEY_SHIFT)))
+		{
+			Lift_Motor_State = 6;
+			Chuck_Pitch_State = 0;
+		}
+		else if((rc_ctrl.key.v & KEY_E) && (!(rc_ctrl.key.v & KEY_Q)) && (!(rc_ctrl.key.v & KEY_SHIFT)))
+		{
+			Lift_Motor_State = 7;
+			Chuck_Pitch_State = 0;
+		}
+		
+		if((rc_ctrl.key.v & KEY_Z) && (!(rc_ctrl.key.v & KEY_C)) && (!(rc_ctrl.key.v & KEY_SHIFT)))
+		{
+			Longitudinal_Motor_State = 6;
+			Chuck_Roll_State = 0;
+		}
+		else if((rc_ctrl.key.v & KEY_C) && (!(rc_ctrl.key.v & KEY_Z)) && (!(rc_ctrl.key.v & KEY_SHIFT)))
+		{
+			Longitudinal_Motor_State = 7;
+			Chuck_Roll_State = 0;
+		}
+	}
+	
+	//气泵
+	if(rc_ctrl.mouse.press_l)
+		Pump_State=1;
+	if(rc_ctrl.mouse.press_r)
+		Pump_State=2;
+	
+//	if(Pump_State==1)
+//	{
+//		Pump1_ON;
+//		Pump2_ON;
+//	}
+//	else if(Pump_State==2)
+//	{
+//		Pump1_OFF;
+//		Pump2_OFF;
+//	}
+	
+
+	if((rc_ctrl.key.v & KEY_Q) && (!(rc_ctrl.key.v & KEY_E)) && (rc_ctrl.key.v & KEY_SHIFT))
+	{
+		Lift_Motor_State = 0;
+		Chuck_Pitch_State = 4;
+	}
+	else if((rc_ctrl.key.v & KEY_E) && (!(rc_ctrl.key.v & KEY_Q)) && (rc_ctrl.key.v & KEY_SHIFT))
+	{
+		Lift_Motor_State = 0;
+		Chuck_Pitch_State = 3;
+	}
+//	else if((rc_ctrl.key.v & KEY_V) && (!(rc_ctrl.key.v & KEY_B))&& (!(rc_ctrl.key.v & KEY_SHIFT)))
+//	{
+//		Lift_Motor_State = 6;
+//		Chuck_Pitch_State =0;
+//	}
+//	else if((rc_ctrl.key.v & KEY_B) && (!(rc_ctrl.key.v & KEY_V))&& (!(rc_ctrl.key.v & KEY_SHIFT)))
+//	{
+//		Lift_Motor_State = 7;
+//		Chuck_Pitch_State =0;
+//	}	
+	else if((rc_ctrl.key.v & KEY_B) && (!(rc_ctrl.key.v & KEY_V))&& (!(rc_ctrl.key.v & KEY_SHIFT)))
+	{
+		Lift_Motor_State = 0;
+		Chuck_Pitch_State = 5;
+	}
+	
+//	if(outboard_lift_motorL.apid.target_angle>0)
+//	{
+//		outboard_lift_motorL.apid.target_angle = 0;
+//	}
+//	if(outboard_lift_motorR.apid.target_angle<0)
+//	{
+//		outboard_lift_motorR.apid.target_angle = 0;
+//	}
+	
+
+	else if((rc_ctrl.key.v & KEY_Z) && (!(rc_ctrl.key.v & KEY_C)) && (rc_ctrl.key.v & KEY_SHIFT))
+	{
+		Longitudinal_Motor_State = 0;
+		Chuck_Roll_State = 3;
+	}
+	else if((rc_ctrl.key.v & KEY_C) && (!(rc_ctrl.key.v & KEY_Z)) && (rc_ctrl.key.v & KEY_SHIFT))
+	{
+		Longitudinal_Motor_State = 0;
+		Chuck_Roll_State = 4;
+	}
+	else if(!(rc_ctrl.key.v & KEY_V) && (rc_ctrl.key.v & KEY_B)&& (rc_ctrl.key.v & KEY_SHIFT))
+	{
+		Chuck_Roll_State = 5;
+		Longitudinal_Motor_State =0;
+	}
+
+	
+	if(rc_ctrl.key.v & KEY_F)
+	{
+		Lift_Motor_State = 5;
+//		if(Longitudinal_Ready_State == 0)
+//		{
+////			outboard_lift_motorL.apid.target_angle -=3500;
+////			outboard_lift_motorR.apid.target_angle +=3500;
+			Out_Lift_Motor_State = 3;
+//		}
+//		else if(Longitudinal_Ready_State == 1)
+//		{
+//			outboard_lift_motorL.apid.target_angle += 3500;
+//			outboard_lift_motorR.apid.target_angle -= 3500;
+//			Out_Lift_Motor_State = 4;
+//		}
+    
+	}
+
+//	if(rc_ctrl.key.v & KEY_F)
+//	{
+//		Outboard_MotorL_aPID_Parameters[5] = 1700;
+//		Outboard_MotorR_aPID_Parameters[5] = 1700;
+//	}
+//	else 
+//	{
+//		Outboard_MotorL_aPID_Parameters[5] = 1100;
+//		Outboard_MotorR_aPID_Parameters[5] = 1100;
+//	}
+//		
+	
+//if(rc_ctrl.key.v & KEY_B)
+//{
+////		Longitudinal_Motor_State = 4;
+////		if(Longitudinal_Ready_State == 1)
+////		{
+////			Longitudinal_Motor_State = 0;
+////			outboard_lift_motorL.apid.target_angle -=2250;
+////			outboard_lift_motorR.apid.target_angle +=2250;
+////			
+////		}
+//	Lift_Motor_State = 7;
+//}
+//else
+//{
+//	Lift_Motor_State = 0;
+////		Longitudinal_Motor_State = 0;
+//}
+
+//if(rc_ctrl.key.v & KEY_V)
+//{
+////		Longitudinal_Motor_State = 4;
+////		if(Longitudinal_Ready_State == 1)
+////		{
+////			Longitudinal_Motor_State = 0;
+////			outboard_lift_motorL.apid.target_angle +=2250;
+////			outboard_lift_motorR.apid.target_angle -=2250;
+////			
+////		}
+//	Lift_Motor_State = 6;
+//}
+//else
+//{
+//	Lift_Motor_State = 0;
+////		Longitudinal_Motor_State = 0;
+//}
+	
+
+}
+
+void Key_Mode_Judge(void)
+{
+	if((rc_ctrl.rc.s[0] == 2) && (rc_ctrl.rc.s[1] == 2))
+	{
+		Key_Mode = 1;
+	}
+	else
+	{
+		Key_Mode = 0;
+	}
+}
+
+
+
+	void judge_v(void)
+{
+	if(rc_ctrl.key.v&KEY_V)
+		time_count_v++;
+	else
+	{
+		if(last_key&KEY_V)
+		{
+			if(time_count_v>=KEY_COUNT)
+			{
+				if(flag_v==0)
+					flag_v=1;
+				else 
+					flag_v=0;
+			}
+		}
+		time_count_v=0;		
+	}
+	last_key = rc_ctrl.key.v;
 }

@@ -16,6 +16,11 @@ unsigned char Longitudinal_Location=0;
 unsigned char Lift_Location=0;
 unsigned char Chuck_Roll_Location=0;
 unsigned char HP_Zero=0;
+unsigned char Pump_State=0;
+unsigned char Out_Lift_Motor_State=0;
+unsigned char Chassis_vx_State=0;
+unsigned char Chassis_vy_State=0;
+unsigned char Chassis_wz_State=0;
 
 
 //...(其他状态标志位)...
@@ -41,13 +46,13 @@ void Resolve_ChassisBoard_Data(void)
 		
 		switch(target_ChassisBoard_Data >> 4)
 		{
-			case 0x0001:	Lift_Motor_State = target_ChassisBoard_Data & 0x0f; break;
-			case 0x0002:	Longitudinal_Motor_State = target_ChassisBoard_Data & 0x0f; break;
-			case 0x0003:  Horizontal_Motor_State = target_ChassisBoard_Data & 0x0f;break;
-			case 0x0004:  Chuck_Yaw_State = target_ChassisBoard_Data & 0x0f;break;
-			case 0x0005:  Chuck_Pitch_State = target_ChassisBoard_Data & 0x0f;break;
-			case 0x0006:  Chuck_Roll_State = target_ChassisBoard_Data & 0x0f;break;
-			case 0x0007:  View_Servo_State = target_ChassisBoard_Data & 0x0f;break;
+//			case 0x0001:	Lift_Motor_State = target_ChassisBoard_Data & 0x0f; break;
+//			case 0x0002:	Longitudinal_Motor_State = target_ChassisBoard_Data & 0x0f; break;
+//			case 0x0003:  Horizontal_Motor_State = target_ChassisBoard_Data & 0x0f;break;
+//			case 0x0004:  Chuck_Yaw_State = target_ChassisBoard_Data & 0x0f;break;
+//			case 0x0005:  Chuck_Pitch_State = target_ChassisBoard_Data & 0x0f;break;
+//			case 0x0006:  Chuck_Roll_State = target_ChassisBoard_Data & 0x0f;break;
+//			case 0x0007:  View_Servo_State = target_ChassisBoard_Data & 0x0f;break;
 			case 0x0008:  HP_Zero = target_ChassisBoard_Data & 0x0f;break;
 
 			//...(最多支持十六个)...
@@ -84,4 +89,19 @@ void Load_ChassisBoard_Data(void)
 	
 	Transmit_ChassisBoard_Data[8] = 0x09 << 4;
 	Transmit_ChassisBoard_Data[8] |= Chuck_Roll_Location >> 4;
+	
+	Transmit_ChassisBoard_Data[9] = 0x0A << 4;
+	Transmit_ChassisBoard_Data[9] |= Out_Lift_Motor_State;
+	
+	Transmit_ChassisBoard_Data[10] = 0x0B << 4;
+	Transmit_ChassisBoard_Data[10] |= Chassis_vx_State;
+	
+	Transmit_ChassisBoard_Data[11] = 0x0C << 4;
+	Transmit_ChassisBoard_Data[11] |= Chassis_vy_State;
+	
+	Transmit_ChassisBoard_Data[12] = 0x0D << 4;
+	Transmit_ChassisBoard_Data[12] |= Chassis_wz_State;
+	
+	Transmit_ChassisBoard_Data[13] = 0x0E << 4;
+	Transmit_ChassisBoard_Data[13] |= Pump_State;
 }
