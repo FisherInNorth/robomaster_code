@@ -167,18 +167,22 @@ void Motor_Control(void)
 	{
 		chuck_pitch.apid.target_angle -= 60;
 	}
+	else if(Chuck_Pitch_State==5)
+	{
+		chuck_pitch.apid.target_angle = 25000;
+	}
 //	if(chuck_pitch.apid.target_angle < 0)
 //	{
 //		chuck_pitch.apid.target_angle = 0;
 //	}
 	
-	if(chuck_pitch.apid.target_angle < 8000)
+	if(chuck_pitch.apid.target_angle < 2000)
 	{
-		chuck_pitch.apid.target_angle = 8000;
+		chuck_pitch.apid.target_angle = 2000;
 	}
-	if(chuck_pitch.apid.target_angle > 213300)
+	if(chuck_pitch.apid.target_angle > 235000)
 	{
-		chuck_pitch.apid.target_angle = 213300;
+		chuck_pitch.apid.target_angle = 235000;
 	}
 
 	if(Chuck_Roll_State==3)

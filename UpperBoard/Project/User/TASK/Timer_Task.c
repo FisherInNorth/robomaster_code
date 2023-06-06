@@ -38,7 +38,7 @@ void Timer_Task()
 			longitudinal_motorL.round_cnt = -5;
 			longitudinal_motorR.round_cnt = 5;
 
-			chuck_pitch.round_cnt = -2;
+//			chuck_pitch.round_cnt = -2;
 			chuck_pitch_vPID_Parameters[5] = 9000;
 			Longitudinal_MotorL_aPID_Parameters[5] = 2500;
 			Longitudinal_MotorR_aPID_Parameters[5] = 2500;
@@ -119,8 +119,8 @@ void Timer_Task()
 			{
 				Motor_Longitudinal_Calibrate();
 			}
-//			CAN1_Motor_ControlMsg();
-//			CAN2_Motor_ControlMsg();
+			CAN1_Motor_ControlMsg();
+			CAN2_Motor_ControlMsg();
 		}
 	}
 	CAN1_Motor_ControlMsg();

@@ -564,6 +564,11 @@ void Key_Control(void)
 		Lift_Motor_State = 7;
 		Chuck_Pitch_State =0;
 	}	
+	else if((rc_ctrl.key.v & KEY_B) && (!(rc_ctrl.key.v & KEY_V))&& (rc_ctrl.key.v & KEY_SHIFT))
+	{
+		Lift_Motor_State = 0;
+		Chuck_Pitch_State = 5;
+	}
 	
 //	if(outboard_lift_motorL.apid.target_angle>0)
 //	{
