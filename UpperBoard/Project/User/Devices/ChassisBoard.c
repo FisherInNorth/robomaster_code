@@ -1,5 +1,6 @@
 #include "ChassisBoard.h"
 #include "bsp_led.h"
+#include "DR16.h"
 
 unsigned char Lift_Motor_State=0;						//Ì§Éýµç»ú×´Ì¬
 unsigned char Longitudinal_Motor_State=0;		//ÉìËõµç»ú×´Ì¬
@@ -104,4 +105,7 @@ void Load_ChassisBoard_Data(void)
 	
 	Transmit_ChassisBoard_Data[13] = 0x0E << 4;
 	Transmit_ChassisBoard_Data[13] |= Pump_State;
+	
+	Transmit_ChassisBoard_Data[14] = 0x0F << 4;
+	Transmit_ChassisBoard_Data[14] |= flag_v;
 }

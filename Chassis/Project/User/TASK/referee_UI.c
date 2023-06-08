@@ -481,8 +481,8 @@ void referee_usart_task()
 //			UI_Draw_Line(&UI_Graph7.Graphic[4], "003", UI_Graph_Add, 0, UI_Color_White, 2,  1460,   50,  1110,  280); //测距线右
 //			UI_Draw_Line(&UI_Graph7.Graphic[5], "004", UI_Graph_Add, 0, UI_Color_White, 2,  460,   50, 810 ,   280); //测距线左
 //			UI_Draw_Line(&UI_Graph7.Graphic[4], "005", UI_Graph_Add, 0,UI_Color_White, 2,  50,   500, 65,   400); //第二行左横线
-			UI_Draw_Line(&UI_Graph7.Graphic[4], "012", UI_Graph_Add, 0, UI_Color_White, 2,  1460,   50,  1110,  280); //第四行中心点
-			UI_Draw_Line(&UI_Graph7.Graphic[5], "013", UI_Graph_Add, 0, UI_Color_White, 2,  460,   50, 810 ,   280); //第四行右横线
+			UI_Draw_Line(&UI_Graph7.Graphic[4], "012", UI_Graph_Add, 0, UI_Color_White, 2,  1080,   520,  1350,  50); //第四行中心点
+			UI_Draw_Line(&UI_Graph7.Graphic[5], "013", UI_Graph_Add, 0, UI_Color_White, 2,  510,   50, 800 ,   520); //第四行右横线
 			UI_PushUp_Graphs(7, &UI_Graph7, Robot_ID_Current);
 		}
 //		if(UI_PushUp_Counter % 111 == 0) //静态UI预绘制 试宽线
@@ -604,7 +604,7 @@ void referee_usart_task()
 			
 			
       UI_Draw_Line(&UI_Graph5.Graphic[1], "305", UI_Graph_Change, 5, UI_Color_Orange,3, 12+Longitudinal_Location, 700, 12+Longitudinal_Location,750); 
-			UI_PushUp_Graphs(5, &UI_Graph5.Graphic, Robot_ID_Current);				
+			UI_PushUp_Graphs(5, &UI_Graph5, Robot_ID_Current);				
 //           if(Chuck_Roll_Location_UI<=270)
 //		   {
 //			   UI_Draw_Arc(&UI_Graph5_Arc.Graphic[4],"109",UI_Graph_Change,2,UI_Color_Orange,0,Chuck_Roll_Location_UI,50,300,650,28,28);

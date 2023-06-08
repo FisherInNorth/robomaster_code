@@ -326,11 +326,11 @@ void HandleDR16_Data(void)
 //		chassis_vy=caculate_linear_speed(rc_ctrl.rc.ch[2],RC_MIDD,RC_MINN,RC_MAXX);
 //		chassis_vx=caculate_linear_speed(rc_ctrl.rc.ch[3],RC_MIDD,RC_MINN,RC_MAXX);
 //		chassis_wz=-caculate_rotational_speed(rc_ctrl.rc.ch[0],RC_MIDD,RC_MINN,RC_MAXX);
-		if(rc_ctrl.rc.ch[2]>1374)
+		if(rc_ctrl.rc.ch[3]>1374)
 		{
 			Chassis_vx_State = 3;
 		}
-		else if(rc_ctrl.rc.ch[2]<674)
+		else if(rc_ctrl.rc.ch[3]<674)
 		{
 			Chassis_vx_State = 4;
 		}
@@ -339,11 +339,11 @@ void HandleDR16_Data(void)
 			Chassis_vx_State = 0;
 		}
 		
-		if(rc_ctrl.rc.ch[3]>1374)
+		if(rc_ctrl.rc.ch[2]>1374)
 		{
 			Chassis_vy_State = 3;
 		}
-		else if(rc_ctrl.rc.ch[3]<674)
+		else if(rc_ctrl.rc.ch[2]<674)
 		{
 			Chassis_vy_State = 4;
 		}

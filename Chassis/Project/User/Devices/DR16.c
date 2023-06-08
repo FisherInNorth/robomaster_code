@@ -727,8 +727,8 @@ void Motor_Lift_Calibrate()
 	{
 		if( (abs(outboard_lift_motorL.vpid.actual_speed) < 200) && (abs(outboard_lift_motorR.vpid.actual_speed) < 200) )
 		{
-			outboard_lift_motorL.apid.target_angle = outboard_lift_motorL.apid.total_angle;
-			outboard_lift_motorR.apid.target_angle = outboard_lift_motorR.apid.total_angle;
+//			outboard_lift_motorL.apid.target_angle = outboard_lift_motorL.apid.total_angle;
+//			outboard_lift_motorR.apid.target_angle = outboard_lift_motorR.apid.total_angle;
 			outboard_lift_motorL.round_cnt = 0;
 			outboard_lift_motorR.round_cnt = 0;
 			calibrate_lift_flag = 0;

@@ -109,6 +109,7 @@ void Resolve_UpperBoard_Data(void)
 			case 0x000C:  Chassis_vy_State						 = target_UpperBoard_Data & 0x0f; break;
 			case 0x000D:  Chassis_wz_State						 = target_UpperBoard_Data & 0x0f; break;
 			case 0x000E:  Pump_State									 = target_UpperBoard_Data & 0x0f; break;
+			case 0x000F:  flag_v											 = target_UpperBoard_Data & 0x0f; break;
 
 			//...(最多支持十六个)...
 			default:break;

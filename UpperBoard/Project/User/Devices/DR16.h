@@ -102,6 +102,8 @@ typedef __packed struct
 ************************************************************************************/
 /* ----------------------- Data Struct ------------------------------------- */
 
+extern uint8_t flag_v;
+
 void remote_control_init(void);
 void RC_IRQHandler(void);
 //void remote_control(void);
