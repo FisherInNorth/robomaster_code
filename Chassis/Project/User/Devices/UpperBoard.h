@@ -15,26 +15,26 @@ extern unsigned char Longitudinal_Ready_State;	//ÉìËõµç»úÒ»¼üÈ¡¿óÊÕ»ØÊ±ÊÇ·ñÒÑ¾­Í
 extern unsigned char Lift_Ready_State;          //Ì§Éıµç»úÊÇ·ñ´ïµ½Ô¤¶¨¸ß¶È
 extern unsigned char Pump_State;                //Æø±Ã
 extern unsigned char ROLL_Ready_State;          //ROLL¿ÉÊ¹ÓÃ	
-extern unsigned char Longitudinal_Location;
-extern unsigned char Lift_Location;
-extern unsigned char Chuck_Roll_Location;
-extern unsigned char HP_Zero;
-extern unsigned char Out_Lift_Motor_State;
-extern unsigned char Chassis_vx_State;
-extern unsigned char Chassis_vy_State;
-extern unsigned char Chassis_wz_State;
-extern unsigned char Longitudinal_Location_Low;
-extern unsigned char Longitudinal_Location_High;
-extern unsigned char Lift_Location_Low;
-extern unsigned char Lift_Location_High;
-extern unsigned char Lift_Location_UI;
-extern unsigned char Chuck_Roll_Location_Low;
-extern unsigned char Chuck_Roll_Location_High;
-extern uint16_t Chuck_Roll_Location_UI;
-extern unsigned char UpperBoard_Data[];
-extern unsigned char Receive_UpperBoard_Data[];
-extern unsigned char pUpperBoard_DataH;
-extern unsigned char pUpperBoard_DataL;
+extern unsigned char Longitudinal_Location;			//Éì³öÎ»ÖÃ
+extern unsigned char Lift_Location;							//ÄÚ²¿Ì§ÉıÎ»ÖÃ
+extern unsigned char Chuck_Roll_Location;				//»úĞµ±ÛrollÖáÎ»ÖÃ
+extern unsigned char HP_Zero;										//ÁãÑªÁ¿±êÖ¾Î»
+extern unsigned char Out_Lift_Motor_State;			//ÍâÌ§Éıµç»ú×´Ì¬
+extern unsigned char Chassis_vx_State;					//µ×ÅÌxÖáÔË¶¯×´Ì¬
+extern unsigned char Chassis_vy_State;					//µ×ÅÌyÖáÔË¶¯×´Ì¬
+extern unsigned char Chassis_wz_State;					//µ×ÅÌzÖáÔË¶¯×´Ì¬
+extern unsigned char Longitudinal_Location_Low;	//ÉìËõÎ»ÖÃµÍ8Î»
+extern unsigned char Longitudinal_Location_High;//ÉìËõÎ»ÖÃ¸ß8Î»
+extern unsigned char Lift_Location_Low;					//ÄÚ²¿Ì§ÉıÎ»ÖÃµÍ8Î»
+extern unsigned char Lift_Location_High;				//ÄÚ²¿Ì§ÉıÎ»ÖÃ¸ß8Î»
+extern unsigned char Lift_Location_UI;					//Ì§Éı×ÜÎ»ÖÃ
+extern unsigned char Chuck_Roll_Location_Low;		//»úĞµ±ÛrollÖáÎ»ÖÃµÍ8Î»
+extern unsigned char Chuck_Roll_Location_High;	//»úĞµ±ÛrollÖáÎ»ÖÃ¸ß8Î»
+extern uint16_t Chuck_Roll_Location_UI;					//½«»úĞµ±ÛrollÖáµÄ±êÖ¾Î»×ªÎª360¶ÈÊıÖÆ
+extern unsigned char UpperBoard_Data[];					//ÏòÔÆÌ¨·¢ËÍÊı¾İÊı×é
+extern unsigned char Receive_UpperBoard_Data[];	//ÔÆÌ¨Êı¾İ½ÓÊÕÊı×é
+extern unsigned char pUpperBoard_DataH;					//ÔÆÌ¨Êı¾İÔİÊ±½ÓÊÕÊı×é
+extern unsigned char pUpperBoard_DataL;					//ÔÆÌ¨Êı¾İÔİÊ±½ÓÊÕÊı×é
 
 void Load_UpperBoard_Data(void);
 void Resolve_UpperBoard_Data(void);
