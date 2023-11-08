@@ -1,6 +1,8 @@
 #include "Remote_Task.h"
 #include "BSP_Motor.h"
 #include "BSP_Mineral.h"
+#include "BSP_Handle.h"
+#include "BSP_Flip.h"
 
 
 //内部函数声明
@@ -39,34 +41,41 @@ void left_act1()
 {
 	/****CH4控制****/
 
-	if(i_CH_width > 1200)
+	if(i_CH_width > 100){
 		Mineral_Task_Longitudinal(forward);
-
-	else if(i_CH_width < 800)
+	}
+	else if(i_CH_width < -100){
 		Mineral_Task_Longitudinal(back);
-	
-	else if(r_CH_width > 1200)
+	}
+	else if(r_CH_width > 100){
 		Mineral_Task_Widthwise(right);
-
-	else if(r_CH_width < 800)
+		Mineral_Task_Longitudinal(down);
+	}
+	else if(r_CH_width < -100){
 		Mineral_Task_Widthwise(left);
-
-	else if(x_CH_width > 1200)
+		Mineral_Task_Longitudinal(down);
+	}
+	else if(x_CH_width > 100)
 	{
 		Mineral_Task_Longitudinal(up);
 		Mineral_Task_Widthwise(up);
 	}
 
-	else if(x_CH_width < 800)
+	else if(x_CH_width < -100)
 	{
 		Mineral_Task_Longitudinal(down);
 		Mineral_Task_Widthwise(down);
 	}
 
 	else 
+	{
 		Mineral_Task_Longitudinal(stop);
 		Mineral_Task_Widthwise(stop);
+	}
+	
+
 }
+
 
 /**
   * @brief  左推杆拨下时候的操作（目前的操作是后电推杆、前电推杆、救援爪）
@@ -80,6 +89,33 @@ void left_act1()
 void left_act2()
 {
 
+	if(RIGHT_LEVER == 1)
+	{
+		Handle_Task(out);
+	}
+	if(RIGHT_LEVER == 2)
+	{
+		Handle_Task(in);
+	}
+	if(RIGHT_LEVER == 3)
+	{
+		Handle_Task(stop);
+	}
+	
+//机械臂
+	if(y_CH_width > 100)
+	{
+		Flip_Task(out);
+	}
+	else if(y_CH_width < -100)
+	{
+		Flip_Task(in);
+	}
+	else if(y_CH_width <= 100 || y_CH_width >= -100)
+	{
+		Flip_Task(stop);
+	}
+	
 }
 
 /**

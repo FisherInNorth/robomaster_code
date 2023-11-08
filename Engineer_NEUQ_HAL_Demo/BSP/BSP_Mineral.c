@@ -137,28 +137,6 @@ void Set_Mineral_Current()
 	//can发送数据帧
 	CAN1_Send_Mineral_Msg(current_msg);
 }
-/**
-	* @brief  横向Mineral电流赋值函数（can1）
-	* @param void
-	* @retval void
-	* @attention
-	*/
-//void Set_Mineral_Widthwise_Current()
-//{
-//	uint8_t current_msg[8];
-
-//	//电机目标电流为速度pid输出
-//	mineral_R_motor.target_current =Mineral_Current_R;
-////mineral_R_motor.vpid.PID_OUT;
-//	mineral_L_motor.target_current =Mineral_Current_L;// mineral_L_motor.vpid.PID_OUT;
-//	//can总线通信协议，参照电调说明书
-//	current_msg[4] = mineral_R_motor.target_current >> 8;			//1号电机电流高8位
-//	current_msg[5] = mineral_R_motor.target_current & 0xff;		//1号电机电流低8位
-//	current_msg[6] = mineral_L_motor.target_current >> 8;			//1号电机电流高8位
-//	current_msg[7] = mineral_L_motor.target_current & 0xff;		//1号电机电流低8位
-//	//can发送数据帧
-//	CAN1_Send_Mineral_Msg(current_msg);
-//}
 
 
 /**
@@ -188,11 +166,13 @@ void Mineral_Task_Longitudinal(MOTOR_MOVE_t mineral_longitudinal_move)
 			Set_Mineral_F_Speed(Mineral_Widthwise_Speed);
 			Set_Mineral_B_Speed(-Mineral_Widthwise_Speed);
 		}
+	   break;
 		case up:
 		{
 			Set_Mineral_F_Speed(-Mineral_Widthwise_Speed);
 			Set_Mineral_B_Speed(Mineral_Widthwise_Speed);
 		}
+		break;
 		case stop:
 		{
 			Set_Mineral_F_Speed(0);
@@ -202,8 +182,6 @@ void Mineral_Task_Longitudinal(MOTOR_MOVE_t mineral_longitudinal_move)
 		default:
 			break;
 	}
-	
-
 
 	
 	Vpid_Mineral_Longitudinal_Realize(Mineral_Kp, Mineral_Ki, Mineral_Kd);
@@ -230,14 +208,14 @@ void Mineral_Task_Widthwise(MOTOR_MOVE_t mineral_widthwise_move)
 		break;
 		case down:
 		{
-			Set_Mineral_R_Speed(Mineral_Widthwise_Speed);
-			Set_Mineral_L_Speed(-Mineral_Widthwise_Speed);
+			Set_Mineral_R_Speed(-Mineral_Widthwise_Speed);
+			Set_Mineral_L_Speed(Mineral_Widthwise_Speed);
 		}
 		break;
 		case up:
 		{
-			Set_Mineral_R_Speed(-Mineral_Widthwise_Speed);
-			Set_Mineral_L_Speed(Mineral_Widthwise_Speed);
+			Set_Mineral_R_Speed(Mineral_Widthwise_Speed);
+			Set_Mineral_L_Speed(-Mineral_Widthwise_Speed);
 		}
 		break;
 		case stop:
@@ -249,10 +227,9 @@ void Mineral_Task_Widthwise(MOTOR_MOVE_t mineral_widthwise_move)
 		default:
 			break;
 	}
-	Set_Mineral_R_Speed(Mineral_Widthwise_Speed);
-	Set_Mineral_L_Speed(Mineral_Widthwise_Speed);
+
 	Vpid_Mineral_Widthwise_Realize(Mineral_Kp, Mineral_Ki, Mineral_Kd);
-	//	Set_Mineral_Widthwise_Current();
+	Set_Mineral_Current();
 }
 
 

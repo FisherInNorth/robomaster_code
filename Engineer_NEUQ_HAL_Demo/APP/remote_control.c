@@ -3,12 +3,12 @@
 #include "dma.h"
 #include "usart.h"
 
-extern UART_HandleTypeDef huart3;
-extern DMA_HandleTypeDef hdma_usart3_rx;
+extern UART_HandleTypeDef huart1;
+extern DMA_HandleTypeDef hdma_usart1_rx;
 
-#define RC_huart    huart3
-#define RC_UART		USART3
-#define RC_dma		hdma_usart3_rx
+#define RC_huart    huart1
+#define RC_UART		USART1
+#define RC_dma		hdma_usart1_rx
 
 
 /*******
@@ -132,7 +132,7 @@ error:
 }
 
 //写入stm32f4xx_it.c串口中断
-void USART3_IRQHandler(void)
+void USART1_IRQHandler(void)
 {
 	if(RC_huart.Instance->SR & UART_FLAG_RXNE)//接收到数据
 	{
@@ -267,6 +267,6 @@ static void sbus_to_rc(volatile const uint8_t *sbus_buf, RC_ctrl_t *rc_ctrl)
 
 void RC_unable(void)
 {
-    __HAL_UART_DISABLE(&huart3);
+    __HAL_UART_DISABLE(&huart1);
 }
 

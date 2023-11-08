@@ -39,3 +39,7 @@ engineer\stm32f4xx_it.o: ../BSP/BSP_Motor.h
 engineer\stm32f4xx_it.o: ../BSP/BSP_Mineral.h
 engineer\stm32f4xx_it.o: ../BSP/BSP_Flip.h
 engineer\stm32f4xx_it.o: ../APP/motor/motor.h
+engineer\stm32f4xx_it.o: ../Task/Remote_Task.h
+engineer\stm32f4xx_it.o: ../APP/remote_control.h
+engineer\stm32f4xx_it.o: ../Core/Inc/dma.h
+engineer\stm32f4xx_it.o: ../Core/Inc/usart.h

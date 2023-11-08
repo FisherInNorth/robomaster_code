@@ -25,6 +25,7 @@
 #include "BSP_Handle.h"
 #include "BSP_Mineral.h"
 #include "BSP_Flip.h"
+#include "Remote_Task.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -199,8 +200,9 @@ void SysTick_Handler(void)
   HAL_IncTick();
   /* USER CODE BEGIN SysTick_IRQn 1 */
 	Handle_Task(out);
-	Mineral_Task_Longitudinal(up);
-	Mineral_Task_Widthwise(right);
+//	Mineral_Task_Longitudinal(up);
+//	Mineral_Task_Widthwise(right);
+	Remote_Control();
 	Flip_Task(stop);
 
   /* USER CODE END SysTick_IRQn 1 */

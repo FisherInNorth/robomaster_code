@@ -6,12 +6,12 @@ MOTOR_MOVE_t flip_move;
 MOTOR_t flip_R_motor;
 MOTOR_t flip_L_motor;
 
-int Flip_Out_Speed=2000;
-int Flip_In_Speed=-1500;
+int Flip_Out_Speed=20;
+int Flip_In_Speed=-15;
 float Flip_Kp=4.5;
 float Flip_Ki=1.2;
 float Flip_Kd=1.6;
-int FLIP_SPEED=0;
+int FLIP_SPEED=0;//测试用
 /**
 	* @function函数:Flip_Init
 	* @brief描述:机械臂初始化
@@ -102,27 +102,26 @@ void Set_Flip_Current()
 	*/
 void Flip_Task(MOTOR_MOVE_t flip_move)
 {
-//	switch(flip_move)
-//	{
-//		case out:
-//		{
-//			Set_Flip_Speed(Flip_Out_Speed);
-//		}
-//		break;
-//		case in:
-//		{
-//			Set_Flip_Speed(Flip_In_Speed);
-//		}
-//		break;
-//		case stop:
-//		{
-//			Set_Flip_Speed(0);
-//		}
-//		break;
-//		default:
-//			break;
-//	}
-	Set_Flip_Speed(FLIP_SPEED);
+	switch(flip_move)
+	{
+		case out:
+		{
+			Set_Flip_Speed(Flip_Out_Speed);
+		}
+		break;
+		case in:
+		{
+			Set_Flip_Speed(Flip_In_Speed);
+		}
+		break;
+		case stop:
+		{
+			Set_Flip_Speed(0);
+		}
+		break;
+		default:
+			break;
+	}
 	Vpid_Realize(&flip_R_motor, Flip_Kp, Flip_Ki, Flip_Kd);
 	Vpid_Realize(&flip_L_motor, Flip_Kp, Flip_Ki, Flip_Kd);
 	Set_Flip_Current();

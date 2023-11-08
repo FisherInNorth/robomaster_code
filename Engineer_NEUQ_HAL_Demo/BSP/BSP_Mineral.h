@@ -23,4 +23,8 @@ extern MOTOR_MOVE_t mineral_widthwise_move;
 void Mineral_Init(void);
 void Mineral_Task_Longitudinal(MOTOR_MOVE_t mineral_longitudinal_move);
 void Mineral_Task_Widthwise(MOTOR_MOVE_t mineral_widthwise_move);
+void Set_Mineral_R_Speed(int target_speed);
+void Set_Mineral_L_Speed(int target_speed);
+void Set_Mineral_F_Speed(int target_speed);
+void Set_Mineral_B_Speed(int target_speed);
 #endif

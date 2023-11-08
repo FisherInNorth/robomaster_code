@@ -39,3 +39,6 @@ engineer\remote_task.o: ../Core/Inc/usart.h
 engineer\remote_task.o: ../BSP/BSP_Motor.h
 engineer\remote_task.o: ../BSP/BSP_Mineral.h
 engineer\remote_task.o: ../APP/pid/pid.h
+engineer\remote_task.o: ../BSP/BSP_Handle.h
+engineer\remote_task.o: ../BSP/BSP_Flip.h
+engineer\remote_task.o: ../APP/motor/motor.h

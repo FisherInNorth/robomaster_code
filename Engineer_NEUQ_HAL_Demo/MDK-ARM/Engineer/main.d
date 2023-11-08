@@ -37,6 +37,7 @@ engineer\main.o: ../Core/Inc/dma.h
 engineer\main.o: ../Core/Inc/tim.h
 engineer\main.o: ../Core/Inc/usart.h
 engineer\main.o: ../Core/Inc/gpio.h
+engineer\main.o: ../APP/remote_control.h
 engineer\main.o: ../BSP/BSP_Chassis.h
 engineer\main.o: ../APP/pid/pid.h
 engineer\main.o: ../BSP/BSP_Motor.h

@@ -83,8 +83,9 @@ void CAN1_Send_Mineral_Msg(uint8_t* msg)
 
 
 void CAN1_Send_Flip_Msg(uint8_t* msg)  
-{		CAN_TxHeaderTypeDef TX1message;
-uint8_t TXdata[8];
+{		
+	CAN_TxHeaderTypeDef TX1message;
+	uint8_t TXdata[8];
 	TX1message.StdId = 0x1FF;                        //电调标识符
 	TX1message.IDE = CAN_ID_STD;
 	TX1message.RTR = CAN_RTR_DATA;
@@ -100,7 +101,7 @@ uint8_t TXdata[8];
 uint8_t CAN1_Send_Handle_Msg(uint8_t* msg)  
 {	
 	CAN_TxHeaderTypeDef TX1message;
-uint8_t TXdata[8];
+	uint8_t TXdata[8];
 	uint8_t status;
 	TX1message.StdId = 0x1FF;                        //电调标识符
 	TX1message.IDE = CAN_ID_STD;
@@ -108,9 +109,8 @@ uint8_t TXdata[8];
 	TX1message.DLC = 8;                              //发送长度 (x字节)
 	TX1message.TransmitGlobalTime = DISABLE;
 
-
-	for( i=0;i<8;i++)
-	{TXdata[i] = msg[i];}
+	for(uint16_t i=0;i<8;i++)
+	TXdata[i] = msg[i];
 	
 	status=HAL_CAN_AddTxMessage(&hcan1, &TX1message, TXdata, CAN_FILTER_FIFO0);    //将数据储存进邮箱FIFOx
 	return status;

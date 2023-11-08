@@ -5,10 +5,10 @@
 MOTOR_MOVE_t handle_move;
 MOTOR_t handle_motor;
 
-int Handle_Target_Speed=3000;
-int Handle_Kp=4;
-int Handle_Ki=0.8;
-int Handle_Kd=1.6;
+int Handle_Target_Speed=20;
+float Handle_Kp=4.0;
+float Handle_Ki=0.8;
+float Handle_Kd=1.6;
 
 /**
 	* @function函数:Handle_Init
@@ -41,7 +41,7 @@ void Handle_Init(void)
   */
 void Set_Handle_Speed(int target_speed)
 {
-	handle_motor.vpid.target_speed = target_speed; 
+	handle_motor.vpid.target_speed = target_speed*19; 
 }
 
 /**
@@ -69,8 +69,8 @@ void Set_Handle_Current()
 	handle_motor.target_current = handle_motor.vpid.PID_OUT;
 
 	//can总线通信协议，参照电调说明书
-	current_msg[0] = handle_motor.target_current >> 8;			//1号电机电流高8位
-	current_msg[1] = handle_motor.target_current & 0xff;		//1号电机电流低8位
+	current_msg[4] = handle_motor.target_current >> 8;			//1号电机电流高8位
+	current_msg[5] = handle_motor.target_current & 0xff;		//1号电机电流低8位
 
 	//can发送数据帧
 	CAN1_Send_Handle_Msg(current_msg);
