@@ -9,8 +9,8 @@
 #define r_CH_width            rc_ctrl.rc.ch[2]         //r方向通道脉宽   左摇杆左右
 #define i_CH_width            rc_ctrl.rc.ch[3]         //云台俯仰通道脉宽 左摇杆上下
 #define	DJI_Motion_Yaw		  	rc_ctrl.rc.ch[4]					//使用左手滑轮控制云台yaw
-#define RIGHT_LEVER           rc_ctrl.rc.s[1]          //右拨杆
-#define LEFT_LEVER            rc_ctrl.rc.s[0]          //左拨杆
+#define RIGHT_LEVER           rc_ctrl.rc.s[0]          //右拨杆
+#define LEFT_LEVER            rc_ctrl.rc.s[1]          //左拨杆
 #define Lever_down        	  2   					 //拨到最下
 #define Lever_mid      				3  				     //拨到中间 
 #define Lever_up					    1              //拨到上 

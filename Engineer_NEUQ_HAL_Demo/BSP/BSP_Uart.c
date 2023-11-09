@@ -1,12 +1,14 @@
 #include "BSP_Uart.h"
 #include "Remote_Task.h"
+#include "stdio.h"
 
-extern DMA_HandleTypeDef hdma_usart1_rx;
+extern UART_HandleTypeDef huart6;
+extern DMA_HandleTypeDef hdma_usart6_rx;
+#define TX_UART huart6
+#define RX_UART huart6
 
 uint8_t RC_CH_Buffer[9];
-uint8_t RC_Chassis_Speed_Buffer[8];
-uint8_t RX_Bufer[50];
-uint32_t RecCount=0;
+
 /**
    * @function函数：RC_CH_Send
    * @brief描述：发送CH通道值
@@ -26,7 +28,7 @@ void RC_CH_Send(uint16_t x,uint16_t y,uint16_t r,uint16_t i)
 	RC_CH_Buffer[8] = (i&0xff);
 //	RC_CH_Buffer[8] = ';';
 	
-	HAL_UART_Transmit(&huart1,RC_CH_Buffer,9,0xff);
+	HAL_UART_Transmit(&TX_UART,RC_CH_Buffer,9,0xff);
 }
 
 /**
@@ -37,6 +39,7 @@ void RC_CH_Send(uint16_t x,uint16_t y,uint16_t r,uint16_t i)
    */
 void RC_Chassis_Speed_Send(uint16_t speed1,uint16_t speed2,uint16_t speed3,uint16_t speed4)
 {
+	uint8_t RC_Chassis_Speed_Buffer[8];
 	RC_Chassis_Speed_Buffer[0] =(speed1>>8);
 	RC_Chassis_Speed_Buffer[1] =(speed1&0xff);
 	RC_Chassis_Speed_Buffer[2] =(speed2>>8);
@@ -46,10 +49,33 @@ void RC_Chassis_Speed_Send(uint16_t speed1,uint16_t speed2,uint16_t speed3,uint1
 	RC_Chassis_Speed_Buffer[6] =(speed4>>8);
 	RC_Chassis_Speed_Buffer[7] =(speed4&0xff);
 	
-	HAL_UART_Transmit(&huart1,RC_Chassis_Speed_Buffer,8,0xff);
+	HAL_UART_Transmit_DMA(&TX_UART,RC_Chassis_Speed_Buffer,8);
 }
 
-
+void RC_Rescue_Move_Send(MOTOR_MOVE_t rescue_move)
+{
+//	uint8_t TX_Rescue[4];
+	switch(rescue_move)
+	{
+		case out:
+		{
+			HAL_UART_Transmit_DMA(&TX_UART,(uint8_t*)"R_OUT", 5);
+		}
+		break;
+		case in:
+		{
+			HAL_UART_Transmit_DMA(&TX_UART,(uint8_t*)"R_IN", 4);
+		}	
+		break;
+		case stop:
+		{
+			HAL_UART_Transmit_DMA(&TX_UART,(uint8_t*)"R_ST", 4);
+		}	
+		break;
+		
+		default: break;
+	}
+}
 /**
    * @function函数：Usart_SendString
    * @brief描述：发送字符串
@@ -61,23 +87,48 @@ void Usart_SendString(uint8_t *str)
 	unsigned int k=0;
   do 
   {
-      HAL_UART_Transmit(&huart1,(uint8_t *)(str + k) ,1,1000);
+      HAL_UART_Transmit(&TX_UART,(uint8_t *)(str + k) ,1,1000);
       k++;
   } while(*(str + k)!='\0');
 }
+uint8_t RX_Bufer[50];
+uint32_t RecCount=0;
 
 //空闲中断初始化
 void UART_IdleIT_init()
 {
-	__HAL_UART_ENABLE_IT(&huart1,UART_IT_IDLE);
-	HAL_UART_Receive_DMA(&huart1,RX_Bufer,0xff);
+//	__HAL_UART_ENABLE_IT(&RX_UART,UART_IT_IDLE);
+//	__HAL_UART_CLEAR_IDLEFLAG(&RX_UART);	
+//	HAL_UART_Receive_DMA(&RX_UART,RX_Bufer,50);
+	HAL_UART_Receive_IT(&RX_UART,RX_Bufer,4);
 }
-
-void HAL_UART_IdleCpltCallback(UART_HandleTypeDef *huart)
+uint8_t RX_temp[1]={1};
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
-	RecCount=50-__HAL_DMA_GET_COUNTER(&hdma_usart1_rx);
-	HAL_UART_Receive_DMA(&huart1,RX_Bufer,0xff);
+	HAL_UART_Transmit_IT(&TX_UART,(uint8_t*)"1234",4);
+	HAL_UART_Receive_IT(&RX_UART,RX_Bufer,4);
 }
+//void USART6_IRQHandler(void)
+//{
+//	
+////	if(__HAL_UART_GET_FLAG(&huart6,UART_FLAG_IDLE) != RESET)
+////	{
+////		__HAL_UART_CLEAR_IDLEFLAG(&RX_UART);
+////    HAL_UART_DMAStop(&RX_UART);
+////		RecCount=50-__HAL_DMA_GET_COUNTER(&hdma_usart6_rx);
+////		HAL_UART_Transmit_DMA(&TX_UART,RX_Bufer,4);
+////		RecCount=0;
+////		HAL_UART_Receive_DMA(&RX_UART,RX_Bufer,50);
+////	}
+//}
+//void HAL_UART_IdleCpltCallback(UART_HandleTypeDef *huart)
+//{
+//	RecCount=50-__HAL_DMA_GET_COUNTER(&hdma_usart6_rx);
+//	HAL_UART_Transmit_DMA(&TX_UART,RX_Bufer,RecCount);
+//	RecCount=0;
+//	HAL_UART_Receive_DMA(&RX_UART,RX_Bufer,50);
+
+//}
 	
 ///**
 //  * @brief This function handles USART1 global interrupt.

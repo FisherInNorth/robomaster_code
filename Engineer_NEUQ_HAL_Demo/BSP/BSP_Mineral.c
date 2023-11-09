@@ -12,8 +12,8 @@ MOTOR_t mineral_R_motor;//右边的电机
 MOTOR_t mineral_L_motor;//左边的电机
 
 
-int Mineral_Longitudinal_Speed=20;
-int Mineral_Widthwise_Speed=20;
+int Mineral_Longitudinal_Speed=60;
+int Mineral_Widthwise_Speed=60;
 float Mineral_Kp=8.0;
 float Mineral_Ki=1.2;				
 float Mineral_Kd=0.5;

@@ -3,7 +3,8 @@
 #include "BSP_Mineral.h"
 #include "BSP_Handle.h"
 #include "BSP_Flip.h"
-
+#include "BSP_Uart.h"
+#include "BSP_Chassis.h"
 
 //内部函数声明
 /**
@@ -14,6 +15,7 @@
   */
 void Remote_Control()    //这个函数里就不断地判断每个通道的值，如果满足条件就做相应动作
 {
+	Chassis_Task();
 	switch(LEFT_LEVER)
 	{
 		case 1:
@@ -127,5 +129,16 @@ void left_act2()
 
 void left_act3()
 {
-	
+	if(RIGHT_LEVER == 1)
+	{
+		RC_Rescue_Move_Send(out);
+	}
+	if(RIGHT_LEVER == 2)
+	{
+		RC_Rescue_Move_Send(in);
+	}
+	if(RIGHT_LEVER == 3)
+	{
+		RC_Rescue_Move_Send(stop);
+	}
 }

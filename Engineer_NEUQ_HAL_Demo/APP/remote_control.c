@@ -32,7 +32,7 @@ static void RC_init(uint8_t *rx1_buf, uint8_t *rx2_buf, uint16_t dma_buf_num);
 static int16_t RC_abs(int16_t value);
 
 //主函数初始化调用
-void remote_control_init(void)
+void remote_control_init()
 {
     RC_init(sbus_rx_buf[0], sbus_rx_buf[1], SBUS_RX_BUF_NUM);
 }

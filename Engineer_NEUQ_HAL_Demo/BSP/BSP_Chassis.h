@@ -39,7 +39,7 @@ typedef struct
 #define NORMAL_ROTATIONAL_SPEED  0.5f
 
 void Chassis_Init(void);
-
+void Chassis_Task(void);
 
 #endif
 
