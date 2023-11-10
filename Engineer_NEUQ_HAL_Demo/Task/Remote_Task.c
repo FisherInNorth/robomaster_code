@@ -15,11 +15,12 @@
   */
 void Remote_Control()    //这个函数里就不断地判断每个通道的值，如果满足条件就做相应动作
 {
-	Chassis_Task();
+	
 	switch(LEFT_LEVER)
 	{
 		case 1:
-			left_act1();//模式一
+			//left_act1();//模式一
+			Chassis_Task();
 			break;
 		case 2:
 			left_act2();//模式二

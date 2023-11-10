@@ -153,40 +153,7 @@
           <Name>-U-O142 -O2254 -S0 -C0 -N00("ARM CoreSight SW-DP") -D00(2BA01477) -L00(0) -TO18 -TC10000000 -TP21 -TDS8007 -TDT0 -TDC1F -TIEFFFFFFFF -TIP8 -FO7 -FD20000000 -FC800 -FN1 -FF0STM32F4xx_2048.FLM -FS08000000 -FL0200000 -FP0($$Device:STM32F427IIHx$CMSIS\Flash\STM32F4xx_2048.FLM)</Name>
         </SetRegEntry>
       </TargetDriverDllRegistry>
-      <Breakpoint>
-        <Bp>
-          <Number>0</Number>
-          <Type>0</Type>
-          <LineNumber>137</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>134231106</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>C:\Users\18258\Desktop\Engineer_NEUQ_HAL_DemoUART涓€鐢熶竴娆＄殑鍙戦€?(2)\Engineer_NEUQ_HAL_DemoUART涓€鐢熶竴娆＄殑鍙戦€?Engineer\APP\remote_control.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\Engineer\../APP/remote_control.c\137</Expression>
-        </Bp>
-        <Bp>
-          <Number>1</Number>
-          <Type>0</Type>
-          <LineNumber>207</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>0</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>0</BreakIfRCount>
-          <Filename>../Core/Src/stm32f4xx_it.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression></Expression>
-        </Bp>
-      </Breakpoint>
+      <Breakpoint/>
       <WatchWindow1>
         <Ww>
           <count>0</count>
@@ -491,7 +458,62 @@
         <Ww>
           <count>60</count>
           <WinNumber>1</WinNumber>
-          <ItemText>RC_Chassis_Speed_Buffer,0x0A</ItemText>
+          <ItemText>RC_Chassis_Speed_Buffer,0x10</ItemText>
+        </Ww>
+        <Ww>
+          <count>61</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>RC_Chassis_Speed_Buffer,0x10</ItemText>
+        </Ww>
+        <Ww>
+          <count>62</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>Chassis_Send_Speed1,0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>63</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>Chassis_Send_Speed3,0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>64</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>Chassis_Send_Speed4,0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>65</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>Chassis_Send_Speed2,0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>66</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>Chassis_motor1.vpid.target_speed,0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>67</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>y_CH_width</ItemText>
+        </Ww>
+        <Ww>
+          <count>68</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>y_CH_width</ItemText>
+        </Ww>
+        <Ww>
+          <count>69</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>Chassis_motor4.vpid.target_speed,0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>70</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>Chassis_motor1,0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>71</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>Liner_X,0x0A</ItemText>
         </Ww>
       </WatchWindow1>
       <WatchWindow2>
@@ -534,6 +556,11 @@
           <count>7</count>
           <WinNumber>2</WinNumber>
           <ItemText>flip_R_motor.vPID_max,0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>8</count>
+          <WinNumber>2</WinNumber>
+          <ItemText>Chassis_Send_Speed2</ItemText>
         </Ww>
       </WatchWindow2>
       <Tracepoint>

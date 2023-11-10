@@ -8,7 +8,7 @@ engineer\remote_task.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h
 engineer\remote_task.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h
 engineer\remote_task.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f427xx.h
 engineer\remote_task.o: ../Drivers/CMSIS/Include/core_cm4.h
-engineer\remote_task.o: D:\Keil5\ARM\ARMCC\Bin\..\include\stdint.h
+engineer\remote_task.o: E:\keil\core\ARM\ARMCC\Bin\..\include\stdint.h
 engineer\remote_task.o: ../Drivers/CMSIS/Include/cmsis_version.h
 engineer\remote_task.o: ../Drivers/CMSIS/Include/cmsis_compiler.h
 engineer\remote_task.o: ../Drivers/CMSIS/Include/cmsis_armcc.h
@@ -16,7 +16,7 @@ engineer\remote_task.o: ../Drivers/CMSIS/Include/mpu_armv7.h
 engineer\remote_task.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h
 engineer\remote_task.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h
 engineer\remote_task.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h
-engineer\remote_task.o: D:\Keil5\ARM\ARMCC\Bin\..\include\stddef.h
+engineer\remote_task.o: E:\keil\core\ARM\ARMCC\Bin\..\include\stddef.h
 engineer\remote_task.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc_ex.h
 engineer\remote_task.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio.h
 engineer\remote_task.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio_ex.h

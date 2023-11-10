@@ -16,10 +16,10 @@ CHASSIS_WHEEL_t Chassis_Wheel_2;
 CHASSIS_WHEEL_t Chassis_Wheel_3;
 CHASSIS_WHEEL_t Chassis_Wheel_4;
 
-uint16_t Chassis_Send_Speed1;
-uint16_t Chassis_Send_Speed2;
-uint16_t Chassis_Send_Speed3;
-uint16_t Chassis_Send_Speed4;
+int Chassis_Send_Speed1;
+int Chassis_Send_Speed2;
+int Chassis_Send_Speed3;
+int Chassis_Send_Speed4;
 
 int Liner_X,Liner_Y,Angular_Z;
 
@@ -125,9 +125,9 @@ void Chassic_Speed_Control(float speed_x, float speed_y, float speed_r)
 		}
 		
 		Chassis_Send_Speed1= Chassis_motor1.vpid.target_speed;
-		Chassis_Send_Speed2= Chassis_motor2.vpid.target_speed;
+		Chassis_Send_Speed2= -Chassis_motor2.vpid.target_speed;
 		Chassis_Send_Speed3= Chassis_motor3.vpid.target_speed;
-		Chassis_Send_Speed4= Chassis_motor4.vpid.target_speed;
+		Chassis_Send_Speed4= -Chassis_motor4.vpid.target_speed;
 		
 }	
 /**
@@ -138,9 +138,9 @@ void Chassic_Speed_Control(float speed_x, float speed_y, float speed_r)
   */
 void Chassis_Task(void)
 {
-	Liner_X = caculate_linear_speed(y_CH_width, y_initial_value, y_min_value, y_max_value); //前后左右
-	Liner_Y = caculate_linear_speed(x_CH_width, x_initial_value, x_min_value, x_max_value);
-	Angular_Z = caculate_rotational_speed(r_CH_width * 2, r_initial_value * 2, r_min_value * 2, r_max_value * 2); //旋转
+	Liner_X = caculate_linear_speed(x_CH_width+1024, x_initial_value, x_min_value, x_max_value); //前后左右
+	Liner_Y = caculate_linear_speed(y_CH_width+1024, y_initial_value, y_min_value, y_max_value);
+	Angular_Z = caculate_rotational_speed((r_CH_width+1024 )* 2, r_initial_value * 2, r_min_value * 2, r_max_value * 2); //旋转
 	
 	Chassic_Speed_Control(Liner_X,Liner_Y,Angular_Z);
 	RC_Chassis_Speed_Send(Chassis_Send_Speed1,Chassis_Send_Speed2,Chassis_Send_Speed3,Chassis_Send_Speed4);

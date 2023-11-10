@@ -1,7 +1,7 @@
 engineer\pid.o: ..\APP\pid\pid.c
 engineer\pid.o: ..\APP\pid\pid.h
 engineer\pid.o: ../BSP/BSP_Motor.h
-engineer\pid.o: D:\Keil5\ARM\ARMCC\Bin\..\include\stdint.h
+engineer\pid.o: E:\keil\core\ARM\ARMCC\Bin\..\include\stdint.h
 engineer\pid.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h
 engineer\pid.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f427xx.h
 engineer\pid.o: ../Drivers/CMSIS/Include/core_cm4.h
@@ -16,7 +16,7 @@ engineer\pid.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h
 engineer\pid.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h
 engineer\pid.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h
 engineer\pid.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h
-engineer\pid.o: D:\Keil5\ARM\ARMCC\Bin\..\include\stddef.h
+engineer\pid.o: E:\keil\core\ARM\ARMCC\Bin\..\include\stddef.h
 engineer\pid.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc_ex.h
 engineer\pid.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio.h
 engineer\pid.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio_ex.h

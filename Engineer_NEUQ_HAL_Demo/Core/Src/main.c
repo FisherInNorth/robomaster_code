@@ -23,7 +23,7 @@
 #include "tim.h"
 #include "usart.h"
 #include "gpio.h"
-
+#include "remote_control.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "BSP_Chassis.h"

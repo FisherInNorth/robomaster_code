@@ -8,7 +8,7 @@ extern DMA_HandleTypeDef hdma_usart6_rx;
 #define RX_UART huart6
 
 uint8_t RC_CH_Buffer[9];
-
+MOTOR_MOVE_t rescue_move, rescue_card, push1, push2;
 /**
    * @function函数：RC_CH_Send
    * @brief描述：发送CH通道值
@@ -37,9 +37,9 @@ void RC_CH_Send(uint16_t x,uint16_t y,uint16_t r,uint16_t i)
    * @param输入：x/y/r speed
    * @retval返回：void
    */
-void RC_Chassis_Speed_Send(uint16_t speed1,uint16_t speed2,uint16_t speed3,uint16_t speed4)
+uint8_t RC_Chassis_Speed_Buffer[16];
+void RC_Chassis_Speed_Send(int16_t speed1,int16_t speed2,int16_t speed3,int16_t speed4)
 {
-	uint8_t RC_Chassis_Speed_Buffer[8];
 	RC_Chassis_Speed_Buffer[0] =(speed1>>8);
 	RC_Chassis_Speed_Buffer[1] =(speed1&0xff);
 	RC_Chassis_Speed_Buffer[2] =(speed2>>8);
@@ -49,7 +49,7 @@ void RC_Chassis_Speed_Send(uint16_t speed1,uint16_t speed2,uint16_t speed3,uint1
 	RC_Chassis_Speed_Buffer[6] =(speed4>>8);
 	RC_Chassis_Speed_Buffer[7] =(speed4&0xff);
 	
-	HAL_UART_Transmit_DMA(&TX_UART,RC_Chassis_Speed_Buffer,8);
+	HAL_UART_Transmit_DMA(&TX_UART,RC_Chassis_Speed_Buffer,16);
 }
 
 void RC_Rescue_Move_Send(MOTOR_MOVE_t rescue_move)
@@ -59,23 +59,96 @@ void RC_Rescue_Move_Send(MOTOR_MOVE_t rescue_move)
 	{
 		case out:
 		{
-			HAL_UART_Transmit_DMA(&TX_UART,(uint8_t*)"R_OUT", 5);
+			RC_Chassis_Speed_Buffer[8] =((int)"CLA__OUT">>8);
+			RC_Chassis_Speed_Buffer[9] =((int)"CLA__OUT"&0xff);
 		}
 		break;
 		case in:
 		{
-			HAL_UART_Transmit_DMA(&TX_UART,(uint8_t*)"R_IN", 4);
+			RC_Chassis_Speed_Buffer[8] =((int)"CLA___IN">>8);
+			RC_Chassis_Speed_Buffer[9] =((int)"CLA___IN"&0xff);
 		}	
 		break;
 		case stop:
 		{
-			HAL_UART_Transmit_DMA(&TX_UART,(uint8_t*)"R_ST", 4);
+			RC_Chassis_Speed_Buffer[8] =((int)"CLA_STOP">>8);
+			RC_Chassis_Speed_Buffer[9] =((int)"CLA_STOP"&0xff);
 		}	
 		break;
 		
 		default: break;
 	}
 }
+
+void RC_Rescue_card_Send(MOTOR_MOVE_t rescue_card)
+{
+
+	switch(rescue_card)
+	{
+		case out:
+		{
+			RC_Chassis_Speed_Buffer[10] =((int)"CARD_OUT">>8);
+			RC_Chassis_Speed_Buffer[11] =((int)"CARD_OUT"&0xff);
+		}
+		break;
+		case in:
+		{
+			RC_Chassis_Speed_Buffer[10] =((int)"CARD__IN">>8);
+			RC_Chassis_Speed_Buffer[11] =((int)"CARD__IN"&0xff);
+		}	
+		break;
+		case stop:
+		{
+			RC_Chassis_Speed_Buffer[10] =((int)"CARDSTOP">>8);
+			RC_Chassis_Speed_Buffer[11] =((int)"CARDSTOP"&0xff);
+		}	
+		break;
+		
+		default: break;
+	}
+}
+
+void RC_Push_Send(MOTOR_MOVE_t push1, MOTOR_MOVE_t push2)
+{
+	switch(push1)
+	{
+		case out:
+		{
+			RC_Chassis_Speed_Buffer[12] =((int)"PUSH__QS">>8);
+			RC_Chassis_Speed_Buffer[13] =((int)"PUSH__QS"&0xff);
+		}
+		break;
+		case in:
+		{
+			RC_Chassis_Speed_Buffer[12] =((int)"PUSH__HS">>8);
+			RC_Chassis_Speed_Buffer[13] =((int)"PUSH__HS"&0xff);
+		}	
+		break;
+	
+		default: break;
+	}
+		switch(push2)
+	{
+		case out:
+		{
+			RC_Chassis_Speed_Buffer[14] =((int)"PUSH__QJ">>8);
+			RC_Chassis_Speed_Buffer[15] =((int)"PUSH__QJ"&0xff);
+		}
+		break;
+		case in:
+		{
+			RC_Chassis_Speed_Buffer[14] =((int)"PUSH__HJ">>8);
+			RC_Chassis_Speed_Buffer[15] =((int)"PUSH__HJ"&0xff);
+		}	
+		break;
+	
+		default: break;
+	}
+}
+
+
+
+
 /**
    * @function函数：Usart_SendString
    * @brief描述：发送字符串
