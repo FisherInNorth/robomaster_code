@@ -5,7 +5,7 @@
 MOTOR_MOVE_t handle_move;
 MOTOR_t handle_motor;
 
-int Handle_Target_Speed=20;
+int Handle_Target_Speed=100;
 float Handle_Kp=4.0;
 float Handle_Ki=0.8;
 float Handle_Kd=1.6;

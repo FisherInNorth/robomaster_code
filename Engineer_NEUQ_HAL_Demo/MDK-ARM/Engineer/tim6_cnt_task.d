@@ -34,3 +34,15 @@ engineer\tim6_cnt_task.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.
 engineer\tim6_cnt_task.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h
 engineer\tim6_cnt_task.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
 engineer\tim6_cnt_task.o: ../Core/Inc/tim.h
+engineer\tim6_cnt_task.o: ../BSP/BSP_Handle.h
+engineer\tim6_cnt_task.o: ../APP/pid/pid.h
+engineer\tim6_cnt_task.o: ../BSP/BSP_Motor.h
+engineer\tim6_cnt_task.o: ../BSP/BSP_Mineral.h
+engineer\tim6_cnt_task.o: ../BSP/BSP_Flip.h
+engineer\tim6_cnt_task.o: ../APP/motor/motor.h
+engineer\tim6_cnt_task.o: ../Task/Remote_Task.h
+engineer\tim6_cnt_task.o: ../APP/remote_control.h
+engineer\tim6_cnt_task.o: ../Core/Inc/dma.h
+engineer\tim6_cnt_task.o: ../Core/Inc/usart.h
+engineer\tim6_cnt_task.o: ../BSP/BSP_Uart.h
+engineer\tim6_cnt_task.o: ../BSP/BSP_Chassis.h

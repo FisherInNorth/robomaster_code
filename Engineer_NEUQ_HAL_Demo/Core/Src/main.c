@@ -24,6 +24,7 @@
 #include "usart.h"
 #include "gpio.h"
 #include "remote_control.h"
+
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "BSP_Chassis.h"
@@ -33,6 +34,7 @@
 #include "BSP_Uart.h"
 #include "BSP_Can.h"
 #include "string.h"
+#include "BSP_Steering.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -104,11 +106,15 @@ int main(void)
   MX_USART1_UART_Init();
   MX_USART2_UART_Init();
   MX_USART6_UART_Init();
+  MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
+	HAL_TIM_Base_Start_IT(&htim6);//¿ªÆô¶¨Ê±Æ÷6
 	BSP_Init();
 	remote_control_init();
 	UART_IdleIT_init();
 	Chassis_Init();
+	HAL_TIM_PWM_Start(&htim2,TIM_CHANNEL_1);
+	__HAL_TIM_CLEAR_IT(&htim2,TIM_CHANNEL_1);
   /* USER CODE END 2 */
 
   /* Infinite loop */

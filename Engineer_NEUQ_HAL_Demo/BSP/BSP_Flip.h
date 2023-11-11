@@ -10,5 +10,6 @@ extern MOTOR_MOVE_t flip_move;
 
 void Flip_Init(void);
 void Flip_Task(MOTOR_MOVE_t flip_move);
-
+void Set_Flip_Angle(int target_angle);
+void Apid_Flip_Realize(float kp,float ki,float kd);
 #endif

@@ -198,12 +198,16 @@ void Mineral_Task_Widthwise(MOTOR_MOVE_t mineral_widthwise_move)
 		{
 			Set_Mineral_R_Speed(Mineral_Widthwise_Speed);
 			Set_Mineral_L_Speed(Mineral_Widthwise_Speed);
+			Set_Mineral_F_Speed(-Mineral_Widthwise_Speed);
+			Set_Mineral_B_Speed(Mineral_Widthwise_Speed);
 		}
 		break;
 		case left:
 		{
 			Set_Mineral_R_Speed(-Mineral_Widthwise_Speed);
 			Set_Mineral_L_Speed(-Mineral_Widthwise_Speed);
+			Set_Mineral_F_Speed(-Mineral_Widthwise_Speed);
+			Set_Mineral_B_Speed(Mineral_Widthwise_Speed);			
 		}
 		break;
 		case down:

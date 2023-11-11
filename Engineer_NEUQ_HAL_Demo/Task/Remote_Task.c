@@ -1,4 +1,5 @@
 #include "Remote_Task.h"
+#include "remote_control.h"
 #include "BSP_Motor.h"
 #include "BSP_Mineral.h"
 #include "BSP_Handle.h"
@@ -20,7 +21,7 @@ void Remote_Control()    //Õâ¸öº¯ÊýÀï¾Í²»¶ÏµØÅÐ¶ÏÃ¿¸öÍ¨µÀµÄÖµ£¬Èç¹ûÂú×ãÌõ¼þ¾Í×öÏ
 	{
 		case 1:
 			//left_act1();//Ä£Ê½Ò»
-			Chassis_Task();
+//			Chassis_Task(); //ÔÚÖÐ¶ÏÖÐÖ´ÐÐ
 			break;
 		case 2:
 			left_act2();//Ä£Ê½¶þ
@@ -92,15 +93,15 @@ void left_act1()
 void left_act2()
 {
 
-	if(RIGHT_LEVER == 1)
+	if(RIGHT_LEVER == RC_SW_UP)
 	{
 		Handle_Task(out);
 	}
-	if(RIGHT_LEVER == 2)
+	if(RIGHT_LEVER == RC_SW_DOWN)
 	{
 		Handle_Task(in);
 	}
-	if(RIGHT_LEVER == 3)
+	if(RIGHT_LEVER == RC_SW_MID)
 	{
 		Handle_Task(stop);
 	}

@@ -202,11 +202,11 @@ void SysTick_Handler(void)
   /* USER CODE END SysTick_IRQn 0 */
   HAL_IncTick();
   /* USER CODE BEGIN SysTick_IRQn 1 */
-	Handle_Task(out);
+//	Handle_Task(out);
 //	Mineral_Task_Longitudinal(up);
 //	Mineral_Task_Widthwise(right);
-	Remote_Control();
-	Flip_Task(stop);
+//	Remote_Control();
+//	Flip_Task(stop);
 
   /* USER CODE END SysTick_IRQn 1 */
 }
@@ -294,7 +294,7 @@ void USART3_IRQHandler(void)
 void TIM6_DAC_IRQHandler(void)
 {
   /* USER CODE BEGIN TIM6_DAC_IRQn 0 */
-
+	
   /* USER CODE END TIM6_DAC_IRQn 0 */
   HAL_TIM_IRQHandler(&htim6);
   /* USER CODE BEGIN TIM6_DAC_IRQn 1 */

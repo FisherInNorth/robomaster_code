@@ -548,6 +548,11 @@
               <FileType>1</FileType>
               <FilePath>..\Task\Remote_Task.c</FilePath>
             </File>
+            <File>
+              <FileName>Key_Task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Task\Key_Task.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -607,6 +612,11 @@
               <FileName>BSP_Can.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\BSP\BSP_Can.c</FilePath>
+            </File>
+            <File>
+              <FileName>BSP_Steering.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\BSP\BSP_Steering.c</FilePath>
             </File>
           </Files>
         </Group>

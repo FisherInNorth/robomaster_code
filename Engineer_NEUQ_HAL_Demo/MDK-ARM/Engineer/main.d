@@ -48,3 +48,4 @@ engineer\main.o: ../BSP/BSP_Mineral.h
 engineer\main.o: ../BSP/BSP_Uart.h
 engineer\main.o: ../BSP/BSP_Can.h
 engineer\main.o: E:\keil\core\ARM\ARMCC\Bin\..\include\string.h
+engineer\main.o: ../BSP/BSP_Steering.h

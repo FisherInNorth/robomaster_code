@@ -6,11 +6,15 @@ MOTOR_MOVE_t flip_move;
 MOTOR_t flip_R_motor;
 MOTOR_t flip_L_motor;
 
+int Flip_Angle = 0;
 int Flip_Out_Speed=20;
 int Flip_In_Speed=-15;
 float Flip_Kp=4.5;
 float Flip_Ki=1.2;
 float Flip_Kd=1.6;
+float Flip_A_Kp=0.22;
+float Flip_A_Ki=0;
+float Flip_A_Kd=0.15;
 int FLIP_SPEED=0;//测试用
 /**
 	* @function函数:Flip_Init
@@ -73,6 +77,36 @@ void Vpid_Flip_Realize(float kp,float ki,float kd)
 }
 
 /**
+	* @function函数:Set_Flip_angle
+	* @brief描述:机械臂伸出速度控制
+	* @param输入:机械臂速度
+	* @retval返回值:无
+  */
+
+void Set_Flip_Angle(int target_angle)
+{
+	flip_R_motor.apid.target_angle = target_angle; 
+	flip_L_motor.apid.target_angle = -target_angle;
+}
+
+/**
+	* @function函数:Apid_Flip_Realize
+	* @brief描述:机械臂电机速度pid实现
+	* @param输入:机械臂电机速度pid系数
+	* @retval返回值:无
+  */
+void Apid_Flip_Realize(float kp,float ki,float kd)
+{
+	Apid_Realize(&flip_L_motor, kp, ki, kd);
+	Apid_Realize(&flip_R_motor, kp, ki, kd);
+	Set_Flip_Speed(flip_L_motor.apid.PID_OUT);
+	Set_Flip_Speed(flip_R_motor.apid.PID_OUT);
+	Vpid_Realize(&flip_L_motor, Flip_Kp, Flip_Ki, Flip_Kd);
+	Vpid_Realize(&flip_R_motor, Flip_Kp, Flip_Ki, Flip_Kd);
+}
+
+
+/**
 	* @brief  Flip电流赋值函数（can1）
 	* @param void
 	* @retval void
@@ -102,28 +136,30 @@ void Set_Flip_Current()
 	*/
 void Flip_Task(MOTOR_MOVE_t flip_move)
 {
+	
 	switch(flip_move)
 	{
 		case out:
 		{
-			Set_Flip_Speed(Flip_Out_Speed);
+			Flip_Angle = Flip_Angle + 10;
 		}
 		break;
 		case in:
 		{
-			Set_Flip_Speed(Flip_In_Speed);
+			Flip_Angle = Flip_Angle - 10;
 		}
 		break;
 		case stop:
 		{
-			Set_Flip_Speed(0);
+			Flip_Angle = flip_R_motor.apid.total_angle;
 		}
 		break;
 		default:
 			break;
 	}
-	Vpid_Realize(&flip_R_motor, Flip_Kp, Flip_Ki, Flip_Kd);
-	Vpid_Realize(&flip_L_motor, Flip_Kp, Flip_Ki, Flip_Kd);
+	Set_Flip_Angle(Flip_Angle);
+	Apid_Realize(&flip_R_motor, Flip_A_Kp, Flip_A_Ki, Flip_A_Kd);
+	Apid_Realize(&flip_L_motor, Flip_A_Kp, Flip_A_Ki, Flip_A_Kd);
 	Set_Flip_Current();
 }
 
