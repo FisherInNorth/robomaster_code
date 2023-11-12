@@ -1,5 +1,4 @@
 #include "Remote_Task.h"
-#include "remote_control.h"
 #include "BSP_Motor.h"
 #include "BSP_Mineral.h"
 #include "BSP_Handle.h"
@@ -16,18 +15,17 @@
   */
 void Remote_Control()    //Õâ¸öº¯ÊýÀï¾Í²»¶ÏµØÅÐ¶ÏÃ¿¸öÍ¨µÀµÄÖµ£¬Èç¹ûÂú×ãÌõ¼þ¾Í×öÏàÓ¦¶¯×÷
 {
-	
+	//µ×ÅÌµÄ¿ØÖÆÔÚTIM6_Cnt_TaskÖÐ
 	switch(LEFT_LEVER)
 	{
 		case 1:
-			//left_act1();//Ä£Ê½Ò»
-//			Chassis_Task(); //ÔÚÖÐ¶ÏÖÐÖ´ÐÐ
+			left_act_up();//Ä£Ê½Ò»
 			break;
 		case 2:
-			left_act2();//Ä£Ê½¶þ
+			left_act_down();//Ä£Ê½¶þ
 			break;
 		case 3:
-			left_act3();//Ä£Ê½Èý
+			left_act_mid();//Ä£Ê½Èý
 			break;
 		default:
 			break;
@@ -41,46 +39,118 @@ void Remote_Control()    //Õâ¸öº¯ÊýÀï¾Í²»¶ÏµØÅÐ¶ÏÃ¿¸öÍ¨µÀµÄÖµ£¬Èç¹ûÂú×ãÌõ¼þ¾Í×öÏ
 	* @attention 1.ÄÚ²¿µÄ·½·¨ËæÊ±Ìæ»»£¬ÊÊÓ¦²Ù×÷ÊÖ 2.LEFT_LEVER==1
   */
 
-void left_act1()
+void left_act_up()
 {
-	/****CH4¿ØÖÆ****/
+	/****ÓÒ²¦¸Ë¿ØÖÆ¼Ð×¦·­×ª****/
+	if(RIGHT_LEVER == Lever_up)
+	{
+	}
+	if(RIGHT_LEVER == Lever_down)
+	{
+	}
+	if(RIGHT_LEVER == Lever_mid)
+	{
+	}
+	
+	/****×óÒ¡¸Ë×óÓÒ¿ØÖÆ»úÐµ±ÛÉì³ö****/
+	if(r_CH_width > 350)
+	{
+		Handle_Task(out);
 
-	if(i_CH_width > 100){
+	}
+	else if(r_CH_width < -350)
+	{
+		Handle_Task(in);
+	}	
+	else
+	{
+		Handle_Task(stop);
+	}
+
+	
+	/****×óÒ¡¸ËÉÏÏÂ¿ØÖÆ¼Ð×¦·­×ª****/
+	if(i_CH_width > 350)
+	{
+		Flip_Task(in);
+		Mineral_Task_Widthwise(up);
+		Mineral_Task_Longitudinal(up);
+	}
+	else if(i_CH_width < -350)
+	{
+		Flip_Task(out);
+
+	}
+	else 
+	{
+		Flip_Task(stop);		
+	}
+}
+
+
+
+
+
+
+/**
+  * @brief  ×óÍÆ¸Ë²¦ÖÐÊ±ºòµÄ²Ù×÷£¨Ä¿Ç°µÄ²Ù×÷ÊÇ×ÝÏòÍ¬²½´øÍ¬Ïò×ª¶¯¡¢ºáÏòÍ¬²½´øÒìÏò×ª¶¯¡¢ºáÏòÍ¬²½´øÍ¬Ïò×ª¶¯£©
+	* @param void
+	* @retval void
+	* @attention 1.ÄÚ²¿µÄ·½·¨ËæÊ±Ìæ»»£¬ÊÊÓ¦²Ù×÷ÊÖ 2.LEFT_LEVER==3
+  */ 
+
+void left_act_mid()
+{
+	Handle_Task(stop);
+	Flip_Task(stop);	
+	/****ÓÒ²¦¸Ë¿ØÖÆ********/
+	if(RIGHT_LEVER == Lever_up)
+	{
+		
+	}
+	if(RIGHT_LEVER == Lever_down)
+	{
+
+	}
+	if(RIGHT_LEVER == Lever_mid)
+	{
+
+	}
+	
+	/****×óÒ¡¸Ë¿ØÖÆ¿óÊ¯·­×ª****/
+	if(i_CH_width > 100)
+	{
 		Mineral_Task_Longitudinal(forward);
 	}
-	else if(i_CH_width < -100){
+	else if(i_CH_width < -100)
+	{
 		Mineral_Task_Longitudinal(back);
 	}
-	else if(r_CH_width > 100){
+	else if(r_CH_width > 100)
+	{
 		Mineral_Task_Widthwise(right);
 		Mineral_Task_Longitudinal(down);
 	}
-	else if(r_CH_width < -100){
+	else if(r_CH_width < -100)
+	{
 		Mineral_Task_Widthwise(left);
 		Mineral_Task_Longitudinal(down);
 	}
-	else if(x_CH_width > 100)
+	else if(RIGHT_LEVER == Lever_up)
 	{
 		Mineral_Task_Longitudinal(up);
 		Mineral_Task_Widthwise(up);
 	}
-
-	else if(x_CH_width < -100)
+	else if(RIGHT_LEVER == Lever_down)
 	{
 		Mineral_Task_Longitudinal(down);
 		Mineral_Task_Widthwise(down);
 	}
-
 	else 
 	{
 		Mineral_Task_Longitudinal(stop);
 		Mineral_Task_Widthwise(stop);
 	}
-	
-
 }
-
-
 /**
   * @brief  ×óÍÆ¸Ë²¦ÏÂÊ±ºòµÄ²Ù×÷£¨Ä¿Ç°µÄ²Ù×÷ÊÇºóµçÍÆ¸Ë¡¢Ç°µçÍÆ¸Ë¡¢¾ÈÔ®×¦£©
 	* @param void
@@ -90,57 +160,56 @@ void left_act1()
 
 // ÅÐ¶Ï: ×ó²¦¸ËÖÃÏÂ
 // ÃèÊö: LEFT_LEVER==2
-void left_act2()
+void left_act_down()
 {
-
-	if(RIGHT_LEVER == RC_SW_UP)
+	MOTOR_MOVE_t p1, p2;
+	p1 = stop;
+	p2 = stop;
+		
+		/****ÓÒ²¦¸Ë¿ØÖÆ********/
+	if(RIGHT_LEVER == Lever_up)
 	{
-		Handle_Task(out);
+		
 	}
-	if(RIGHT_LEVER == RC_SW_DOWN)
+	if(RIGHT_LEVER == Lever_down)
 	{
-		Handle_Task(in);
+		
 	}
-	if(RIGHT_LEVER == RC_SW_MID)
+	if(RIGHT_LEVER == Lever_mid)
 	{
-		Handle_Task(stop);
+		
+	}
+	/****×óÒ¡¸Ë×óÓÒ¿ØÖÆÇ°µçÍÆ¸Ë****/
+	if(r_CH_width > 200)
+	{
+		p1 = out;
+	}
+	else if(r_CH_width < -200)
+	{
+		p1 = in;
+	}
+	else
+	{
+		p1 = stop;
 	}
 	
-//»úÐµ±Û
-	if(y_CH_width > 100)
-	{
-		Flip_Task(out);
-	}
-	else if(y_CH_width < -100)
-	{
-		Flip_Task(in);
-	}
-	else if(y_CH_width <= 100 || y_CH_width >= -100)
-	{
-		Flip_Task(stop);
-	}
 	
+	/****×óÒ¡¸ËÉÏÏÂ¿ØÖÆºóµçÍÆ¸Ë*****/
+	if(i_CH_width > 200)
+	{
+		p2 = out;		
+	}
+	else if(i_CH_width < -200)
+	{
+		p2 = in;
+	}
+	else
+	{
+		p2 = stop;		
+	}
+	RC_Push_F_Send(p1);
+	RC_Push_B_Send(p2);
+	Handle_Task(stop);
+	Flip_Task(stop);	
 }
 
-/**
-  * @brief  ×óÍÆ¸Ë²¦ÖÐÊ±ºòµÄ²Ù×÷£¨Ä¿Ç°µÄ²Ù×÷ÊÇ×ÝÏòÍ¬²½´øÍ¬Ïò×ª¶¯¡¢ºáÏòÍ¬²½´øÒìÏò×ª¶¯¡¢ºáÏòÍ¬²½´øÍ¬Ïò×ª¶¯£©
-	* @param void
-	* @retval void
-	* @attention 1.ÄÚ²¿µÄ·½·¨ËæÊ±Ìæ»»£¬ÊÊÓ¦²Ù×÷ÊÖ 2.LEFT_LEVER==3
-  */ 
-
-void left_act3()
-{
-	if(RIGHT_LEVER == 1)
-	{
-		RC_Rescue_Move_Send(out);
-	}
-	if(RIGHT_LEVER == 2)
-	{
-		RC_Rescue_Move_Send(in);
-	}
-	if(RIGHT_LEVER == 3)
-	{
-		RC_Rescue_Move_Send(stop);
-	}
-}

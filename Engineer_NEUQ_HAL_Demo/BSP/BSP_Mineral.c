@@ -11,7 +11,6 @@ MOTOR_t mineral_B_motor;//后面的电机
 MOTOR_t mineral_R_motor;//右边的电机
 MOTOR_t mineral_L_motor;//左边的电机
 
-
 int Mineral_Longitudinal_Speed=60;
 int Mineral_Widthwise_Speed=60;
 float Mineral_Kp=8.0;
@@ -26,6 +25,7 @@ float Mineral_Kd=0.5;
   */
 void Mineral_Init(void)
 {
+	mineral_longitudinal_move=stop;           mineral_widthwise_move=stop;
 	mineral_F_motor.round_cnt=0.0f;			      mineral_B_motor.round_cnt=0.0f;
 	mineral_F_motor.target_current=0;		      mineral_B_motor.target_current=0;
 	mineral_F_motor.actual_current=0;		      mineral_B_motor.actual_current=0;

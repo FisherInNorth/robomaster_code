@@ -19,5 +19,7 @@ extern MOTOR_MOVE_t mineral_widthwise_move;
 extern MOTOR_MOVE_t push1,push2;
 extern MOTOR_MOVE_t steering_move;
 
+void Key_Task(void);
+
 #endif
 

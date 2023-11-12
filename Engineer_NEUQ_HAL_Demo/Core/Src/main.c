@@ -23,7 +23,6 @@
 #include "tim.h"
 #include "usart.h"
 #include "gpio.h"
-#include "remote_control.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -113,8 +112,6 @@ int main(void)
 	remote_control_init();
 	UART_IdleIT_init();
 	Chassis_Init();
-	HAL_TIM_PWM_Start(&htim2,TIM_CHANNEL_1);
-	__HAL_TIM_CLEAR_IT(&htim2,TIM_CHANNEL_1);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -192,6 +189,7 @@ void BSP_Init(void)
 	Mineral_Init();
 	Chassis_Init();
 	Bsp_CanInit();
+	TIM2_PWM_Init();
 }
 /* USER CODE END 4 */
 

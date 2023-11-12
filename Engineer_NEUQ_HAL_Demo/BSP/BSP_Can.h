@@ -8,9 +8,9 @@
 #define CANRX_Mineral_Motor_B 		0x202
 #define CANRX_Mineral_Motor_R 		0x203
 #define CANRX_Mineral_Motor_L 		0x204
-#define CANRX_Flip_Motor_R 				0x206
-#define CANRX_Flip_Motor_L 				0x207
-#define CANRX_Handle_Motor				0x205
+#define CANRX_Flip_Motor_R 				0x205
+#define CANRX_Flip_Motor_L 				0x206
+#define CANRX_Handle_Motor				0x207
 
 
 uint8_t Bsp_CanInit(void) ;   

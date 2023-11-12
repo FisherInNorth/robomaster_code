@@ -9,27 +9,6 @@ extern DMA_HandleTypeDef hdma_usart6_rx;
 
 uint8_t RC_CH_Buffer[9];
 MOTOR_MOVE_t rescue_move, rescue_card, push1, push2;
-/**
-   * @function函数：RC_CH_Send
-   * @brief描述：发送CH通道值
-   * @param输入：x,y,r,i
-   * @retval返回：void
-   */
-void RC_CH_Send(uint16_t x,uint16_t y,uint16_t r,uint16_t i)
-{
-	RC_CH_Buffer[0] = '*';		//标志位
-	RC_CH_Buffer[1] = (x>>8);
-	RC_CH_Buffer[2] = (x&0xff);
-	RC_CH_Buffer[3] = (y>>8);
-	RC_CH_Buffer[4] = (y&0xff);
-	RC_CH_Buffer[5] = (r>>8);
-	RC_CH_Buffer[6] = (r&0xff);
-	RC_CH_Buffer[7] = (i>>8);
-	RC_CH_Buffer[8] = (i&0xff);
-//	RC_CH_Buffer[8] = ';';
-	
-	HAL_UART_Transmit(&TX_UART,RC_CH_Buffer,9,0xff);
-}
 
 /**
    * @function函数：RC_Chassis_Speed_Send
@@ -37,19 +16,27 @@ void RC_CH_Send(uint16_t x,uint16_t y,uint16_t r,uint16_t i)
    * @param输入：x/y/r speed
    * @retval返回：void
    */
-uint8_t RC_Chassis_Speed_Buffer[16];
+uint8_t RC_Chassis_Speed_Buffer[12] = {0, 0, 0, 0, 0, 0, 0, 0, 'p', 'p','p', 'p'};
+uint8_t Rescue_Push_Buffer[4] = {0, 0, 0, 0};
 void RC_Chassis_Speed_Send(int16_t speed1,int16_t speed2,int16_t speed3,int16_t speed4)
 {
-	RC_Chassis_Speed_Buffer[0] =(speed1>>8);
-	RC_Chassis_Speed_Buffer[1] =(speed1&0xff);
-	RC_Chassis_Speed_Buffer[2] =(speed2>>8);
-	RC_Chassis_Speed_Buffer[3] =(speed2&0xff);
-	RC_Chassis_Speed_Buffer[4] =(speed3>>8);
-	RC_Chassis_Speed_Buffer[5] =(speed3&0xff); 
-	RC_Chassis_Speed_Buffer[6] =(speed4>>8);
-	RC_Chassis_Speed_Buffer[7] =(speed4&0xff);
-	
-	HAL_UART_Transmit_DMA(&TX_UART,RC_Chassis_Speed_Buffer,16);
+	RC_Chassis_Speed_Buffer[0] = (speed1>>8);
+	RC_Chassis_Speed_Buffer[1] = (speed1&0xff);
+	RC_Chassis_Speed_Buffer[2] = (speed2>>8);
+	RC_Chassis_Speed_Buffer[3] = (speed2&0xff);
+	RC_Chassis_Speed_Buffer[4] = (speed3>>8);
+	RC_Chassis_Speed_Buffer[5] = (speed3&0xff); 
+	RC_Chassis_Speed_Buffer[6] = (speed4>>8);
+	RC_Chassis_Speed_Buffer[7] = (speed4&0xff);
+	if(Send_error()==1)
+	{
+		UART_IdleIT_init();
+		RC_Chassis_Speed_Buffer[8] = ('p');
+		RC_Chassis_Speed_Buffer[9] = ('p');
+		RC_Chassis_Speed_Buffer[10] = ('p');
+		RC_Chassis_Speed_Buffer[11] = ('p');
+	}
+	HAL_UART_Transmit_DMA(&TX_UART,RC_Chassis_Speed_Buffer,12);
 }
 
 void RC_Rescue_Move_Send(MOTOR_MOVE_t rescue_move)
@@ -59,20 +46,17 @@ void RC_Rescue_Move_Send(MOTOR_MOVE_t rescue_move)
 	{
 		case out:
 		{
-			RC_Chassis_Speed_Buffer[8] =((int)"CLA__OUT">>8);
-			RC_Chassis_Speed_Buffer[9] =((int)"CLA__OUT"&0xff);
+			RC_Chassis_Speed_Buffer[8] =('c');
 		}
 		break;
 		case in:
 		{
-			RC_Chassis_Speed_Buffer[8] =((int)"CLA___IN">>8);
-			RC_Chassis_Speed_Buffer[9] =((int)"CLA___IN"&0xff);
+			RC_Chassis_Speed_Buffer[8] =('C');
 		}	
 		break;
 		case stop:
 		{
-			RC_Chassis_Speed_Buffer[8] =((int)"CLA_STOP">>8);
-			RC_Chassis_Speed_Buffer[9] =((int)"CLA_STOP"&0xff);
+			RC_Chassis_Speed_Buffer[8] =('p');
 		}	
 		break;
 		
@@ -87,20 +71,17 @@ void RC_Rescue_card_Send(MOTOR_MOVE_t rescue_card)
 	{
 		case out:
 		{
-			RC_Chassis_Speed_Buffer[10] =((int)"CARD_OUT">>8);
-			RC_Chassis_Speed_Buffer[11] =((int)"CARD_OUT"&0xff);
+			RC_Chassis_Speed_Buffer[9] =('v');
 		}
 		break;
 		case in:
 		{
-			RC_Chassis_Speed_Buffer[10] =((int)"CARD__IN">>8);
-			RC_Chassis_Speed_Buffer[11] =((int)"CARD__IN"&0xff);
+			RC_Chassis_Speed_Buffer[9] =('V');
 		}	
 		break;
 		case stop:
 		{
-			RC_Chassis_Speed_Buffer[10] =((int)"CARDSTOP">>8);
-			RC_Chassis_Speed_Buffer[11] =((int)"CARDSTOP"&0xff);
+			RC_Chassis_Speed_Buffer[9] =('p');
 		}	
 		break;
 		
@@ -108,45 +89,79 @@ void RC_Rescue_card_Send(MOTOR_MOVE_t rescue_card)
 	}
 }
 
-void RC_Push_Send(MOTOR_MOVE_t push1, MOTOR_MOVE_t push2)
+void RC_Push_F_Send(MOTOR_MOVE_t pushF)
 {
-	switch(push1)
+	switch(pushF)
 	{
 		case out:
 		{
-			RC_Chassis_Speed_Buffer[12] =((int)"PUSH__QS">>8);
-			RC_Chassis_Speed_Buffer[13] =((int)"PUSH__QS"&0xff);
+			RC_Chassis_Speed_Buffer[10] =('f');
 		}
 		break;
 		case in:
 		{
-			RC_Chassis_Speed_Buffer[12] =((int)"PUSH__HS">>8);
-			RC_Chassis_Speed_Buffer[13] =((int)"PUSH__HS"&0xff);
+			RC_Chassis_Speed_Buffer[10] =('F');
 		}	
 		break;
-	
-		default: break;
-	}
-		switch(push2)
-	{
-		case out:
+		case stop:
 		{
-			RC_Chassis_Speed_Buffer[14] =((int)"PUSH__QJ">>8);
-			RC_Chassis_Speed_Buffer[15] =((int)"PUSH__QJ"&0xff);
-		}
-		break;
-		case in:
-		{
-			RC_Chassis_Speed_Buffer[14] =((int)"PUSH__HJ">>8);
-			RC_Chassis_Speed_Buffer[15] =((int)"PUSH__HJ"&0xff);
+			RC_Chassis_Speed_Buffer[10] =('p');
 		}	
 		break;
 	
 		default: break;
 	}
 }
+void RC_Push_B_Send(MOTOR_MOVE_t pushB)
+	{
+		switch(pushB)
+	{
+		case out:
+		{
+			RC_Chassis_Speed_Buffer[11] =('g');
+		}
+		break;
+		case in:
+		{
+			RC_Chassis_Speed_Buffer[11] =('G');
+		}	
+		break;
+		case stop:
+		{
+			RC_Chassis_Speed_Buffer[11] =('p');
+		}	
+		break;
+		default: break;
+	}
+}
 
-
+uint8_t Send_error(void)
+{
+	  if (RC_Chassis_Speed_Buffer[8] != 'c' || RC_Chassis_Speed_Buffer[8] != 'C' || RC_Chassis_Speed_Buffer[8] != 'p')
+    {
+        goto error;
+    }
+		
+		if (RC_Chassis_Speed_Buffer[9] != 'v' || RC_Chassis_Speed_Buffer[9] != 'V' || RC_Chassis_Speed_Buffer[9] != 'p')
+    {
+        goto error;
+    }
+		
+		if (RC_Chassis_Speed_Buffer[10] != 'f' || RC_Chassis_Speed_Buffer[10] != 'F' || RC_Chassis_Speed_Buffer[10] != 'p')
+    {
+        goto error;
+    }
+		
+	  if (RC_Chassis_Speed_Buffer[11] != 'g' || RC_Chassis_Speed_Buffer[11] != 'G' || RC_Chassis_Speed_Buffer[11] != 'p')
+    {
+        goto error;
+    }
+		
+		return 0;
+		
+		error:
+		return 1;
+}
 
 
 /**
@@ -173,13 +188,13 @@ void UART_IdleIT_init()
 //	__HAL_UART_ENABLE_IT(&RX_UART,UART_IT_IDLE);
 //	__HAL_UART_CLEAR_IDLEFLAG(&RX_UART);	
 //	HAL_UART_Receive_DMA(&RX_UART,RX_Bufer,50);
-	HAL_UART_Receive_IT(&RX_UART,RX_Bufer,4);
+	HAL_UART_Receive_IT(&RX_UART,RX_Bufer,12);
 }
 uint8_t RX_temp[1]={1};
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
 	HAL_UART_Transmit_IT(&TX_UART,(uint8_t*)"1234",4);
-	HAL_UART_Receive_IT(&RX_UART,RX_Bufer,4);
+	HAL_UART_Receive_IT(&RX_UART,RX_Bufer,12);
 }
 //void USART6_IRQHandler(void)
 //{

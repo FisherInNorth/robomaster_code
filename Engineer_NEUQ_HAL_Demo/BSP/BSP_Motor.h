@@ -4,15 +4,15 @@
 #include "stdint.h"
 #include "stm32f4xx.h"
 
-//can stdid
-#define CAN_LoopBack_ID				 0x200		//用于环回模式自检调试
-#define	CAN_3508Motor1_ID  	   0x201	//0x20+电调ID 
-#define	CAN_3508Motor2_ID      0x202	//1-4分别为底盘 
-#define	CAN_3508Motor3_ID      0x203
-#define	CAN_3508Motor4_ID      0x204
-#define CAN_3508Motor5_ID      0x205	//5、6为救援爪 
-#define CAN_3508Motor6_ID      0x206
-#define CAN_3508Motor7_ID      0x207	//这个是救援卡 
+////can stdid
+//#define CAN_LoopBack_ID				 0x200		//用于环回模式自检调试
+//#define	CAN_3508Motor1_ID  	   0x201	//0x20+电调ID 
+//#define	CAN_3508Motor2_ID      0x202	//1-4分别为底盘 
+//#define	CAN_3508Motor3_ID      0x203
+//#define	CAN_3508Motor4_ID      0x204
+//#define CAN_3508Motor5_ID      0x205	//5、6为救援爪 
+//#define CAN_3508Motor6_ID      0x206
+//#define CAN_3508Motor7_ID      0x207	//这个是救援卡 
 
 //电机转速pid参数结构体
 typedef struct{

@@ -4,11 +4,11 @@
 #include "BSP_Can.h"
 MOTOR_MOVE_t handle_move;
 MOTOR_t handle_motor;
-
+extern uint8_t current_msg[8];
 int Handle_Target_Speed=100;
-float Handle_Kp=4.0;
-float Handle_Ki=0.8;
-float Handle_Kd=1.6;
+float Handle_Kp=22;//80max
+float Handle_Ki=1.4;
+float Handle_Kd=4;
 
 /**
 	* @function函数:Handle_Init
@@ -18,6 +18,7 @@ float Handle_Kd=1.6;
   */
 void Handle_Init(void)
 {
+	handle_move=stop;
 	handle_motor.target_current=0;
 	handle_motor.actual_current=0;
 	handle_motor.round_cnt=0.0f;
@@ -63,7 +64,6 @@ void Vpid_Handle_Realize(float kp,float ki,float kd)
 	*/
 void Set_Handle_Current()
 {
-	uint8_t current_msg[8];
 
 	//电机目标电流为速度pid输出
 	handle_motor.target_current = handle_motor.vpid.PID_OUT;
