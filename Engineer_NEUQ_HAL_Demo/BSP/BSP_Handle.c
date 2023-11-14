@@ -6,7 +6,7 @@ MOTOR_MOVE_t handle_move;
 MOTOR_t handle_motor;
 extern uint8_t current_msg[8];
 int Handle_Target_Speed=100;
-float Handle_Kp=22;//80max
+float Handle_Kp=15;//80max
 float Handle_Ki=1.4;
 float Handle_Kd=4;
 

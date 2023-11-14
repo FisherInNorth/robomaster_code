@@ -34,6 +34,8 @@
 #include "BSP_Can.h"
 #include "string.h"
 #include "BSP_Steering.h"
+#include "remote_control.h"
+#include "BSP_Electric_push.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -106,12 +108,15 @@ int main(void)
   MX_USART2_UART_Init();
   MX_USART6_UART_Init();
   MX_TIM2_Init();
+  MX_TIM4_Init();
+  MX_TIM5_Init();
   /* USER CODE BEGIN 2 */
 	HAL_TIM_Base_Start_IT(&htim6);//¿ªÆô¶¨Ê±Æ÷6
 	BSP_Init();
 	remote_control_init();
 	UART_IdleIT_init();
 	Chassis_Init();
+	TIM_Push_PWM_Init();
   /* USER CODE END 2 */
 
   /* Infinite loop */

@@ -1,5 +1,5 @@
 #include "Key_Task.h"
-
+#include "BSP_Electric_push.h"
 uint8_t Keyboard_Mode=0;//0是遥控器模式，1是键鼠模式
 extern RC_ctrl_t rc_ctrl;
 extern int Key_Vw,Key_Vs,Key_Va,Key_Vd;
@@ -11,6 +11,13 @@ void Key_Task(void)
 		if(rc_ctrl.key.v &KEY_SHIFT)
 		{
 			Keyboard_Mode=1;		//打开键鼠模式
+		}
+	}
+	if(rc_ctrl.key.v & KEY_CTRL)
+	{
+		if(rc_ctrl.key.v &KEY_B)
+		{
+			Keyboard_Mode=0;		//关闭键鼠模式
 		}
 	}
 	if(Keyboard_Mode==1)
@@ -159,40 +166,43 @@ void Key_Task(void)
 		}
 	/*******电推杆升降*******/
 	 /*****前电推杆升降*****/
+		MOTOR_MOVE_t p3, p4;
+		p3 = stop;
+		p4 = stop;
 		if(rc_ctrl.key.v & KEY_CTRL)
 		{
 			if(rc_ctrl.key.v & KEY_F)
 			{
-				RC_Push_F_Send(in);
+				p3 = in;
 			}
-			else RC_Push_F_Send(stop);
+			else p3 = stop;
 		}
 		else
 		{
 			if(rc_ctrl.key.v & KEY_F)
 			{
-				RC_Push_F_Send(out);
+				p3 = out;
 			}
-			else RC_Push_F_Send(stop);
+			else p3 = stop;
 		}
 	 /*****后电推杆升降*****/
 		if(rc_ctrl.key.v & KEY_CTRL)
 		{
 			if(rc_ctrl.key.v & KEY_G)
 			{
-				RC_Push_B_Send(in);
+				p4 = in;
 			}
-			else RC_Push_B_Send(stop);
+			else p4 = stop;
 		}
 		else
 		{
 			if(rc_ctrl.key.v & KEY_G)
 			{
-				RC_Push_B_Send(out);
+				p4 = out; 
 			}
-			else RC_Push_B_Send(stop);
+			else p4 = stop;
 		}
-	
+	Push_Task(p3, p4);
 	/*******一键取矿*******/ 
 	if(rc_ctrl.key.v & KEY_Q)
 	{       

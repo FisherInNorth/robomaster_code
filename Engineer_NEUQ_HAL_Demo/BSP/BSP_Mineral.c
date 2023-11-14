@@ -145,6 +145,7 @@ void Set_Mineral_Current()
 	* @retval void
 	* @attention
 	*/
+
 void Mineral_Task_Longitudinal(MOTOR_MOVE_t mineral_longitudinal_move)
 {
 	switch(mineral_longitudinal_move)
@@ -163,14 +164,14 @@ void Mineral_Task_Longitudinal(MOTOR_MOVE_t mineral_longitudinal_move)
 		break;
 		case down:
 		{
-			Set_Mineral_F_Speed(Mineral_Widthwise_Speed);
-			Set_Mineral_B_Speed(-Mineral_Widthwise_Speed);
+			Set_Mineral_F_Speed(-Mineral_Widthwise_Speed);
+			Set_Mineral_B_Speed(Mineral_Widthwise_Speed);
 		}
 	   break;
 		case up:
 		{
-			Set_Mineral_F_Speed(-Mineral_Widthwise_Speed);
-			Set_Mineral_B_Speed(Mineral_Widthwise_Speed);
+			Set_Mineral_F_Speed(Mineral_Widthwise_Speed);
+			Set_Mineral_B_Speed(-Mineral_Widthwise_Speed);
 		}
 		break;
 		case stop:
@@ -183,7 +184,6 @@ void Mineral_Task_Longitudinal(MOTOR_MOVE_t mineral_longitudinal_move)
 			break;
 	}
 
-	
 	Vpid_Mineral_Longitudinal_Realize(Mineral_Kp, Mineral_Ki, Mineral_Kd);
 
 	Set_Mineral_Current();
@@ -198,28 +198,24 @@ void Mineral_Task_Widthwise(MOTOR_MOVE_t mineral_widthwise_move)
 		{
 			Set_Mineral_R_Speed(Mineral_Widthwise_Speed);
 			Set_Mineral_L_Speed(Mineral_Widthwise_Speed);
-			Set_Mineral_F_Speed(-Mineral_Widthwise_Speed);
-			Set_Mineral_B_Speed(Mineral_Widthwise_Speed);
 		}
 		break;
 		case left:
 		{
 			Set_Mineral_R_Speed(-Mineral_Widthwise_Speed);
-			Set_Mineral_L_Speed(-Mineral_Widthwise_Speed);
-			Set_Mineral_F_Speed(-Mineral_Widthwise_Speed);
-			Set_Mineral_B_Speed(Mineral_Widthwise_Speed);			
+			Set_Mineral_L_Speed(-Mineral_Widthwise_Speed);		
 		}
 		break;
 		case down:
 		{
-			Set_Mineral_R_Speed(-Mineral_Widthwise_Speed);
-			Set_Mineral_L_Speed(Mineral_Widthwise_Speed);
+			Set_Mineral_R_Speed(Mineral_Widthwise_Speed);
+			Set_Mineral_L_Speed(-Mineral_Widthwise_Speed);
 		}
 		break;
 		case up:
 		{
-			Set_Mineral_R_Speed(Mineral_Widthwise_Speed);
-			Set_Mineral_L_Speed(-Mineral_Widthwise_Speed);
+			Set_Mineral_R_Speed(-Mineral_Widthwise_Speed);
+			Set_Mineral_L_Speed(Mineral_Widthwise_Speed);
 		}
 		break;
 		case stop:
@@ -235,6 +231,4 @@ void Mineral_Task_Widthwise(MOTOR_MOVE_t mineral_widthwise_move)
 	Vpid_Mineral_Widthwise_Realize(Mineral_Kp, Mineral_Ki, Mineral_Kd);
 	Set_Mineral_Current();
 }
-
-
 

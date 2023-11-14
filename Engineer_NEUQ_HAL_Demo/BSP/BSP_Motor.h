@@ -77,7 +77,14 @@ typedef enum{
 	down,
 	up,
 	stop,
+	qs,
+	qj,
+	hs,
+	hj,
+	qt,//前停
+	ht,
 }MOTOR_MOVE_t;
+
 
 #define PI 			3.141593f
 #define RPM2RAD 0.104720f										//转速转角速度		1 rpm = 2pi/60 rad/s 

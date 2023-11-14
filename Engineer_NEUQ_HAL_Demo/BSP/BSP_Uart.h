@@ -9,8 +9,7 @@ void RC_Chassis_Speed_Send(int16_t speed1,int16_t speed2,int16_t speed3,int16_t 
 void UART_IdleIT_init(void);
 void RC_Rescue_Move_Send(MOTOR_MOVE_t rescue_move);
 void RC_Rescue_card_Send(MOTOR_MOVE_t rescue_card);
-void RC_Push_F_Send(MOTOR_MOVE_t pushF);
-void RC_Push_B_Send(MOTOR_MOVE_t pushB);
+void Check_Send(void);
 uint8_t Send_error(void);
 #endif
 

@@ -3,7 +3,7 @@ engineer\key_task.o: ..\Task\Key_Task.h
 engineer\key_task.o: ../BSP/BSP_Handle.h
 engineer\key_task.o: ../APP/pid/pid.h
 engineer\key_task.o: ../BSP/BSP_Motor.h
-engineer\key_task.o: D:\Keil5\ARM\ARMCC\Bin\..\include\stdint.h
+engineer\key_task.o: E:\keil\core\ARM\ARMCC\Bin\..\include\stdint.h
 engineer\key_task.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h
 engineer\key_task.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f427xx.h
 engineer\key_task.o: ../Drivers/CMSIS/Include/core_cm4.h
@@ -18,7 +18,7 @@ engineer\key_task.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h
 engineer\key_task.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h
 engineer\key_task.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h
 engineer\key_task.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h
-engineer\key_task.o: D:\Keil5\ARM\ARMCC\Bin\..\include\stddef.h
+engineer\key_task.o: E:\keil\core\ARM\ARMCC\Bin\..\include\stddef.h
 engineer\key_task.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc_ex.h
 engineer\key_task.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio.h
 engineer\key_task.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio_ex.h
@@ -47,3 +47,4 @@ engineer\key_task.o: ../BSP/BSP_Uart.h
 engineer\key_task.o: ../BSP/BSP_Chassis.h
 engineer\key_task.o: ../BSP/BSP_Steering.h
 engineer\key_task.o: ../Core/Inc/tim.h
+engineer\key_task.o: ../BSP/BSP_Electric_push.h

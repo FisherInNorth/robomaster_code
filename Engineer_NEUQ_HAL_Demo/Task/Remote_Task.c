@@ -5,6 +5,9 @@
 #include "BSP_Flip.h"
 #include "BSP_Uart.h"
 #include "BSP_Chassis.h"
+#include "BSP_Electric_push.h"
+
+extern uint8_t Keyboard_Mode;
 
 //ÄÚ²¿º¯ÊýÉùÃ÷
 /**
@@ -15,22 +18,26 @@
   */
 void Remote_Control()    //Õâ¸öº¯ÊýÀï¾Í²»¶ÏµØÅÐ¶ÏÃ¿¸öÍ¨µÀµÄÖµ£¬Èç¹ûÂú×ãÌõ¼þ¾Í×öÏàÓ¦¶¯×÷
 {
-	//µ×ÅÌµÄ¿ØÖÆÔÚTIM6_Cnt_TaskÖÐ
-	switch(LEFT_LEVER)
+	if(Keyboard_Mode==0)
 	{
-		case 1:
-			left_act_up();//Ä£Ê½Ò»
-			break;
-		case 2:
-			left_act_down();//Ä£Ê½¶þ
-			break;
-		case 3:
-			left_act_mid();//Ä£Ê½Èý
-			break;
-		default:
-			break;
+		//µ×ÅÌµÄ¿ØÖÆÔÚTIM6_Cnt_TaskÖÐ
+		switch(LEFT_LEVER)
+		{
+			case 1:
+				left_act_up();//Ä£Ê½Ò»
+				break;
+			case 2:
+				left_act_down();//Ä£Ê½¶þ
+				break;
+			case 3:
+				left_act_mid();//Ä£Ê½Èý
+				break;
+			default:
+				break;
+		}
 	}
 }
+
 
 /**
   * @brief  ×óÍÆ¸Ë²¦ÉÏÊ±ºòµÄ²Ù×÷£¨Ä¿Ç°µÄ²Ù×÷ÊÇ»úÐµ±Û·­×ª¡¢¼Ð×¦Ðý×ª¡¢¼Ð×¦¼ÐÈ¡£©
@@ -41,30 +48,44 @@ void Remote_Control()    //Õâ¸öº¯ÊýÀï¾Í²»¶ÏµØÅÐ¶ÏÃ¿¸öÍ¨µÀµÄÖµ£¬Èç¹ûÂú×ãÌõ¼þ¾Í×öÏ
 
 void left_act_up()
 {
-	/****ÓÒ²¦¸Ë¿ØÖÆ¼Ð×¦·­×ª****/
+
+	/****ÓÒ²¦¸Ë¿ØÖÆ¼Ð×¦¼ÐÈ¡****/
 	if(RIGHT_LEVER == Lever_up)
 	{
+    HAL_GPIO_WritePin(GPIOH, GPIO_PIN_4, GPIO_PIN_SET);		
+		Mineral_Task_Longitudinal(stop);
+		Mineral_Task_Widthwise(stop);
 	}
-	if(RIGHT_LEVER == Lever_down)
+	else if(RIGHT_LEVER == Lever_down)
 	{
+		HAL_GPIO_WritePin(GPIOH, GPIO_PIN_4, GPIO_PIN_RESET);		
+		Mineral_Task_Longitudinal(stop);
+		Mineral_Task_Widthwise(stop);
 	}
-	if(RIGHT_LEVER == Lever_mid)
+	else if(RIGHT_LEVER == Lever_mid)
 	{
+		HAL_GPIO_WritePin(GPIOH, GPIO_PIN_4, GPIO_PIN_RESET);		
+		Mineral_Task_Longitudinal(stop);
+		Mineral_Task_Widthwise(stop);
 	}
-	
 	/****×óÒ¡¸Ë×óÓÒ¿ØÖÆ»úÐµ±ÛÉì³ö****/
 	if(r_CH_width > 350)
 	{
-		Handle_Task(out);
-
+		Handle_Task(in);
+		Mineral_Task_Longitudinal(stop);
+		Mineral_Task_Widthwise(stop);
 	}
 	else if(r_CH_width < -350)
 	{
-		Handle_Task(in);
+		Handle_Task(out);
+		Mineral_Task_Longitudinal(stop);
+		Mineral_Task_Widthwise(stop);
 	}	
-	else
+	else if(r_CH_width <= 350 && r_CH_width >= -350)
 	{
 		Handle_Task(stop);
+		Mineral_Task_Longitudinal(stop);
+		Mineral_Task_Widthwise(stop);	
 	}
 
 	
@@ -78,15 +99,16 @@ void left_act_up()
 	else if(i_CH_width < -350)
 	{
 		Flip_Task(out);
-
+		Mineral_Task_Longitudinal(stop);
+		Mineral_Task_Widthwise(stop);
 	}
 	else 
 	{
-		Flip_Task(stop);		
+		Flip_Task(stop);	
+		Mineral_Task_Longitudinal(stop);
+		Mineral_Task_Widthwise(stop);		
 	}
 }
-
-
 
 
 
@@ -117,23 +139,21 @@ void left_act_mid()
 	}
 	
 	/****×óÒ¡¸Ë¿ØÖÆ¿óÊ¯·­×ª****/
-	if(i_CH_width > 100)
+	if(i_CH_width > 640)
 	{
 		Mineral_Task_Longitudinal(forward);
 	}
-	else if(i_CH_width < -100)
+	else if(i_CH_width < -640)
 	{
 		Mineral_Task_Longitudinal(back);
 	}
-	else if(r_CH_width > 100)
+	else if(r_CH_width > 640)
 	{
 		Mineral_Task_Widthwise(right);
-		Mineral_Task_Longitudinal(down);
 	}
-	else if(r_CH_width < -100)
+	else if(r_CH_width < -640)
 	{
 		Mineral_Task_Widthwise(left);
-		Mineral_Task_Longitudinal(down);
 	}
 	else if(RIGHT_LEVER == Lever_up)
 	{
@@ -151,6 +171,7 @@ void left_act_mid()
 		Mineral_Task_Widthwise(stop);
 	}
 }
+
 /**
   * @brief  ×óÍÆ¸Ë²¦ÏÂÊ±ºòµÄ²Ù×÷£¨Ä¿Ç°µÄ²Ù×÷ÊÇºóµçÍÆ¸Ë¡¢Ç°µçÍÆ¸Ë¡¢¾ÈÔ®×¦£©
 	* @param void
@@ -162,6 +183,8 @@ void left_act_mid()
 // ÃèÊö: LEFT_LEVER==2
 void left_act_down()
 {
+	Mineral_Task_Longitudinal(stop);
+	Mineral_Task_Widthwise(stop);
 	MOTOR_MOVE_t p1, p2;
 	p1 = stop;
 	p2 = stop;
@@ -182,33 +205,32 @@ void left_act_down()
 	/****×óÒ¡¸Ë×óÓÒ¿ØÖÆÇ°µçÍÆ¸Ë****/
 	if(r_CH_width > 200)
 	{
-		p1 = out;
+		p1 = qs;
 	}
 	else if(r_CH_width < -200)
 	{
-		p1 = in;
+		p1 = qj;
 	}
 	else
 	{
-		p1 = stop;
+		p1 = qt;
 	}
 	
 	
 	/****×óÒ¡¸ËÉÏÏÂ¿ØÖÆºóµçÍÆ¸Ë*****/
 	if(i_CH_width > 200)
 	{
-		p2 = out;		
+		p2 = hs;		
 	}
 	else if(i_CH_width < -200)
 	{
-		p2 = in;
+		p2 = hj;
 	}
 	else
 	{
-		p2 = stop;		
+		p2 = ht;		
 	}
-	RC_Push_F_Send(p1);
-	RC_Push_B_Send(p2);
+  Push_Task(p1, p2);
 	Handle_Task(stop);
 	Flip_Task(stop);	
 }

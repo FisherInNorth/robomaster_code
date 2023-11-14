@@ -21,6 +21,7 @@
 "engineer\bsp_chassis.o"
 "engineer\bsp_can.o"
 "engineer\bsp_steering.o"
+"engineer\bsp_electric_push.o"
 "engineer\stm32f4xx_hal_can.o"
 "engineer\stm32f4xx_hal_rcc.o"
 "engineer\stm32f4xx_hal_rcc_ex.o"

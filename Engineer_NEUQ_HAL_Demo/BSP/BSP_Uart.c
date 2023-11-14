@@ -2,6 +2,7 @@
 #include "Remote_Task.h"
 #include "stdio.h"
 
+int send_check = 0;
 extern UART_HandleTypeDef huart6;
 extern DMA_HandleTypeDef hdma_usart6_rx;
 #define TX_UART huart6
@@ -28,12 +29,21 @@ void RC_Chassis_Speed_Send(int16_t speed1,int16_t speed2,int16_t speed3,int16_t 
 	RC_Chassis_Speed_Buffer[5] = (speed3&0xff); 
 	RC_Chassis_Speed_Buffer[6] = (speed4>>8);
 	RC_Chassis_Speed_Buffer[7] = (speed4&0xff);
+  if(send_check == 0)
+  {
+    RC_Chassis_Speed_Buffer[10] =('k');//校验位
+    send_check = 1;
+  }
+  else if(send_check == 1)
+  {
+    RC_Chassis_Speed_Buffer[10] =('j');//校验位
+    send_check = 0;
+  }
 	if(Send_error()==1)
 	{
 		UART_IdleIT_init();
 		RC_Chassis_Speed_Buffer[8] = ('p');
 		RC_Chassis_Speed_Buffer[9] = ('p');
-		RC_Chassis_Speed_Buffer[10] = ('p');
 		RC_Chassis_Speed_Buffer[11] = ('p');
 	}
 	HAL_UART_Transmit_DMA(&TX_UART,RC_Chassis_Speed_Buffer,12);
@@ -89,52 +99,6 @@ void RC_Rescue_card_Send(MOTOR_MOVE_t rescue_card)
 	}
 }
 
-void RC_Push_F_Send(MOTOR_MOVE_t pushF)
-{
-	switch(pushF)
-	{
-		case out:
-		{
-			RC_Chassis_Speed_Buffer[10] =('f');
-		}
-		break;
-		case in:
-		{
-			RC_Chassis_Speed_Buffer[10] =('F');
-		}	
-		break;
-		case stop:
-		{
-			RC_Chassis_Speed_Buffer[10] =('p');
-		}	
-		break;
-	
-		default: break;
-	}
-}
-void RC_Push_B_Send(MOTOR_MOVE_t pushB)
-	{
-		switch(pushB)
-	{
-		case out:
-		{
-			RC_Chassis_Speed_Buffer[11] =('g');
-		}
-		break;
-		case in:
-		{
-			RC_Chassis_Speed_Buffer[11] =('G');
-		}	
-		break;
-		case stop:
-		{
-			RC_Chassis_Speed_Buffer[11] =('p');
-		}	
-		break;
-		default: break;
-	}
-}
-
 uint8_t Send_error(void)
 {
 	  if (RC_Chassis_Speed_Buffer[8] != 'c' || RC_Chassis_Speed_Buffer[8] != 'C' || RC_Chassis_Speed_Buffer[8] != 'p')
@@ -143,16 +107,6 @@ uint8_t Send_error(void)
     }
 		
 		if (RC_Chassis_Speed_Buffer[9] != 'v' || RC_Chassis_Speed_Buffer[9] != 'V' || RC_Chassis_Speed_Buffer[9] != 'p')
-    {
-        goto error;
-    }
-		
-		if (RC_Chassis_Speed_Buffer[10] != 'f' || RC_Chassis_Speed_Buffer[10] != 'F' || RC_Chassis_Speed_Buffer[10] != 'p')
-    {
-        goto error;
-    }
-		
-	  if (RC_Chassis_Speed_Buffer[11] != 'g' || RC_Chassis_Speed_Buffer[11] != 'G' || RC_Chassis_Speed_Buffer[11] != 'p')
     {
         goto error;
     }
