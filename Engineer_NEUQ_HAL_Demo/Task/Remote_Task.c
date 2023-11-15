@@ -48,7 +48,8 @@ void Remote_Control()    //Õâ¸öº¯ÊýÀï¾Í²»¶ÏµØÅÐ¶ÏÃ¿¸öÍ¨µÀµÄÖµ£¬Èç¹ûÂú×ãÌõ¼þ¾Í×öÏ
 
 void left_act_up()
 {
-
+	RC_Rescue_card_Send(stop);
+	RC_Rescue_Move_Send(stop);
 	/****ÓÒ²¦¸Ë¿ØÖÆ¼Ð×¦¼ÐÈ¡****/
 	if(RIGHT_LEVER == Lever_up)
 	{
@@ -64,7 +65,6 @@ void left_act_up()
 	}
 	else if(RIGHT_LEVER == Lever_mid)
 	{
-		HAL_GPIO_WritePin(GPIOH, GPIO_PIN_4, GPIO_PIN_RESET);		
 		Mineral_Task_Longitudinal(stop);
 		Mineral_Task_Widthwise(stop);
 	}
@@ -123,21 +123,10 @@ void left_act_up()
 void left_act_mid()
 {
 	Handle_Task(stop);
-	Flip_Task(stop);	
-	/****ÓÒ²¦¸Ë¿ØÖÆ********/
-	if(RIGHT_LEVER == Lever_up)
-	{
-		
-	}
-	if(RIGHT_LEVER == Lever_down)
-	{
-
-	}
-	if(RIGHT_LEVER == Lever_mid)
-	{
-
-	}
+	Flip_Task(stop);
+	RC_Rescue_Move_Send(stop);
 	
+
 	/****×óÒ¡¸Ë¿ØÖÆ¿óÊ¯·­×ª****/
 	if(i_CH_width > 640)
 	{
@@ -147,7 +136,11 @@ void left_act_mid()
 	{
 		Mineral_Task_Longitudinal(back);
 	}
-	else if(r_CH_width > 640)
+		else 
+	{
+		Mineral_Task_Longitudinal(stop);
+	}
+	if(r_CH_width > 640)
 	{
 		Mineral_Task_Widthwise(right);
 	}
@@ -155,7 +148,12 @@ void left_act_mid()
 	{
 		Mineral_Task_Widthwise(left);
 	}
-	else if(RIGHT_LEVER == Lever_up)
+	else 
+	{
+		Mineral_Task_Widthwise(stop);
+	}
+		/****ÓÒ²¦¸Ë¿ØÖÆ********/
+	if(RIGHT_LEVER == Lever_up)
 	{
 		Mineral_Task_Longitudinal(up);
 		Mineral_Task_Widthwise(up);
@@ -165,11 +163,8 @@ void left_act_mid()
 		Mineral_Task_Longitudinal(down);
 		Mineral_Task_Widthwise(down);
 	}
-	else 
-	{
-		Mineral_Task_Longitudinal(stop);
-		Mineral_Task_Widthwise(stop);
-	}
+	Set_Mineral_Current();
+
 }
 
 /**
@@ -185,53 +180,57 @@ void left_act_down()
 {
 	Mineral_Task_Longitudinal(stop);
 	Mineral_Task_Widthwise(stop);
-	MOTOR_MOVE_t p1, p2;
-	p1 = stop;
-	p2 = stop;
+	RC_Rescue_card_Send(stop);
+	MOTOR_MOVE_t Push_F, Push_B;
+	MOTOR_MOVE_t rescue_move;
+	Push_F = stop;
+	Push_B = stop;
+	
 		
 		/****ÓÒ²¦¸Ë¿ØÖÆ********/
 	if(RIGHT_LEVER == Lever_up)
 	{
-		
+		rescue_move = out;
 	}
-	if(RIGHT_LEVER == Lever_down)
+	else if(RIGHT_LEVER == Lever_down)
 	{
-		
+		rescue_move = in;
 	}
-	if(RIGHT_LEVER == Lever_mid)
+	else if(RIGHT_LEVER == Lever_mid)
 	{
-		
+		rescue_move = stop;
 	}
 	/****×óÒ¡¸Ë×óÓÒ¿ØÖÆÇ°µçÍÆ¸Ë****/
 	if(r_CH_width > 200)
 	{
-		p1 = qs;
+		Push_F = qs;
 	}
 	else if(r_CH_width < -200)
 	{
-		p1 = qj;
+		Push_F = qj;
 	}
 	else
 	{
-		p1 = qt;
+		Push_F = qt;
 	}
 	
 	
 	/****×óÒ¡¸ËÉÏÏÂ¿ØÖÆºóµçÍÆ¸Ë*****/
 	if(i_CH_width > 200)
 	{
-		p2 = hs;		
+		Push_B = hs;		
 	}
 	else if(i_CH_width < -200)
 	{
-		p2 = hj;
+		Push_B = hj;
 	}
 	else
 	{
-		p2 = ht;		
+		Push_B = ht;		
 	}
-  Push_Task(p1, p2);
+  Push_Task(Push_F, Push_B);
 	Handle_Task(stop);
 	Flip_Task(stop);	
+	RC_Rescue_Move_Send(rescue_move);
 }
 

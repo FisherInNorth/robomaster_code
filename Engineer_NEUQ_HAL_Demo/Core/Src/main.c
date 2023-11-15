@@ -194,7 +194,6 @@ void BSP_Init(void)
 	Mineral_Init();
 	Chassis_Init();
 	Bsp_CanInit();
-	TIM2_PWM_Init();
 }
 /* USER CODE END 4 */
 

@@ -27,6 +27,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		if(Tim_cnt%37==0)  //每37ms进行串口发送
 		{
 			RC_Chassis_Speed_Send(Chassis_Send_Speed1,Chassis_Send_Speed2,Chassis_Send_Speed3,Chassis_Send_Speed4);
+//			Valve_Task();
 		}
 		if(Tim_cnt>=1000)			//清除计数标志    1s
 		Tim_cnt=1;

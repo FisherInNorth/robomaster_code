@@ -27,4 +27,5 @@ void Set_Mineral_R_Speed(int target_speed);
 void Set_Mineral_L_Speed(int target_speed);
 void Set_Mineral_F_Speed(int target_speed);
 void Set_Mineral_B_Speed(int target_speed);
+void Set_Mineral_Current(void);
 #endif

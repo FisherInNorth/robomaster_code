@@ -46,9 +46,9 @@ void TIM_Push_PWM_Init()
 	* @retval void
 	* @attention
 	*/
-void Push_Task(MOTOR_MOVE_t push_move1, MOTOR_MOVE_t push_move2)
+void Push_Task(MOTOR_MOVE_t push_moveF, MOTOR_MOVE_t push_moveB)
 {
-	switch(push_move1)
+	switch(push_moveF)
 	{
 		case qs:
 		{
@@ -77,7 +77,7 @@ void Push_Task(MOTOR_MOVE_t push_move1, MOTOR_MOVE_t push_move2)
 		default:
 			break;
 		}
-	switch(push_move2)
+	switch(push_moveB)
 	{
 		case hs:
 		{

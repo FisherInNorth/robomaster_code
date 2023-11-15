@@ -7,7 +7,7 @@ MOTOR_t flip_R_motor;
 MOTOR_t flip_L_motor;
 
 uint8_t current_msg[8];
-int target_speed=50;
+int target_speed=20;
 int Flip_Angle_R = 0;
 int Flip_Angle_L = 0;
 int Flip_Out_Speed=80;
@@ -16,9 +16,9 @@ float Flip_Kp_L=25;
 float Flip_Kp_R=30;
 float Flip_Ki_L=3.7;
 float Flip_Ki_R=4.2;
-float Flip_Kd=30;
-float Flip_A_Kp=0.6;
-float Flip_A_Ki=0.3;
+float Flip_Kd=22;
+float Flip_A_Kp=1;
+float Flip_A_Ki=0.5;
 float Flip_A_Kd=0.15;
 int FLIP_SPEED=0;//≤‚ ‘”√
 /**
@@ -42,7 +42,7 @@ void Flip_Init(void)
 	flip_R_motor.vpid.I_OUT=0;
 	flip_R_motor.vpid.D_OUT=0;
 	flip_R_motor.vpid.PID_OUT=0;
-	flip_R_motor.vPID_max=3000;
+	flip_R_motor.vPID_max=5000;
 	flip_L_motor.target_current=0;
 	flip_L_motor.actual_current=0;
 	flip_L_motor.round_cnt=0.0f;
@@ -55,9 +55,9 @@ void Flip_Init(void)
 	flip_L_motor.vpid.I_OUT=0;
 	flip_L_motor.vpid.D_OUT=0;
 	flip_L_motor.vpid.PID_OUT=0;
-	flip_L_motor.vPID_max=3000;
+	flip_L_motor.vPID_max=5000;
 	
-	flip_R_motor.aPID_OUT_MAX=21000;
+	flip_R_motor.aPID_OUT_MAX=20000;
 	flip_R_motor.apid.err=0;
 	flip_R_motor.apid.last_err=0;
 	flip_R_motor.apid.err_integration=0;
@@ -68,7 +68,7 @@ void Flip_Init(void)
 	flip_R_motor.apid.D_OUT=0;
 	flip_R_motor.apid.PID_OUT=0;
   flip_R_motor.apid.total_angle=0;	
-	flip_L_motor.aPID_OUT_MAX=21000;
+	flip_L_motor.aPID_OUT_MAX=20000;
 	flip_L_motor.apid.err=0;
 	flip_L_motor.apid.last_err=0;
 	flip_L_motor.apid.err_integration=0;

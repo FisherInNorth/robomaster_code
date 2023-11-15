@@ -9,6 +9,7 @@
 #include "BSP_Chassis.h"
 #include "remote_control.h"
 #include "BSP_Steering.h"
+#include "BSP_Clamp.h"
 
 extern MOTOR_MOVE_t flip_move;
 extern MOTOR_MOVE_t rescue_move;

@@ -11,6 +11,14 @@ extern DMA_HandleTypeDef hdma_usart6_rx;
 uint8_t RC_CH_Buffer[9];
 MOTOR_MOVE_t rescue_move, rescue_card, push1, push2;
 
+////红外控制电磁阀
+//void Valve_Task(void)
+//{
+//	if(HAL_GPIO_ReadPin(GPIOF, GPIO_PIN_0))
+//	{HAL_GPIO_WritePin(GPIOH, GPIO_PIN_4, GPIO_PIN_SET);}
+//	else HAL_GPIO_WritePin(GPIOH, GPIO_PIN_4, GPIO_PIN_RESET);
+//}
+
 /**
    * @function函数：RC_Chassis_Speed_Send
    * @brief描述：发送底盘速度值
@@ -29,16 +37,16 @@ void RC_Chassis_Speed_Send(int16_t speed1,int16_t speed2,int16_t speed3,int16_t 
 	RC_Chassis_Speed_Buffer[5] = (speed3&0xff); 
 	RC_Chassis_Speed_Buffer[6] = (speed4>>8);
 	RC_Chassis_Speed_Buffer[7] = (speed4&0xff);
-  if(send_check == 0)
-  {
-    RC_Chassis_Speed_Buffer[10] =('k');//校验位
-    send_check = 1;
-  }
-  else if(send_check == 1)
-  {
-    RC_Chassis_Speed_Buffer[10] =('j');//校验位
-    send_check = 0;
-  }
+	if(send_check == 0)
+	{
+		RC_Chassis_Speed_Buffer[10] =('k');//校验位
+		send_check = 1;
+	}
+	else if(send_check == 1)
+	{
+		RC_Chassis_Speed_Buffer[10] =('j');//校验位
+		send_check = 0;
+	}
 	if(Send_error()==1)
 	{
 		UART_IdleIT_init();

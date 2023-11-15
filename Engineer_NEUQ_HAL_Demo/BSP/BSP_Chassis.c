@@ -24,10 +24,11 @@ int X_Value;
 int Y_Value;
 int Key_Vw,Key_Vs,Key_Va,Key_Vd;
 int Liner_X,Liner_Y,Angular_Z;
+int Motion_Round;
 extern uint8_t Keyboard_Mode;
 void Chassis_Init(void)
 {
-	Liner_X=Liner_Y=Angular_Z=0;Key_Vw=Key_Vs=Key_Va=Key_Vd=0;X_Value=Y_Value=0;
+	Liner_X=Liner_Y=Angular_Z=0;Key_Vw=Key_Vs=Key_Va=Key_Vd=0;X_Value=Y_Value=0;Motion_Round=0;
 	Chassis_Send_Speed1=Chassis_Send_Speed2=Chassis_Send_Speed3=Chassis_Send_Speed4=0;
 	Chassis_motor1.round_cnt=Chassis_motor2.round_cnt=Chassis_motor3.round_cnt=Chassis_motor4.round_cnt=0.0f;
 	Chassis_motor1.vpid.target_speed=Chassis_motor2.vpid.target_speed=Chassis_motor3.vpid.target_speed=Chassis_motor4.vpid.target_speed=0;
@@ -144,19 +145,19 @@ void Chassis_Task(void)
 	{
 		Y_Value=Key_Vw+Key_Vs;//这里是反的，测出来就是这样的
 		X_Value=-Key_Va-Key_Vd;
+		Motion_Round=rc_ctrl.mouse.x*880/660;
 	}
 	else if(Keyboard_Mode==0)
 	{
 		X_Value=x_CH_width;
 		Y_Value=y_CH_width;
+		Motion_Round=-DJI_Motion_Round;
 	}
 	Liner_X = caculate_linear_speed(Y_Value+1024, y_initial_value, y_min_value, y_max_value); //前后左右
 	Liner_Y = caculate_linear_speed(X_Value+1024, x_initial_value, x_min_value, x_max_value); //这里是反的，上一届就这么写的
-	Angular_Z = caculate_rotational_speed((-DJI_Motion_Round+1024 )* 2, r_initial_value * 2, r_min_value * 2, r_max_value * 2); //旋转
+	Angular_Z = caculate_rotational_speed((Motion_Round+1024 )* 2, r_initial_value * 2, r_min_value * 2, r_max_value * 2); //旋转
 	
 	Chassic_Speed_Control(Liner_X,Liner_Y,Angular_Z);
-//	RC_Chassis_Speed_Send(Chassis_Send_Speed1,Chassis_Send_Speed2,Chassis_Send_Speed3,Chassis_Send_Speed4);//在中断中执行
-	
 }
 
 /*

@@ -262,9 +262,9 @@ void TIM4_IRQHandler(void)
   /* USER CODE END TIM4_IRQn 1 */
 }
 
-/**
-  * @brief This function handles USART1 global interrupt.
-  */
+///**
+//  * @brief This function handles USART1 global interrupt.
+//  */
 //void USART1_IRQHandler(void)
 //{
 //  /* USER CODE BEGIN USART1_IRQn 0 */

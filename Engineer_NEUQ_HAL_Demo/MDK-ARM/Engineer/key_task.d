@@ -47,4 +47,5 @@ engineer\key_task.o: ../BSP/BSP_Uart.h
 engineer\key_task.o: ../BSP/BSP_Chassis.h
 engineer\key_task.o: ../BSP/BSP_Steering.h
 engineer\key_task.o: ../Core/Inc/tim.h
+engineer\key_task.o: ../BSP/BSP_Clamp.h
 engineer\key_task.o: ../BSP/BSP_Electric_push.h

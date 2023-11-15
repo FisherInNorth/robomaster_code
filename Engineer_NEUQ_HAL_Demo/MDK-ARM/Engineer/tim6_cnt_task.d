@@ -48,3 +48,4 @@ engineer\tim6_cnt_task.o: ../BSP/BSP_Uart.h
 engineer\tim6_cnt_task.o: ../BSP/BSP_Chassis.h
 engineer\tim6_cnt_task.o: ../Task/Key_Task.h
 engineer\tim6_cnt_task.o: ../BSP/BSP_Steering.h
+engineer\tim6_cnt_task.o: ../BSP/BSP_Clamp.h

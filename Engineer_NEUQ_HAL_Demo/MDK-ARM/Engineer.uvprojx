@@ -614,14 +614,14 @@
               <FilePath>..\BSP\BSP_Can.c</FilePath>
             </File>
             <File>
-              <FileName>BSP_Steering.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\BSP\BSP_Steering.c</FilePath>
-            </File>
-            <File>
               <FileName>BSP_Electric_push.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\BSP\BSP_Electric_push.c</FilePath>
+            </File>
+            <File>
+              <FileName>BSP_Clamp.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\BSP\BSP_Clamp.c</FilePath>
             </File>
           </Files>
         </Group>

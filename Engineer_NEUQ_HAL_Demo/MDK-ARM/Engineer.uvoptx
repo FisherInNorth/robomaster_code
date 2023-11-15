@@ -218,7 +218,7 @@
         <Ww>
           <count>12</count>
           <WinNumber>1</WinNumber>
-          <ItemText>\\Engineer\../BSP/BSP_Mineral.c\mineral_R_motor</ItemText>
+          <ItemText>\\Engineer\../BSP/BSP_Mineral.c\mineral_R_motor,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>13</count>
@@ -680,6 +680,46 @@
           <WinNumber>1</WinNumber>
           <ItemText>RC_Chassis_Speed_Buffer</ItemText>
         </Ww>
+        <Ww>
+          <count>105</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>Chassis_Send_Speed1,0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>106</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>Chassis_Send_Speed2,0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>107</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>Chassis_Send_Speed3,0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>108</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>Chassis_Send_Speed4,0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>109</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>rc_ctrl.mouse.x,0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>110</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>Flip_A_Kp</ItemText>
+        </Ww>
+        <Ww>
+          <count>111</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>Flip_A_Ki</ItemText>
+        </Ww>
+        <Ww>
+          <count>112</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>Flip_A_Kd</ItemText>
+        </Ww>
       </WatchWindow1>
       <WatchWindow2>
         <Ww>
@@ -1128,8 +1168,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\BSP\BSP_Steering.c</PathWithFileName>
-      <FilenameWithoutPath>BSP_Steering.c</FilenameWithoutPath>
+      <PathWithFileName>..\BSP\BSP_Electric_push.c</PathWithFileName>
+      <FilenameWithoutPath>BSP_Electric_push.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -1140,8 +1180,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\BSP\BSP_Electric_push.c</PathWithFileName>
-      <FilenameWithoutPath>BSP_Electric_push.c</FilenameWithoutPath>
+      <PathWithFileName>..\BSP\BSP_Clamp.c</PathWithFileName>
+      <FilenameWithoutPath>BSP_Clamp.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
