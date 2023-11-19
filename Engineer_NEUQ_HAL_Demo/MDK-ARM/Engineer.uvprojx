@@ -573,6 +573,26 @@
               <FileType>1</FileType>
               <FilePath>..\APP\pid\pid.c</FilePath>
             </File>
+            <File>
+              <FileName>referee.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\APP\referee.c</FilePath>
+            </File>
+            <File>
+              <FileName>referee_UI.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\APP\referee_UI.c</FilePath>
+            </File>
+            <File>
+              <FileName>CRC8_CRC16.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\APP\CRC8_CRC16.c</FilePath>
+            </File>
+            <File>
+              <FileName>fifo.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\APP\fifo.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -622,6 +642,11 @@
               <FileName>BSP_Clamp.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\BSP\BSP_Clamp.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_referee.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\BSP\bsp_referee.c</FilePath>
             </File>
           </Files>
         </Group>

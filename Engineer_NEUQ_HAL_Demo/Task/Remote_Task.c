@@ -6,7 +6,7 @@
 #include "BSP_Uart.h"
 #include "BSP_Chassis.h"
 #include "BSP_Electric_push.h"
-
+#include "BSP_Clamp.h"
 extern uint8_t Keyboard_Mode;
 
 //ÄÚ²¿º¯ÊýÉùÃ÷
@@ -51,41 +51,43 @@ void left_act_up()
 	RC_Rescue_card_Send(stop);
 	RC_Rescue_Move_Send(stop);
 	/****ÓÒ²¦¸Ë¿ØÖÆ¼Ð×¦¼ÐÈ¡****/
-	if(RIGHT_LEVER == Lever_up)
+	if(RIGHT_LEVER == Lever_up && (i_CH_width <= 350))
 	{
-    HAL_GPIO_WritePin(GPIOH, GPIO_PIN_4, GPIO_PIN_SET);		
+    Clamp_ON;
 		Mineral_Task_Longitudinal(stop);
 		Mineral_Task_Widthwise(stop);
 	}
-	else if(RIGHT_LEVER == Lever_down)
+	else if(RIGHT_LEVER == Lever_mid && (i_CH_width <= 350))
 	{
-		HAL_GPIO_WritePin(GPIOH, GPIO_PIN_4, GPIO_PIN_RESET);		
+		Clamp_OFF;
 		Mineral_Task_Longitudinal(stop);
 		Mineral_Task_Widthwise(stop);
 	}
-	else if(RIGHT_LEVER == Lever_mid)
+	else if(RIGHT_LEVER == Lever_down && (i_CH_width <= 350))
 	{
+		AirMineral_Task();
 		Mineral_Task_Longitudinal(stop);
-		Mineral_Task_Widthwise(stop);
+		Mineral_Task_Widthwise(stop);		
 	}
+
 	/****×óÒ¡¸Ë×óÓÒ¿ØÖÆ»úÐµ±ÛÉì³ö****/
-	if(r_CH_width > 350)
+	if(r_CH_width > 350 && (i_CH_width <= 350))
 	{
 		Handle_Task(in);
 		Mineral_Task_Longitudinal(stop);
 		Mineral_Task_Widthwise(stop);
 	}
-	else if(r_CH_width < -350)
+	else if(r_CH_width < -350 && (i_CH_width <= 350))
 	{
 		Handle_Task(out);
 		Mineral_Task_Longitudinal(stop);
 		Mineral_Task_Widthwise(stop);
 	}	
-	else if(r_CH_width <= 350 && r_CH_width >= -350)
+	else if(r_CH_width <= 350 && r_CH_width >= -350 && (i_CH_width <= 350))
 	{
 		Handle_Task(stop);
 		Mineral_Task_Longitudinal(stop);
-		Mineral_Task_Widthwise(stop);	
+		Mineral_Task_Widthwise(stop);
 	}
 
 	
@@ -102,11 +104,11 @@ void left_act_up()
 		Mineral_Task_Longitudinal(stop);
 		Mineral_Task_Widthwise(stop);
 	}
-	else 
+	else if(i_CH_width <= 350 && i_CH_width >= -350)
 	{
 		Flip_Task(stop);	
 		Mineral_Task_Longitudinal(stop);
-		Mineral_Task_Widthwise(stop);		
+		Mineral_Task_Widthwise(stop);
 	}
 }
 
@@ -132,23 +134,24 @@ void left_act_mid()
 	{
 		Mineral_Task_Longitudinal(forward);
 	}
-	else if(i_CH_width < -640)
+	if(i_CH_width < -640)
 	{
 		Mineral_Task_Longitudinal(back);
 	}
-		else 
+	if(i_CH_width <= 640 && i_CH_width >= -640 && (RIGHT_LEVER == Lever_mid))
 	{
 		Mineral_Task_Longitudinal(stop);
 	}
+	
 	if(r_CH_width > 640)
 	{
 		Mineral_Task_Widthwise(right);
 	}
-	else if(r_CH_width < -640)
+	if(r_CH_width < -640)
 	{
 		Mineral_Task_Widthwise(left);
 	}
-	else 
+	if(r_CH_width >= -640 && r_CH_width < 640 && (RIGHT_LEVER == Lever_mid))
 	{
 		Mineral_Task_Widthwise(stop);
 	}
@@ -163,7 +166,6 @@ void left_act_mid()
 		Mineral_Task_Longitudinal(down);
 		Mineral_Task_Widthwise(down);
 	}
-	Set_Mineral_Current();
 
 }
 

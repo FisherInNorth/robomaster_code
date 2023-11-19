@@ -1,25 +1,30 @@
 #include "BSP_Flip.h"
 #include "BSP_Motor.h"
 #include "BSP_Can.h"
+#include "BSP_Clamp.h"
+#include "BSP_Mineral.h"
+#include "Remote_Task.h"
 
 MOTOR_MOVE_t flip_move;
 MOTOR_t flip_R_motor;
 MOTOR_t flip_L_motor;
 
-uint8_t current_msg[8];
-int target_speed=20;
+uint8_t current_msg2[8];
 int Flip_Angle_R = 0;
 int Flip_Angle_L = 0;
-int Flip_Out_Speed=80;
-int Flip_In_Speed=-80;
-float Flip_Kp_L=25;
-float Flip_Kp_R=30;
-float Flip_Ki_L=3.7;
-float Flip_Ki_R=4.2;
+
+float Flip_Kp_L=40;
+float Flip_Kp_R=40;
+float Flip_Ki_L=3.7f;
+float Flip_Ki_R=4.2f;
 float Flip_Kd=22;
 float Flip_A_Kp=1;
-float Flip_A_Ki=0.5;
-float Flip_A_Kd=0.15;
+float Flip_A_Ki=0.5f;
+float Flip_A_Kd=0.15f;
+
+float Flip_kp_less=20;
+float Flip_ki_less=3.7;
+float Flip_kd_less=3.7;
 int FLIP_SPEED=0;//测试用
 /**
 	* @function函数:Flip_Init
@@ -42,7 +47,7 @@ void Flip_Init(void)
 	flip_R_motor.vpid.I_OUT=0;
 	flip_R_motor.vpid.D_OUT=0;
 	flip_R_motor.vpid.PID_OUT=0;
-	flip_R_motor.vPID_max=5000;
+	flip_R_motor.vPID_max=6000;
 	flip_L_motor.target_current=0;
 	flip_L_motor.actual_current=0;
 	flip_L_motor.round_cnt=0.0f;
@@ -55,9 +60,9 @@ void Flip_Init(void)
 	flip_L_motor.vpid.I_OUT=0;
 	flip_L_motor.vpid.D_OUT=0;
 	flip_L_motor.vpid.PID_OUT=0;
-	flip_L_motor.vPID_max=5000;
+	flip_L_motor.vPID_max=6000;
 	
-	flip_R_motor.aPID_OUT_MAX=20000;
+	flip_R_motor.aPID_OUT_MAX=23000;
 	flip_R_motor.apid.err=0;
 	flip_R_motor.apid.last_err=0;
 	flip_R_motor.apid.err_integration=0;
@@ -68,7 +73,7 @@ void Flip_Init(void)
 	flip_R_motor.apid.D_OUT=0;
 	flip_R_motor.apid.PID_OUT=0;
   flip_R_motor.apid.total_angle=0;	
-	flip_L_motor.aPID_OUT_MAX=20000;
+	flip_L_motor.aPID_OUT_MAX=23000;
 	flip_L_motor.apid.err=0;
 	flip_L_motor.apid.last_err=0;
 	flip_L_motor.apid.err_integration=0;
@@ -135,8 +140,16 @@ void Apid_Flip_Realize()
 	Apid_Realize(&flip_R_motor, Flip_A_Kp, Flip_A_Ki, Flip_A_Kd);
 	Set_Flip_Speed(flip_L_motor.apid.PID_OUT);
 	Set_Flip_Speed(flip_R_motor.apid.PID_OUT);
-	Vpid_Realize(&flip_L_motor, Flip_Kp_L, Flip_Ki_L, Flip_Kd);
-	Vpid_Realize(&flip_R_motor, Flip_Kp_R, Flip_Ki_R, Flip_Kd);
+	if(Clamp_Judge==1||RIGHT_LEVER==Lever_up)
+	{
+		Vpid_Realize(&flip_L_motor, Flip_Kp_L, Flip_Ki_L, Flip_Kd);
+		Vpid_Realize(&flip_R_motor, Flip_Kp_R, Flip_Ki_R, Flip_Kd);
+	}
+	else
+	{
+		Vpid_Realize(&flip_L_motor, Flip_kp_less, Flip_ki_less, Flip_kd_less);
+		Vpid_Realize(&flip_R_motor, Flip_kp_less, Flip_ki_less, Flip_kd_less);
+	}
 }
 
 
@@ -155,13 +168,13 @@ void Set_Flip_Current()
 	flip_R_motor.target_current -=350;
 	flip_L_motor.target_current +=400;
 	//can总线通信协议，参照电调说明书，注意，Flip有两个电机
-	current_msg[0] = flip_R_motor.target_current >> 8;			//1号电机电流高8位
-	current_msg[1] = flip_R_motor.target_current & 0xff;		//1号电机电流低8位
-	current_msg[2] = flip_L_motor.target_current >> 8;			//1号电机电流高8位
-	current_msg[3] = flip_L_motor.target_current & 0xff;		//1号电机电流低8位
+	current_msg2[0] = flip_R_motor.target_current >> 8;			//1号电机电流高8位
+	current_msg2[1] = flip_R_motor.target_current & 0xff;		//1号电机电流低8位
+	current_msg2[2] = flip_L_motor.target_current >> 8;			//1号电机电流高8位
+	current_msg2[3] = flip_L_motor.target_current & 0xff;		//1号电机电流低8位
 
 	//can发送数据帧
- 	CAN1_Send_Flip_Msg(current_msg);
+ 	CAN1_Send_Flip_Msg(current_msg2);
 }
 /**
 	* @brief  Flip任务执行函数
@@ -176,14 +189,30 @@ void Flip_Task(MOTOR_MOVE_t flip_move)
 	{
 		case out:
 		{
-			Flip_Angle_R = flip_R_motor.apid.total_angle + 10*19;
-			Flip_Angle_L = flip_L_motor.apid.total_angle + 10*19;
+				if(Clamp_Judge==1)
+				{
+					Flip_Angle_R = flip_R_motor.apid.total_angle + 10*19;
+					Flip_Angle_L = flip_L_motor.apid.total_angle + 10*19;
+				}
+				else 
+				{
+					Flip_Angle_R = flip_R_motor.apid.total_angle + 40;
+					Flip_Angle_L = flip_L_motor.apid.total_angle + 40;
+				}
 		}
 		break;
 		case in:
 		{
-			Flip_Angle_R = flip_R_motor.apid.total_angle - 10*19;
-			Flip_Angle_L = flip_L_motor.apid.total_angle - 10*19;
+				if(Clamp_Judge==1)
+				{
+					Flip_Angle_R = flip_R_motor.apid.total_angle - 20;
+					Flip_Angle_L = flip_L_motor.apid.total_angle - 20;
+				}
+				else 
+				{
+					Flip_Angle_R = flip_R_motor.apid.total_angle - 40;
+					Flip_Angle_L = flip_L_motor.apid.total_angle - 40;
+				}
 		}
 		break;
 		case stop:
@@ -196,7 +225,7 @@ void Flip_Task(MOTOR_MOVE_t flip_move)
 			break;
 	}
 	Set_Flip_Angle_R(Flip_Angle_R);
-	Set_Flip_Angle_L(Flip_Angle_R);
+	Set_Flip_Angle_L(Flip_Angle_L);
 	Apid_Flip_Realize();
 	Set_Flip_Current();
 }

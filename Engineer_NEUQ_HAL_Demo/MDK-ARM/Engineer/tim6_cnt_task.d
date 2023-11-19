@@ -49,3 +49,7 @@ engineer\tim6_cnt_task.o: ../BSP/BSP_Chassis.h
 engineer\tim6_cnt_task.o: ../Task/Key_Task.h
 engineer\tim6_cnt_task.o: ../BSP/BSP_Steering.h
 engineer\tim6_cnt_task.o: ../BSP/BSP_Clamp.h
+engineer\tim6_cnt_task.o: ../APP/referee.h
+engineer\tim6_cnt_task.o: ../APP/protocol.h
+engineer\tim6_cnt_task.o: ../APP/struct_typedef.h
+engineer\tim6_cnt_task.o: ../APP/referee_UI.h

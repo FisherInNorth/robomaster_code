@@ -46,3 +46,4 @@ engineer\remote_task.o: ../BSP/BSP_Uart.h
 engineer\remote_task.o: ../BSP/BSP_Chassis.h
 engineer\remote_task.o: ../BSP/BSP_Electric_push.h
 engineer\remote_task.o: ../Core/Inc/tim.h
+engineer\remote_task.o: ../BSP/BSP_Clamp.h

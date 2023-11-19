@@ -47,7 +47,7 @@ void Key_Task(void)
 				else 
 				{	
 					Key_Cnt=0;
-					KeyState = KEY_Press ;
+					KeyState = KEY_Check ;
 					Keyboard_Flag=1;
 				}
 			}
@@ -95,50 +95,64 @@ void Key_Task(void)
 		if(rc_ctrl.mouse.press_r==1)//夹爪松开
 			Clamp_OFF;
 	/*******矿石翻转*******/	
-		if(rc_ctrl.key.v & KEY_CTRL)
+		if((rc_ctrl.key.v & KEY_CTRL) && (rc_ctrl.key.v & KEY_X) && (!(rc_ctrl.key.v & KEY_Z)) && (!(rc_ctrl.key.v & KEY_R)))
 		{
-			if(rc_ctrl.key.v & KEY_Z)
-			mineral_widthwise_move=left;
-			else mineral_widthwise_move=stop;
-			if(rc_ctrl.key.v & KEY_X)
-			mineral_longitudinal_move=back;
-			else mineral_longitudinal_move=stop;
+			Mineral_Task_Longitudinal(back);
+			Mineral_Task_Widthwise(stop);
 		}
-		else
+		else if((!(rc_ctrl.key.v & KEY_CTRL)) && (rc_ctrl.key.v & KEY_X) && (!(rc_ctrl.key.v & KEY_Z)) && (!(rc_ctrl.key.v & KEY_R)))
 		{
-			if(rc_ctrl.key.v & KEY_Z)
-			mineral_widthwise_move=right;
-			else mineral_widthwise_move=stop;			
-			if(rc_ctrl.key.v & KEY_X)
-			mineral_longitudinal_move=forward;
-			else mineral_longitudinal_move=stop;
+			Mineral_Task_Longitudinal(forward);
+			Mineral_Task_Widthwise(stop);
 		}
-
-	/*******矿石升降*******/	
-		if(rc_ctrl.key.v & KEY_CTRL)
+		else if((!(rc_ctrl.key.v & KEY_CTRL)) && !(rc_ctrl.key.v & KEY_X) && (rc_ctrl.key.v & KEY_Z) && (!(rc_ctrl.key.v & KEY_R)))
 		{
-			if((rc_ctrl.key.v & KEY_Z)==1)
-			{
-				if(rc_ctrl.key.v & KEY_X)
-				{
-					mineral_widthwise_move=up; 
-					mineral_longitudinal_move=up;
-				}
-			}
+			Mineral_Task_Widthwise(right);
+			Mineral_Task_Longitudinal(stop);
 		}
-		else
+		else if(((rc_ctrl.key.v & KEY_CTRL)) && !(rc_ctrl.key.v & KEY_X) && (rc_ctrl.key.v & KEY_Z) && (!(rc_ctrl.key.v & KEY_R)))
 		{
-			if(rc_ctrl.key.v & KEY_Z)
-			{
-				if(rc_ctrl.key.v & KEY_X)
-				{
-					mineral_widthwise_move=down; 
-					mineral_longitudinal_move=down;
-				}
-			}
+			Mineral_Task_Widthwise(left);
+			Mineral_Task_Longitudinal(stop);
+		}
+		else if((!(rc_ctrl.key.v & KEY_CTRL)) && (rc_ctrl.key.v & KEY_X) && (rc_ctrl.key.v & KEY_Z) && (!(rc_ctrl.key.v & KEY_R)))
+		{
+			Mineral_Task_Longitudinal(up);
+			Mineral_Task_Widthwise(up);
+		}
+		else if((rc_ctrl.key.v & KEY_CTRL) && (rc_ctrl.key.v & KEY_X) && (rc_ctrl.key.v & KEY_Z) && (!(rc_ctrl.key.v & KEY_R)))
+		{
+			Mineral_Task_Longitudinal(down);
+			Mineral_Task_Widthwise(down);
+		}
+		else if((!(rc_ctrl.key.v & KEY_CTRL)) && (!(rc_ctrl.key.v & KEY_X)) && (!(rc_ctrl.key.v & KEY_Z)) && (!(rc_ctrl.key.v & KEY_R)))
+		{
+			Mineral_Task_Longitudinal(stop);
+			Mineral_Task_Widthwise(stop);
+			Flip_Task(stop);
+		}
+		else if((rc_ctrl.key.v & KEY_CTRL) && (!(rc_ctrl.key.v & KEY_X)) && (!(rc_ctrl.key.v & KEY_Z)) && (!(rc_ctrl.key.v & KEY_R)))
+		{
+			Mineral_Task_Longitudinal(stop);
+			Mineral_Task_Widthwise(stop);
+			Flip_Task(stop);
+		}			
+		/*******夹爪旋转*******/
+		else if((!(rc_ctrl.key.v & KEY_CTRL)) && (!(rc_ctrl.key.v & KEY_X)) && (!(rc_ctrl.key.v & KEY_Z)) && (rc_ctrl.key.v & KEY_R))
+		{
+			Flip_Task(in);//out
+			Mineral_Task_Widthwise(up);
+			Mineral_Task_Longitudinal(up);
+		}
+		else if((rc_ctrl.key.v & KEY_CTRL) && (!(rc_ctrl.key.v & KEY_X)) && (!(rc_ctrl.key.v & KEY_Z)) && (rc_ctrl.key.v & KEY_R))
+		{
+			Flip_Task(out);//in
+			Mineral_Task_Widthwise(stop);
+			Mineral_Task_Longitudinal(stop);
 		}
 		
-	/*******救援爪伸出收回*******/	
+
+	/*******救援爪翻出收回*******/	
 		if(rc_ctrl.key.v & KEY_CTRL)
 		{
 			if(rc_ctrl.key.v & KEY_C)
@@ -173,39 +187,20 @@ void Key_Task(void)
 		}
 	
 	/*******机械臂伸出收回*******/
-		if(rc_ctrl.key.v & KEY_CTRL)
+		if((!(rc_ctrl.key.v & KEY_CTRL)) && (rc_ctrl.key.v & KEY_E))
 		{
-			if(rc_ctrl.key.v & KEY_E)
-			{
-				Handle_Task(out);
-			}
-			else Handle_Task(stop);
+			Handle_Task(in);//out
 		}
-		else
+		else if((rc_ctrl.key.v & KEY_CTRL) && (rc_ctrl.key.v & KEY_E))
 		{
-			if(rc_ctrl.key.v & KEY_E)
-			{
-				Handle_Task(in);
-			}
-			else Handle_Task(stop);
+			Handle_Task(out);//in
 		}
-		/*******夹爪旋转*******/
-		if(rc_ctrl.key.v & KEY_CTRL)
+		else if((!(rc_ctrl.key.v & KEY_E)))
 		{
-			if(rc_ctrl.key.v & KEY_R)
-			{
-				Flip_Task(out);
-			}
-			else Flip_Task(stop);
+			Handle_Task(stop);
 		}
-		else
-		{
-			if(rc_ctrl.key.v & KEY_R)
-			{
-				Flip_Task(in);
-			}
-			else Flip_Task(stop);
-		}
+
+
 	/*******电推杆升降*******/
 		MOTOR_MOVE_t Push_F, Push_B;
 		Push_F = stop;
@@ -263,11 +258,7 @@ void Key_Task(void)
 		}
 		if(AirMineral_Mode==1)
 		{
-			if(Clamp_Judge)
-			{
-				Clamp_ON;
-			}
-	    else Clamp_OFF;
+			AirMineral_Task();
 		}
 	/*******一键取矿*******/ 
 	if(rc_ctrl.key.v & KEY_Q)

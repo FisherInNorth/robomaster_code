@@ -4,7 +4,7 @@
 #include "BSP_Can.h"
 MOTOR_MOVE_t handle_move;
 MOTOR_t handle_motor;
-extern uint8_t current_msg[8];
+extern uint8_t current_msg2[8];
 int Handle_Target_Speed=100;
 float Handle_Kp=15;//80max
 float Handle_Ki=1.4;
@@ -69,11 +69,11 @@ void Set_Handle_Current()
 	handle_motor.target_current = handle_motor.vpid.PID_OUT;
 
 	//can总线通信协议，参照电调说明书
-	current_msg[4] = handle_motor.target_current >> 8;			//1号电机电流高8位
-	current_msg[5] = handle_motor.target_current & 0xff;		//1号电机电流低8位
+	current_msg2[4] = handle_motor.target_current >> 8;			//1号电机电流高8位
+	current_msg2[5] = handle_motor.target_current & 0xff;		//1号电机电流低8位
 
 	//can发送数据帧
-	CAN1_Send_Handle_Msg(current_msg);
+	CAN1_Send_Handle_Msg(current_msg2);
 }
 /**
 	* @brief  handle任务执行函数

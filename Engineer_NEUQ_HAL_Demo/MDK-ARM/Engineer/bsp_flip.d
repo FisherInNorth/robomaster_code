@@ -38,3 +38,9 @@ engineer\bsp_flip.o: ../APP/motor/motor.h
 engineer\bsp_flip.o: ..\BSP\BSP_Can.h
 engineer\bsp_flip.o: ../Core/Inc/can.h
 engineer\bsp_flip.o: ../Core/Inc/main.h
+engineer\bsp_flip.o: ..\BSP\BSP_Clamp.h
+engineer\bsp_flip.o: ..\BSP\BSP_Mineral.h
+engineer\bsp_flip.o: ../Task/Remote_Task.h
+engineer\bsp_flip.o: ../APP/remote_control.h
+engineer\bsp_flip.o: ../Core/Inc/dma.h
+engineer\bsp_flip.o: ../Core/Inc/usart.h

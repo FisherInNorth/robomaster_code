@@ -11,6 +11,7 @@ MOTOR_t mineral_B_motor;//后面的电机
 MOTOR_t mineral_R_motor;//右边的电机
 MOTOR_t mineral_L_motor;//左边的电机
 
+uint8_t current_msg[8];
 int Mineral_Longitudinal_Speed=60;
 int Mineral_Widthwise_Speed=60;
 float Mineral_Kp=8.0;
@@ -115,7 +116,6 @@ void Vpid_Mineral_Widthwise_Realize(float kp,float ki,float kd)
 	*/
 void Set_Mineral_Current()
 {
-	uint8_t current_msg[8];
 
 	//电机目标电流为速度pid输出
 	mineral_F_motor.target_current =mineral_F_motor.vpid.PID_OUT;// Mineral_Current_F;//
@@ -185,7 +185,7 @@ void Mineral_Task_Longitudinal(MOTOR_MOVE_t mineral_longitudinal_move)
 	}
 
 	Vpid_Mineral_Longitudinal_Realize(Mineral_Kp, Mineral_Ki, Mineral_Kd);
-
+	Set_Mineral_Current();
 }
 
 void Mineral_Task_Widthwise(MOTOR_MOVE_t mineral_widthwise_move)
@@ -227,5 +227,6 @@ void Mineral_Task_Widthwise(MOTOR_MOVE_t mineral_widthwise_move)
 	}
 
 	Vpid_Mineral_Widthwise_Realize(Mineral_Kp, Mineral_Ki, Mineral_Kd);
+	Set_Mineral_Current();
 }
 

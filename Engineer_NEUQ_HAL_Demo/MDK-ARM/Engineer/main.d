@@ -50,3 +50,11 @@ engineer\main.o: E:\keil\core\ARM\ARMCC\Bin\..\include\string.h
 engineer\main.o: ../BSP/BSP_Steering.h
 engineer\main.o: ../APP/remote_control.h
 engineer\main.o: ../BSP/BSP_Electric_push.h
+engineer\main.o: ../APP/referee.h
+engineer\main.o: ../APP/protocol.h
+engineer\main.o: ../APP/struct_typedef.h
+engineer\main.o: ../APP/referee_UI.h
+engineer\main.o: ../BSP/bsp_referee.h
+engineer\main.o: ../APP/fifo.h
+engineer\main.o: E:\keil\core\ARM\ARMCC\Bin\..\include\stdio.h
+engineer\main.o: E:\keil\core\ARM\ARMCC\Bin\..\include\stdlib.h

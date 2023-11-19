@@ -36,6 +36,10 @@
 #include "BSP_Steering.h"
 #include "remote_control.h"
 #include "BSP_Electric_push.h"
+#include "referee.h"
+#include "referee_UI.h"
+#include "bsp_referee.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -63,7 +67,7 @@ extern uint8_t RX_Bufer[50];
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
 static void BSP_Init(void);
-
+static void Referee_Init(void);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -107,9 +111,9 @@ int main(void)
   MX_USART1_UART_Init();
   MX_USART2_UART_Init();
   MX_USART6_UART_Init();
-  MX_TIM2_Init();
   MX_TIM4_Init();
   MX_TIM5_Init();
+  MX_UART8_Init();
   /* USER CODE BEGIN 2 */
 	HAL_TIM_Base_Start_IT(&htim6);//¿ªÆô¶¨Ê±Æ÷6
 	BSP_Init();
@@ -117,16 +121,14 @@ int main(void)
 	UART_IdleIT_init();
 	Chassis_Init();
 	TIM_Push_PWM_Init();
+//	Referee_Init();
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-//		HAL_UART_Transmit_DMA(&huart6,RX_Bufer,50);//strlen((char*)RX_Bufer)
-//    HAL_Delay(500);
-//		RC_Chassis_Speed_Send(20,20,20,20);
-//		HAL_Delay(500);
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -194,6 +196,13 @@ void BSP_Init(void)
 	Mineral_Init();
 	Chassis_Init();
 	Bsp_CanInit();
+}
+
+void Referee_Init(void)
+{
+	init_referee_struct_data();
+	referee_usart_fifo_init();
+	UI_Init();
 }
 /* USER CODE END 4 */
 
