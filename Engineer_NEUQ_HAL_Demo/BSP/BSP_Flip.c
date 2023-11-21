@@ -9,6 +9,7 @@ MOTOR_MOVE_t flip_move;
 MOTOR_t flip_R_motor;
 MOTOR_t flip_L_motor;
 
+uint8_t Flip_PID2_Flag=0;
 uint8_t current_msg2[8];
 int Flip_Angle_R = 0;
 int Flip_Angle_L = 0;
@@ -140,12 +141,17 @@ void Apid_Flip_Realize()
 	Apid_Realize(&flip_R_motor, Flip_A_Kp, Flip_A_Ki, Flip_A_Kd);
 	Set_Flip_Speed(flip_L_motor.apid.PID_OUT);
 	Set_Flip_Speed(flip_R_motor.apid.PID_OUT);
-	if(Clamp_Judge==1||RIGHT_LEVER==Lever_up)
+// 	Clamp.c里面也写了，重复了	
+//	if(Clamp_Judge==1)
+//	{
+//		Flip_PID2_Flag=1;
+//	}
+	if(Flip_PID2_Flag==1)
 	{
 		Vpid_Realize(&flip_L_motor, Flip_Kp_L, Flip_Ki_L, Flip_Kd);
 		Vpid_Realize(&flip_R_motor, Flip_Kp_R, Flip_Ki_R, Flip_Kd);
 	}
-	else
+	else if(Flip_PID2_Flag==0)
 	{
 		Vpid_Realize(&flip_L_motor, Flip_kp_less, Flip_ki_less, Flip_kd_less);
 		Vpid_Realize(&flip_R_motor, Flip_kp_less, Flip_ki_less, Flip_kd_less);

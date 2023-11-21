@@ -63,65 +63,57 @@ void Push_Task(MOTOR_MOVE_t push_moveF, MOTOR_MOVE_t push_moveB)
 	{
 		case qs:
 		{
+			if(pushCheck_q == 0)
+			{
 				__HAL_TIM_SET_COMPARE(&htim5,TIM_CHANNEL_1,1000);
 				__HAL_TIM_SET_COMPARE(&htim5,TIM_CHANNEL_2,0);
 				__HAL_TIM_SET_COMPARE(&htim5,TIM_CHANNEL_3,1000);
 				__HAL_TIM_SET_COMPARE(&htim5,TIM_CHANNEL_4,10);
-//			if(pushCheck_q == 0)
-//			{
-//				__HAL_TIM_SET_COMPARE(&htim5,TIM_CHANNEL_1,1000);
-//				__HAL_TIM_SET_COMPARE(&htim5,TIM_CHANNEL_2,0);
-//				__HAL_TIM_SET_COMPARE(&htim5,TIM_CHANNEL_3,1000);
-//				__HAL_TIM_SET_COMPARE(&htim5,TIM_CHANNEL_4,10);
-//			}
-//			else if(pushCheck_q == 1)
-//			{
-//				if(mark_qs == 0)
-//				{
-//					ti_qs = HAL_GetTick();
-//					mark_qs = 1;
-//				}
-//				if(mark_qs == 1)
-//				{
-//					if(HAL_GetTick() - ti_qs > 100)
-//					{
-//						pushCheck_q = 0;
-//						mark_qs = 0;
-//					}
-//				}
-//			}
+			}
+			else if(pushCheck_q == 1)
+			{
+				if(mark_qs == 0)
+				{
+					ti_qs = HAL_GetTick();
+					mark_qs = 1;
+				}
+				else if(mark_qs == 1)
+				{
+					if(HAL_GetTick() - ti_qs > 100)
+					{
+						pushCheck_q = 0;
+						mark_qs = 0;
+					}
+				}
+			}
 		}
 		break;
 		case qj:
 		{
-			__HAL_TIM_SET_COMPARE(&htim5,TIM_CHANNEL_1,0);
-			__HAL_TIM_SET_COMPARE(&htim5,TIM_CHANNEL_2,1000);
-			__HAL_TIM_SET_COMPARE(&htim5,TIM_CHANNEL_3,70);
-			__HAL_TIM_SET_COMPARE(&htim5,TIM_CHANNEL_4,1000);
-//			if(pushCheck_q == 1)
-//			{
-//				__HAL_TIM_SET_COMPARE(&htim5,TIM_CHANNEL_1,0);
-//				__HAL_TIM_SET_COMPARE(&htim5,TIM_CHANNEL_2,1000);
-//				__HAL_TIM_SET_COMPARE(&htim5,TIM_CHANNEL_3,70);
-//				__HAL_TIM_SET_COMPARE(&htim5,TIM_CHANNEL_4,1000);
-//			}
-//			else if(pushCheck_q == 0)
-//			{
-//				if(mark_qj == 0)
-//				{
-//					ti_qj = HAL_GetTick();
-//					mark_qj = 1;
-//				}
-//				if(mark_qj == 1)
-//				{
-//					if(HAL_GetTick() - ti_qj > 100)
-//					{
-//						pushCheck_q = 1;
-//						mark_qj = 0;
-//					}
-//				}
-//			}
-//			
+			if(pushCheck_q == 1)
+			{
+				__HAL_TIM_SET_COMPARE(&htim5,TIM_CHANNEL_1,0);
+				__HAL_TIM_SET_COMPARE(&htim5,TIM_CHANNEL_2,1000);
+				__HAL_TIM_SET_COMPARE(&htim5,TIM_CHANNEL_3,70);
+				__HAL_TIM_SET_COMPARE(&htim5,TIM_CHANNEL_4,1000);
+			}
+			else if(pushCheck_q == 0)
+			{
+				if(mark_qj == 0)
+				{
+					ti_qj = HAL_GetTick();
+					mark_qj = 1;
+				}
+				else if(mark_qj == 1)
+				{
+					if(HAL_GetTick() - ti_qj > 100)
+					{
+						pushCheck_q = 1;
+						mark_qj = 0;
+					}
+				}
+			}
+			
 		}
 		break;
 		case qt:
@@ -135,7 +127,6 @@ void Push_Task(MOTOR_MOVE_t push_moveF, MOTOR_MOVE_t push_moveB)
 		default:
 			break;
 		}
-	
 	switch(push_moveB)
 	{
 		case hs:
@@ -154,10 +145,13 @@ void Push_Task(MOTOR_MOVE_t push_moveF, MOTOR_MOVE_t push_moveB)
 					ti_hs = HAL_GetTick();
 					mark_hs = 1;
 				}
-				if(mark_hs && (HAL_GetTick() - ti_hj > 100))
+				else if(mark_hs == 1)
 				{
+					if(HAL_GetTick() - ti_hs > 100)
+					{
 						pushCheck_h = 0;
 						mark_hs = 0;
+					}
 				}
 			}
 		}
@@ -178,7 +172,7 @@ void Push_Task(MOTOR_MOVE_t push_moveF, MOTOR_MOVE_t push_moveB)
 					ti_hj = HAL_GetTick();
 					mark_hj = 1;
 				}
-				if(mark_hj == 1)
+				else if(mark_hj == 1)
 				{
 					if(HAL_GetTick() - ti_hj > 100)
 					{

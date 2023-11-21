@@ -828,42 +828,17 @@
         <Ww>
           <count>133</count>
           <WinNumber>1</WinNumber>
-          <ItemText>pushCheck_q,0x0A</ItemText>
+          <ItemText>time_mark</ItemText>
         </Ww>
         <Ww>
           <count>134</count>
           <WinNumber>1</WinNumber>
-          <ItemText>pushCheck_h,0x0A</ItemText>
+          <ItemText>Air_mark</ItemText>
         </Ww>
         <Ww>
           <count>135</count>
           <WinNumber>1</WinNumber>
-          <ItemText>current_msg2[8]</ItemText>
-        </Ww>
-        <Ww>
-          <count>136</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>current_msg2,0x0A</ItemText>
-        </Ww>
-        <Ww>
-          <count>137</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>flip_L_motor,0x0A</ItemText>
-        </Ww>
-        <Ww>
-          <count>138</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>current_msg2[4]</ItemText>
-        </Ww>
-        <Ww>
-          <count>139</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>current_msg2</ItemText>
-        </Ww>
-        <Ww>
-          <count>140</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>handle_motor,0x0A</ItemText>
+          <ItemText>AirSource_Mode</ItemText>
         </Ww>
       </WatchWindow1>
       <WatchWindow2>

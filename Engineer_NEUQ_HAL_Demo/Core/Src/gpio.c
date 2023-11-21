@@ -38,8 +38,6 @@
         * Output
         * EVENT_OUT
         * EXTI
-     PA1   ------> S_TIM2_CH2
-     PA0/WKUP   ------> S_TIM2_CH1_ETR
 */
 void MX_GPIO_Init(void)
 {
@@ -75,14 +73,6 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
   HAL_GPIO_Init(GPIOH, &GPIO_InitStruct);
-
-  /*Configure GPIO pins : PA1 PA0 */
-  GPIO_InitStruct.Pin = GPIO_PIN_1|GPIO_PIN_0;
-  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  GPIO_InitStruct.Alternate = GPIO_AF1_TIM2;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
 }
 

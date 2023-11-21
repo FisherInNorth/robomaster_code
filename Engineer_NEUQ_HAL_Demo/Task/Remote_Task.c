@@ -8,7 +8,7 @@
 #include "BSP_Electric_push.h"
 #include "BSP_Clamp.h"
 extern uint8_t Keyboard_Mode;
-
+extern uint8_t Flip_PID2_Flag;
 //内部函数声明
 /**
   * @brief  遥控代码，将遥控器输出对应到机器人具体动作上，放在定时器里不断地刷
@@ -53,13 +53,13 @@ void left_act_up()
 	/****右拨杆控制夹爪夹取****/
 	if(RIGHT_LEVER == Lever_up && (i_CH_width <= 350))
 	{
-    Clamp_ON;
+    Clamp_ON; Flip_PID2_Flag=1;
 		Mineral_Task_Longitudinal(stop);
 		Mineral_Task_Widthwise(stop);
 	}
 	else if(RIGHT_LEVER == Lever_mid && (i_CH_width <= 350))
 	{
-		Clamp_OFF;
+		Clamp_OFF; Flip_PID2_Flag=0;
 		Mineral_Task_Longitudinal(stop);
 		Mineral_Task_Widthwise(stop);
 	}
@@ -110,6 +110,7 @@ void left_act_up()
 		Mineral_Task_Longitudinal(stop);
 		Mineral_Task_Widthwise(stop);
 	}
+	
 }
 
 
