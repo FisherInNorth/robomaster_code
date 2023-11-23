@@ -15,9 +15,9 @@ int Flip_Angle_R = 0;
 int Flip_Angle_L = 0;
 
 float Flip_Kp_L=40;
-float Flip_Kp_R=40;
+float Flip_Kp_R=30;
 float Flip_Ki_L=3.7f;
-float Flip_Ki_R=4.2f;
+float Flip_Ki_R=1.2f;
 float Flip_Kd=22;
 float Flip_A_Kp=1;
 float Flip_A_Ki=0.5f;
@@ -29,7 +29,7 @@ float Flip_kd_less=3.7;
 int FLIP_SPEED=0;//测试用
 /**
 	* @function函数:Flip_Init
-	* @brief描述:机械臂初始化
+	* @brief描述:机械臂初始化`21
 	* @param输入:无
 	* @retval返回值:无
   */

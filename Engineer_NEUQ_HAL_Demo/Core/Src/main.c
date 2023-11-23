@@ -122,7 +122,7 @@ int main(void)
 	UART_IdleIT_init();
 	Chassis_Init();
 	TIM_Push_PWM_Init();
-//	Referee_Init();
+	Referee_Init();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -201,8 +201,8 @@ void BSP_Init(void)
 
 void Referee_Init(void)
 {
-	init_referee_struct_data();
-	referee_usart_fifo_init();
+//	init_referee_struct_data();
+//	referee_usart_fifo_init();
 	UI_Init();
 }
 /* USER CODE END 4 */

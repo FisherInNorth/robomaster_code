@@ -45,7 +45,7 @@ static void referee_data_pack_handle(uint8_t sof,uint16_t cmd_id, uint8_t *p_dat
 	while (__HAL_UART_GET_FLAG(&huart8,UART_FLAG_TC) == RESET); //等待之前的字符发送完成
 }
 
-
+uint16_t sender_ID,receiver_ID;
 static void get_UI_id(uint16_t *sender_ID,uint16_t *receiver_ID)
 {
 	switch(get_robot_id())
@@ -140,8 +140,8 @@ void UI_draw_Line(char imagename[3],uint32_t Graph_Operate,uint32_t Graph_Layer,
 {
 	ext_student_interactive_header_data_graphic.data_cmd_id=0x0101;//绘制七个图形（内容ID，查询裁判系统手册）
 	get_UI_id(&Sender_ID,&Receiver_ID);
-	ext_student_interactive_header_data_graphic.sender_ID=Sender_ID;//发送者ID，机器人对应ID
-	ext_student_interactive_header_data_graphic.receiver_ID=Receiver_ID;//接收者ID，操作手客户端ID
+	ext_student_interactive_header_data_graphic.sender_ID=UI_Data_RobotID_BEngineer;//发送者ID，机器人对应ID
+	ext_student_interactive_header_data_graphic.receiver_ID=UI_Data_CilentID_BEngineer;//接收者ID，操作手客户端ID
 	//自定义图像数据
 	
 	ext_student_interactive_header_data_graphic.ext_client_custom_graphic_single.grapic_data_struct.graphic_name[0] = imagename[0];
@@ -176,8 +176,8 @@ void UI_draw_Rectangle(char imagename[3],uint32_t Graph_Operate,uint32_t Graph_L
 {
 	ext_student_interactive_header_data_graphic.data_cmd_id=0x0101;//绘制七个图形（内容ID，查询裁判系统手册）
 	get_UI_id(&Sender_ID,&Receiver_ID);
-	ext_student_interactive_header_data_graphic.sender_ID=Sender_ID;//发送者ID，机器人对应ID
-	ext_student_interactive_header_data_graphic.receiver_ID=Receiver_ID;//接收者ID，操作手客户端ID
+	ext_student_interactive_header_data_graphic.sender_ID=sender_ID;//发送者ID，机器人对应ID
+	ext_student_interactive_header_data_graphic.receiver_ID=receiver_ID;//接收者ID，操作手客户端ID
 	//自定义图像数据
 	
 	ext_student_interactive_header_data_graphic.ext_client_custom_graphic_single.grapic_data_struct.graphic_name[0] = imagename[0];
@@ -211,8 +211,8 @@ void UI_draw_Circle(char imagename[3],uint32_t Graph_Operate,uint32_t Graph_Laye
 {
 	ext_student_interactive_header_data_graphic.data_cmd_id=0x0101;//绘制七个图形（内容ID，查询裁判系统手册）
 	get_UI_id(&Sender_ID,&Receiver_ID);
-	ext_student_interactive_header_data_graphic.sender_ID=Sender_ID;//发送者ID，机器人对应ID
-	ext_student_interactive_header_data_graphic.receiver_ID=Receiver_ID;//接收者ID，操作手客户端ID
+	ext_student_interactive_header_data_graphic.sender_ID=sender_ID;//发送者ID，机器人对应ID
+	ext_student_interactive_header_data_graphic.receiver_ID=receiver_ID;//接收者ID，操作手客户端ID
 	//自定义图像数据
 	
 	ext_student_interactive_header_data_graphic.ext_client_custom_graphic_single.grapic_data_struct.graphic_name[0] = imagename[0];
@@ -246,8 +246,8 @@ void UI_draw_Arc(char imagename[3],uint32_t Graph_Operate,uint32_t Graph_Layer,u
 {
 	ext_student_interactive_header_data_graphic.data_cmd_id=0x0101;//绘制七个图形（内容ID，查询裁判系统手册）
 	get_UI_id(&Sender_ID,&Receiver_ID);
-	ext_student_interactive_header_data_graphic.sender_ID=Sender_ID;//发送者ID，机器人对应ID
-	ext_student_interactive_header_data_graphic.receiver_ID=Receiver_ID;//接收者ID，操作手客户端ID
+	ext_student_interactive_header_data_graphic.sender_ID=sender_ID;//发送者ID，机器人对应ID
+	ext_student_interactive_header_data_graphic.receiver_ID=receiver_ID;//接收者ID，操作手客户端ID
 	//自定义图像数据
 	
 	ext_student_interactive_header_data_graphic.ext_client_custom_graphic_single.grapic_data_struct.graphic_name[0] = imagename[0];
@@ -285,8 +285,8 @@ void UI_draw_Float(char imagename[3],uint32_t Graph_Operate,uint32_t Graph_Layer
 {
 	ext_student_interactive_header_data_graphic.data_cmd_id=0x0101;//绘制一个图形（内容ID，查询裁判系统手册）
 	get_UI_id(&Sender_ID,&Receiver_ID);
-	ext_student_interactive_header_data_graphic.sender_ID=Sender_ID;//发送者ID，机器人对应ID
-	ext_student_interactive_header_data_graphic.receiver_ID=Receiver_ID;//接收者ID，操作手客户端ID
+	ext_student_interactive_header_data_graphic.sender_ID=sender_ID;//发送者ID，机器人对应ID
+	ext_student_interactive_header_data_graphic.receiver_ID=receiver_ID;//接收者ID，操作手客户端ID
 	//自定义图像数据
 	
 	ext_student_interactive_header_data_graphic.ext_client_custom_graphic_single.grapic_data_struct.graphic_name[0] = imagename[0];
@@ -324,8 +324,8 @@ void UI_draw_Int(char imagename[3],uint32_t Graph_Operate,uint32_t Graph_Layer,u
 {
 	ext_student_interactive_header_data_graphic.data_cmd_id=0x0101;//绘制一个图形（内容ID，查询裁判系统手册）
 	get_UI_id(&Sender_ID,&Receiver_ID);
-	ext_student_interactive_header_data_graphic.sender_ID=Sender_ID;//发送者ID，机器人对应ID
-	ext_student_interactive_header_data_graphic.receiver_ID=Receiver_ID;//接收者ID，操作手客户端ID
+	ext_student_interactive_header_data_graphic.sender_ID=sender_ID;//发送者ID，机器人对应ID
+	ext_student_interactive_header_data_graphic.receiver_ID=receiver_ID;//接收者ID，操作手客户端ID
 	//自定义图像数据
 	
 	ext_student_interactive_header_data_graphic.ext_client_custom_graphic_single.grapic_data_struct.graphic_name[0] = imagename[0];
@@ -366,8 +366,8 @@ void UI_character_draw_data(char imagename[3],uint32_t Graph_Operate,uint32_t Gr
 	uint8_t i;
 	ext_student_interactive_header_data_character.data_cmd_id=0x0110;//绘制字符（内容ID，查询裁判系统手册）
 	get_UI_id(&Sender_ID,&Receiver_ID);
-	ext_student_interactive_header_data_character.sender_ID=Sender_ID;//发送者ID，机器人对应ID，此处为蓝方英雄
-	ext_student_interactive_header_data_character.receiver_ID=Receiver_ID;//接收者ID，操作手客户端ID，此处为蓝方英雄操作手客户端
+	ext_student_interactive_header_data_character.sender_ID=sender_ID;//发送者ID，机器人对应ID，此处为蓝方英雄
+	ext_student_interactive_header_data_character.receiver_ID=receiver_ID;//接收者ID，操作手客户端ID，此处为蓝方英雄操作手客户端
 	//自定义图像数据
 	
 	ext_student_interactive_header_data_character.ext_client_custom_character.grapic_data_struct.graphic_name[0] = imagename[0];
@@ -429,12 +429,20 @@ static void UI_mode_send(uint32_t Graph_Operate)
 }
 void UI_Init(void)//放在初始化中
 {
-	UI_mode_send(UI_Graph_ADD);
+//	UI_mode_send(UI_Graph_ADD);
+	UI_draw_Line("091",UI_Graph_ADD,9,UI_Color_Pink,2,SCREEN_LENGTH/2+150,0,SCREEN_LENGTH/2+150,SCREEN_WIDTH);
+	UI_draw_Line("092",UI_Graph_ADD,9,UI_Color_Pink,2,SCREEN_LENGTH/2-150,0,SCREEN_LENGTH/2-150,SCREEN_WIDTH);
+	UI_draw_Line("093",UI_Graph_ADD,9,UI_Color_Green,2,SCREEN_LENGTH/2-150,SCREEN_WIDTH/2+100,SCREEN_LENGTH/2+150,SCREEN_WIDTH/2+100);
+	UI_draw_Line("094",UI_Graph_ADD,9,UI_Color_Green,2,SCREEN_LENGTH/2-150,SCREEN_WIDTH/2-100,SCREEN_LENGTH/2+150,SCREEN_WIDTH/2-100);
+	UI_draw_Line("095",UI_Graph_ADD,9,UI_Color_Green,2,SCREEN_LENGTH/2-100,SCREEN_WIDTH/2+150,SCREEN_LENGTH/2+100,SCREEN_WIDTH/2+150);
+	UI_draw_Line("096",UI_Graph_ADD,9,UI_Color_Green,2,SCREEN_LENGTH/2-100,SCREEN_WIDTH/2-150,SCREEN_LENGTH/2+100,SCREEN_WIDTH/2-150);
 }
-
+uint8_t id_flag;
 void UI_Display(void)//放在定时器中断中，10hz
 {
-	UI_mode_send(UI_Graph_Change);
+
+			UI_Init();
+
 }
 
 

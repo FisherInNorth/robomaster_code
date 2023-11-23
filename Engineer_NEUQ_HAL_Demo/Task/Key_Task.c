@@ -8,7 +8,7 @@ typedef enum
 	KEY_Release,		//按键释放
 }KEY_State;
 
-uint8_t Keyboard_Mode=0;//0是遥控器模式，1是键鼠模式
+uint8_t Keyboard_Mode=1;//0是遥控器模式，1是键鼠模式
 uint8_t Keyboard_Flag=0;//判断键鼠模式,防止一次按下重复判断
 uint8_t BigSource_Mode=0;//大资源岛一键取矿
 uint8_t AirSource_Mode=0;
@@ -24,63 +24,64 @@ uint8_t time_mark=0;
 uint8_t Air_mark=0;
 void Key_Task(void)
 {
-	switch(KeyState)
-	{
-		case KEY_Check:
-		{
-			if(rc_ctrl.key.v & KEY_CTRL)
-			{
-				if(rc_ctrl.key.v &KEY_SHIFT)	
-					KeyState=KEY_Press;
-			}
-			break;
-			case KEY_Press:	
-			{
-				if(rc_ctrl.key.v & KEY_CTRL)
-				{
-					if(rc_ctrl.key.v &KEY_SHIFT)
-						KeyState=KEY_Release;
-				}
-			}
-			break;
-			case KEY_Release:
-			{
-				if(rc_ctrl.key.v & KEY_CTRL)
-				{
-					if(rc_ctrl.key.v &KEY_SHIFT)
-						Key_Cnt++;
-				}
-				else 
-				{	
-					Key_Cnt=0;
-					KeyState = KEY_Check ;
-					Keyboard_Flag=1;
-				}
-			}
-			break;
-		}
-	}
-	if(Keyboard_Flag==1)
-	{
-		Keyboard_Flag=0;
-		if(Keyboard_Mode==0)
-			Keyboard_Mode=1;		//打开键鼠模式
-		else if(Keyboard_Mode==1)
-			Keyboard_Mode=0;		//关闭键鼠模式
-	}
+//	switch(KeyState)
+//	{
+//		case KEY_Check:
+//		{
+//			if(rc_ctrl.key.v & KEY_CTRL)
+//			{
+//				if(rc_ctrl.key.v &KEY_SHIFT)	
+//					KeyState=KEY_Press;
+//			}
+//			break;
+//			case KEY_Press:	
+//			{
+//				if(rc_ctrl.key.v & KEY_CTRL)
+//				{
+//					if(rc_ctrl.key.v &KEY_SHIFT)
+//						KeyState=KEY_Release;
+//				}
+//			}
+//			break;
+//			case KEY_Release:
+//			{
+//				if(rc_ctrl.key.v & KEY_CTRL)
+//				{
+//					if(rc_ctrl.key.v &KEY_SHIFT)
+//						Key_Cnt++;
+//				}
+//				else 
+//				{	
+//					Key_Cnt=0;
+//					KeyState = KEY_Check ;
+//					Keyboard_Flag=1;
+//				}
+//			}
+//			break;
+//		}
+//	}
+//	if(Keyboard_Flag==1)
+//	{
+//		Keyboard_Flag=0;
+//		if(Keyboard_Mode==0)
+//			Keyboard_Mode=1;		//打开键鼠模式
+//		else if(Keyboard_Mode==1)
+//			Keyboard_Mode=0;		//关闭键鼠模式
+//	}
+	
 	if(Keyboard_Mode==1)
 	{
 		/*******底盘加速模式*******/
 		if(rc_ctrl.key.v & KEY_SHIFT)
 		{
 			if(rc_ctrl.key.v & KEY_W)
-			Key_Vw=660; else Key_Vw=0;
+			Key_Vw=75; else Key_Vw=0;
 			if(rc_ctrl.key.v & KEY_S)
-			Key_Vs=-660; else Key_Vs=0;
+			Key_Vs=-75; else Key_Vs=0;
 			if(rc_ctrl.key.v & KEY_A)
-			Key_Va=660; else Key_Va=0;
+			Key_Va=75; else Key_Va=0;
 			if(rc_ctrl.key.v & KEY_D)
-			Key_Vd=-660; else Key_Vd=0;
+			Key_Vd=-75; else Key_Vd=0;
 		}
 		/*******底盘常速模式*******/
 		else
@@ -148,7 +149,8 @@ void Key_Task(void)
 			Mineral_Task_Longitudinal(stop);
 			Mineral_Task_Widthwise(stop);
 			Flip_Task(stop);
-		}			/*******夹爪旋转*******/
+		}			
+		/*******夹爪旋转*******/
 		else if((!(rc_ctrl.key.v & KEY_CTRL)) && (!(rc_ctrl.key.v & KEY_X)) && (!(rc_ctrl.key.v & KEY_Z)) && (rc_ctrl.key.v & KEY_R) && (!(rc_ctrl.key.v & KEY_Q)))
 		{
 			Flip_Task(in);//out
@@ -206,7 +208,7 @@ void Key_Task(void)
 		{
 			Handle_Task(out);//in
 		}
-		else if((!(rc_ctrl.key.v & KEY_CTRL)) && (!(rc_ctrl.key.v & KEY_E)) && (!(rc_ctrl.key.v & KEY_Q)))
+		else if((!(rc_ctrl.key.v & KEY_E)) && (!(rc_ctrl.key.v & KEY_Q)))
 		{
 			Handle_Task(stop);
 		}
@@ -344,7 +346,7 @@ void Key_Task(void)
 		{
 			Handle_Task(in);//out
 		}
-		else if((HAL_GetTick()-Air_Time)>3950 && (HAL_GetTick()-Air_Time)<4400)
+		else if((HAL_GetTick()-Air_Time)>3950 && (HAL_GetTick()-Air_Time)<20000)
 		{
 			Handle_Task(stop);//stop
 		}		
@@ -352,7 +354,7 @@ void Key_Task(void)
 		{
 			Flip_Task(in);//out
 		}
-		else if((HAL_GetTick()-Air_Time)>4000 && (HAL_GetTick()-Air_Time)<4400)
+		else if((HAL_GetTick()-Air_Time)>4000 && (HAL_GetTick()-Air_Time)<20000)
 		{
 			Flip_Task(stop);
 		}
@@ -361,7 +363,7 @@ void Key_Task(void)
 	{
 		AirMineral_Task();
 	}
-	if((!(rc_ctrl.key.v & KEY_Q)) || (!(rc_ctrl.key.v & KEY_E)))
+	if((!(rc_ctrl.key.v & KEY_Q)) && (!(rc_ctrl.key.v & KEY_E)))
 	{
 		Handle_Task(stop);
 	}

@@ -18,6 +18,14 @@ extern uint8_t Flip_PID2_Flag;
   */
 void Remote_Control()    //这个函数里就不断地判断每个通道的值，如果满足条件就做相应动作
 {
+	if((RIGHT_LEVER==Lever_up) || (RIGHT_LEVER==Lever_down) || x_CH_width || y_CH_width || r_CH_width || i_CH_width || DJI_Motion_Round )
+	{
+		Keyboard_Mode = 0;
+	}
+	else
+	{
+		Keyboard_Mode = 1;
+	}
 	if(Keyboard_Mode==0)
 	{
 		//底盘的控制在TIM6_Cnt_Task中
