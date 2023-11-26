@@ -15,7 +15,7 @@ int Flip_Angle_R = 0;
 int Flip_Angle_L = 0;
 
 float Flip_Kp_L=40;
-float Flip_Kp_R=30;
+float Flip_Kp_R=55;
 float Flip_Ki_L=3.7f;
 float Flip_Ki_R=1.2f;
 float Flip_Kd=22;
@@ -24,7 +24,7 @@ float Flip_A_Ki=0.5f;
 float Flip_A_Kd=0.15f;
 
 float Flip_kp_less=20;
-float Flip_ki_less=3.7;
+float Flip_ki_less=4.2;
 float Flip_kd_less=3.7;
 int FLIP_SPEED=0;//测试用
 /**
@@ -168,11 +168,9 @@ void Apid_Flip_Realize()
 void Set_Flip_Current()
 {
 	//电机目标电流为速度pid输出
-	flip_R_motor.target_current = flip_R_motor.vpid.PID_OUT;
+	flip_R_motor.target_current = flip_R_motor.vpid.PID_OUT+500;
 	flip_L_motor.target_current = flip_L_motor.vpid.PID_OUT;
-	//平衡电流
-	flip_R_motor.target_current -=350;
-	flip_L_motor.target_current +=400;
+
 	//can总线通信协议，参照电调说明书，注意，Flip有两个电机
 	current_msg2[0] = flip_R_motor.target_current >> 8;			//1号电机电流高8位
 	current_msg2[1] = flip_R_motor.target_current & 0xff;		//1号电机电流低8位
@@ -197,8 +195,8 @@ void Flip_Task(MOTOR_MOVE_t flip_move)
 		{
 				if(Clamp_Judge==1)
 				{
-					Flip_Angle_R = flip_R_motor.apid.total_angle + 10*19;
-					Flip_Angle_L = flip_L_motor.apid.total_angle + 10*19;
+					Flip_Angle_R = flip_R_motor.apid.total_angle + 250;
+					Flip_Angle_L = flip_L_motor.apid.total_angle + 250;
 				}
 				else 
 				{
@@ -211,8 +209,8 @@ void Flip_Task(MOTOR_MOVE_t flip_move)
 		{
 				if(Clamp_Judge==1)
 				{
-					Flip_Angle_R = flip_R_motor.apid.total_angle - 20;
-					Flip_Angle_L = flip_L_motor.apid.total_angle - 20;
+					Flip_Angle_R = flip_R_motor.apid.total_angle - 40;
+					Flip_Angle_L = flip_L_motor.apid.total_angle - 40;
 				}
 				else 
 				{

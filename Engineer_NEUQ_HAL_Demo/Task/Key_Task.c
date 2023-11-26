@@ -22,53 +22,13 @@ int First_Time=0;
 int Air_Time=0;
 uint8_t time_mark=0;
 uint8_t Air_mark=0;
+uint8_t Reset_mark=0;
+uint8_t BigSource_Reset=0;
+int Reset_Time=0;
+uint8_t Reset_Mode=0;
 void Key_Task(void)
 {
-//	switch(KeyState)
-//	{
-//		case KEY_Check:
-//		{
-//			if(rc_ctrl.key.v & KEY_CTRL)
-//			{
-//				if(rc_ctrl.key.v &KEY_SHIFT)	
-//					KeyState=KEY_Press;
-//			}
-//			break;
-//			case KEY_Press:	
-//			{
-//				if(rc_ctrl.key.v & KEY_CTRL)
-//				{
-//					if(rc_ctrl.key.v &KEY_SHIFT)
-//						KeyState=KEY_Release;
-//				}
-//			}
-//			break;
-//			case KEY_Release:
-//			{
-//				if(rc_ctrl.key.v & KEY_CTRL)
-//				{
-//					if(rc_ctrl.key.v &KEY_SHIFT)
-//						Key_Cnt++;
-//				}
-//				else 
-//				{	
-//					Key_Cnt=0;
-//					KeyState = KEY_Check ;
-//					Keyboard_Flag=1;
-//				}
-//			}
-//			break;
-//		}
-//	}
-//	if(Keyboard_Flag==1)
-//	{
-//		Keyboard_Flag=0;
-//		if(Keyboard_Mode==0)
-//			Keyboard_Mode=1;		//打开键鼠模式
-//		else if(Keyboard_Mode==1)
-//			Keyboard_Mode=0;		//关闭键鼠模式
-//	}
-	
+
 	if(Keyboard_Mode==1)
 	{
 		/*******底盘加速模式*******/
@@ -87,13 +47,13 @@ void Key_Task(void)
 		else
 		{
 			if(rc_ctrl.key.v & KEY_W)
-			Key_Vw=440; else Key_Vw=0;
+			Key_Vw=660; else Key_Vw=0;
 			if(rc_ctrl.key.v & KEY_S)
-			Key_Vs=-440; else Key_Vs=0;
+			Key_Vs=-660; else Key_Vs=0;
 			if(rc_ctrl.key.v & KEY_A)
-			Key_Va=440; else Key_Va=0;
+			Key_Va=660; else Key_Va=0;
 			if(rc_ctrl.key.v & KEY_D)
-			Key_Vd=-440; else Key_Vd=0;
+			Key_Vd=-660; else Key_Vd=0;
 
 		}	
 		/*******夹爪夹取*******/	
@@ -112,31 +72,37 @@ void Key_Task(void)
 		{
 			Mineral_Task_Longitudinal(back);
 			Mineral_Task_Widthwise(stop);
+			Flip_Task(stop);
 		}
 		else if((!(rc_ctrl.key.v & KEY_CTRL)) && (rc_ctrl.key.v & KEY_X) && (!(rc_ctrl.key.v & KEY_Z)) && (!(rc_ctrl.key.v & KEY_R)) && (!(rc_ctrl.key.v & KEY_Q)))
 		{
 			Mineral_Task_Longitudinal(forward);
 			Mineral_Task_Widthwise(stop);
+			Flip_Task(stop);
 		}
 		else if((!(rc_ctrl.key.v & KEY_CTRL)) && !(rc_ctrl.key.v & KEY_X) && (rc_ctrl.key.v & KEY_Z) && (!(rc_ctrl.key.v & KEY_R)) && (!(rc_ctrl.key.v & KEY_Q)))
 		{
 			Mineral_Task_Widthwise(right);
 			Mineral_Task_Longitudinal(stop);
+			Flip_Task(stop);
 		}
 		else if(((rc_ctrl.key.v & KEY_CTRL)) && !(rc_ctrl.key.v & KEY_X) && (rc_ctrl.key.v & KEY_Z) && (!(rc_ctrl.key.v & KEY_R)) && (!(rc_ctrl.key.v & KEY_Q)))
 		{
 			Mineral_Task_Widthwise(left);
 			Mineral_Task_Longitudinal(stop);
+			Flip_Task(stop);
 		}
 		else if((!(rc_ctrl.key.v & KEY_CTRL)) && (rc_ctrl.key.v & KEY_X) && (rc_ctrl.key.v & KEY_Z) && (!(rc_ctrl.key.v & KEY_R)) && (!(rc_ctrl.key.v & KEY_Q)))
 		{
 			Mineral_Task_Longitudinal(up);
 			Mineral_Task_Widthwise(up);
+			Flip_Task(stop);
 		}
 		else if((rc_ctrl.key.v & KEY_CTRL) && (rc_ctrl.key.v & KEY_X) && (rc_ctrl.key.v & KEY_Z) && (!(rc_ctrl.key.v & KEY_R)) && (!(rc_ctrl.key.v & KEY_Q)))
 		{
 			Mineral_Task_Longitudinal(down);
 			Mineral_Task_Widthwise(down);
+			Flip_Task(stop);
 		}
 		else if((!(rc_ctrl.key.v & KEY_CTRL)) && (!(rc_ctrl.key.v & KEY_X)) && (!(rc_ctrl.key.v & KEY_Z)) && (!(rc_ctrl.key.v & KEY_R)) && (!(rc_ctrl.key.v & KEY_Q)))
 		{
@@ -268,7 +234,9 @@ void Key_Task(void)
 	if((rc_ctrl.key.v & KEY_Q)  &&  (!(rc_ctrl.key.v & KEY_CTRL)))
 	{
 		if(BigSource_Mode==0)
+		{
 			BigSource_Mode=1;		//大资源岛一键取矿打开
+		}
 	} 
 	if((!(rc_ctrl.key.v & KEY_Q)) && (!(rc_ctrl.key.v & KEY_CTRL)))
 	{
@@ -311,54 +279,52 @@ void Key_Task(void)
 		}
 	}
 	
-	
-	
-	/*******一键取矿空接*******/
-	if((rc_ctrl.key.v & KEY_CTRL) && (rc_ctrl.key.v & KEY_Q))
-	{
-		if(AirSource_Mode==0)
-			AirSource_Mode=1;		//空接一键取矿打开
-	} 
-	if((!(rc_ctrl.key.v & KEY_CTRL)) && (!(rc_ctrl.key.v & KEY_Q)))
-	{
-		if(AirSource_Mode==1)
-			AirSource_Mode=0;		//空接一键取矿关闭
-		if(Air_mark==1)
-			Air_mark=0;
-	} 
-	
-	if(AirSource_Mode==1)
-	{       
-		if(Air_mark == 0)						//时间起始位记录
+		/*******一键复位*******/
+		if((rc_ctrl.key.v & KEY_CTRL) && (rc_ctrl.key.v & KEY_Q))
 		{
-			Air_Time = HAL_GetTick();//2200  4300
-			Air_mark = 1; 
-		}
-		if((HAL_GetTick()-Air_Time)>0 && (HAL_GetTick()-Air_Time)<4300)
+			if(BigSource_Reset==0)
+				BigSource_Reset=1;
+		}	
+		if(((!(rc_ctrl.key.v & KEY_CTRL)) && (!(rc_ctrl.key.v & KEY_C))) && ((!(rc_ctrl.key.v & KEY_CTRL)) && (!(rc_ctrl.key.v & KEY_Q))) && ((!(rc_ctrl.key.v & KEY_CTRL)) && (!(rc_ctrl.key.v & KEY_V))))
 		{
-			Push_B = ht; Push_F = qs; Push_Task(Push_F, Push_B);
-		}
-		else if((HAL_GetTick()-Air_Time)>4300 && (HAL_GetTick()-Air_Time)<4400)
+			if(BigSource_Reset==1)
+				BigSource_Reset=0;
+			if(Reset_mark==1)
+				Reset_mark=0;
+		}	
+		if(BigSource_Reset==1)
 		{
-			Push_B = ht; Push_F = qt; Push_Task(Push_F, Push_B);
-		}
-		if((HAL_GetTick()-Air_Time)>2500 && (HAL_GetTick()-Air_Time)<4000)
-		{
-			Handle_Task(in);//out
-		}
-		else if((HAL_GetTick()-Air_Time)>3950 && (HAL_GetTick()-Air_Time)<20000)
-		{
-			Handle_Task(stop);//stop
-		}		
-		if((HAL_GetTick()-Air_Time)>3250 && (HAL_GetTick()-Air_Time)<4000)
-		{
-			Flip_Task(in);//out
-		}
-		else if((HAL_GetTick()-Air_Time)>4000 && (HAL_GetTick()-Air_Time)<20000)
-		{
-			Flip_Task(stop);
-		}
-	}
+			if(Reset_mark==0)
+			{
+				Reset_Time = HAL_GetTick();
+				Reset_mark = 1;
+			}
+				if((HAL_GetTick()-Reset_Time)>0 && (HAL_GetTick()-Reset_Time)<1900)
+				{
+					Flip_Task(out);//in
+				}
+				else if((HAL_GetTick()-Reset_Time)>1900 && (HAL_GetTick()-Reset_Time)<2000)
+				{
+					Flip_Task(stop);
+				}
+				if((HAL_GetTick()-Reset_Time)>0 && (HAL_GetTick()-Reset_Time)<1900)
+				{
+					Handle_Task(out);//in
+				}
+				else if((HAL_GetTick()-Reset_Time)>1900 && (HAL_GetTick()-Reset_Time)<2000)
+				{
+					Handle_Task(stop);//stop
+				}						
+				if((HAL_GetTick()-Reset_Time)>1600 && (HAL_GetTick()-Reset_Time)<4500)
+				{
+					Push_B = hj; Push_F = qj; Push_Task(Push_F, Push_B);
+				}
+				else if((HAL_GetTick()-Reset_Time)>4500 && (HAL_GetTick()-Reset_Time)<4600)
+				{
+					Push_B = ht; Push_F = qt; Push_Task(Push_F, Push_B); BigSource_Reset=0;
+				}
+			}
+
 	if(AirMineral_Mode==1)
 	{
 		AirMineral_Task();
