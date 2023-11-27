@@ -3,10 +3,8 @@
 
 #include "BSP_Motor.h"
 
-#define IntegralSeparation   	 20
-#define Integral_max        	 500
-#define A_IntegralSeparation	 40
-#define A_Integral_max				 500
+#define Integral_max         500
+#define IntegralSeparation   20
 
 void APID_Init(APID_t *apid); 
 void APID_Init_All(void);

@@ -120,7 +120,7 @@
         <SetRegEntry>
           <Number>0</Number>
           <Key>DLGUARM</Key>
-          <Name>/</Name>
+          <Name></Name>
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
@@ -914,46 +914,6 @@
           <count>150</count>
           <WinNumber>1</WinNumber>
           <ItemText>robot_hurt_t</ItemText>
-        </Ww>
-        <Ww>
-          <count>151</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>BigSource_Reset</ItemText>
-        </Ww>
-        <Ww>
-          <count>152</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>BigSource_Reset</ItemText>
-        </Ww>
-        <Ww>
-          <count>153</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>Reset_mark</ItemText>
-        </Ww>
-        <Ww>
-          <count>154</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>mineral_B_motor,0x0A</ItemText>
-        </Ww>
-        <Ww>
-          <count>155</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>Flip_Kp_R</ItemText>
-        </Ww>
-        <Ww>
-          <count>156</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>Flip_Ki_R</ItemText>
-        </Ww>
-        <Ww>
-          <count>157</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>flip_R_motor,0x0A</ItemText>
-        </Ww>
-        <Ww>
-          <count>158</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>Flip_A_Ki</ItemText>
         </Ww>
       </WatchWindow1>
       <WatchWindow2>

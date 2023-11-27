@@ -65,11 +65,10 @@ void Push_Task(MOTOR_MOVE_t push_moveF, MOTOR_MOVE_t push_moveB)
 		{
 			if(pushCheck_q == 0)
 			{
-				__HAL_TIM_SET_COMPARE(&htim5,TIM_CHANNEL_1,980);
-				__HAL_TIM_SET_COMPARE(&htim5,TIM_CHANNEL_2,1000);
-				__HAL_TIM_SET_COMPARE(&htim5,TIM_CHANNEL_3,980);
-				__HAL_TIM_SET_COMPARE(&htim5,TIM_CHANNEL_4,1000);
-				
+				__HAL_TIM_SET_COMPARE(&htim5,TIM_CHANNEL_1,1000);
+				__HAL_TIM_SET_COMPARE(&htim5,TIM_CHANNEL_2,0);
+				__HAL_TIM_SET_COMPARE(&htim5,TIM_CHANNEL_3,1000);
+				__HAL_TIM_SET_COMPARE(&htim5,TIM_CHANNEL_4,10);
 			}
 			else if(pushCheck_q == 1)
 			{
@@ -95,7 +94,7 @@ void Push_Task(MOTOR_MOVE_t push_moveF, MOTOR_MOVE_t push_moveB)
 			{
 				__HAL_TIM_SET_COMPARE(&htim5,TIM_CHANNEL_1,0);
 				__HAL_TIM_SET_COMPARE(&htim5,TIM_CHANNEL_2,1000);
-				__HAL_TIM_SET_COMPARE(&htim5,TIM_CHANNEL_3,0);
+				__HAL_TIM_SET_COMPARE(&htim5,TIM_CHANNEL_3,70);
 				__HAL_TIM_SET_COMPARE(&htim5,TIM_CHANNEL_4,1000);
 			}
 			else if(pushCheck_q == 0)
@@ -134,10 +133,10 @@ void Push_Task(MOTOR_MOVE_t push_moveF, MOTOR_MOVE_t push_moveB)
 		{
 			if(pushCheck_h == 0)
 			{
-				__HAL_TIM_SET_COMPARE(&htim4,TIM_CHANNEL_1,980);
-				__HAL_TIM_SET_COMPARE(&htim4,TIM_CHANNEL_2,1000);
-				__HAL_TIM_SET_COMPARE(&htim4,TIM_CHANNEL_3,980);
-				__HAL_TIM_SET_COMPARE(&htim4,TIM_CHANNEL_4,1000);
+				__HAL_TIM_SET_COMPARE(&htim4,TIM_CHANNEL_1,1000);
+				__HAL_TIM_SET_COMPARE(&htim4,TIM_CHANNEL_2,0);
+				__HAL_TIM_SET_COMPARE(&htim4,TIM_CHANNEL_3,1000);
+				__HAL_TIM_SET_COMPARE(&htim4,TIM_CHANNEL_4,0);
 			}
 			else if(pushCheck_h == 1)
 			{
