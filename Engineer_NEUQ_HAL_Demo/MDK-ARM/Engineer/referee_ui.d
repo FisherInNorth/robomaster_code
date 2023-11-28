@@ -8,7 +8,7 @@ engineer\referee_ui.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h
 engineer\referee_ui.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h
 engineer\referee_ui.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f427xx.h
 engineer\referee_ui.o: ../Drivers/CMSIS/Include/core_cm4.h
-engineer\referee_ui.o: E:\keil\core\ARM\ARMCC\Bin\..\include\stdint.h
+engineer\referee_ui.o: E:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 engineer\referee_ui.o: ../Drivers/CMSIS/Include/cmsis_version.h
 engineer\referee_ui.o: ../Drivers/CMSIS/Include/cmsis_compiler.h
 engineer\referee_ui.o: ../Drivers/CMSIS/Include/cmsis_armcc.h
@@ -16,7 +16,7 @@ engineer\referee_ui.o: ../Drivers/CMSIS/Include/mpu_armv7.h
 engineer\referee_ui.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h
 engineer\referee_ui.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h
 engineer\referee_ui.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h
-engineer\referee_ui.o: E:\keil\core\ARM\ARMCC\Bin\..\include\stddef.h
+engineer\referee_ui.o: E:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
 engineer\referee_ui.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc_ex.h
 engineer\referee_ui.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio.h
 engineer\referee_ui.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio_ex.h
@@ -33,13 +33,13 @@ engineer\referee_ui.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.
 engineer\referee_ui.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h
 engineer\referee_ui.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h
 engineer\referee_ui.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
-engineer\referee_ui.o: E:\keil\core\ARM\ARMCC\Bin\..\include\string.h
-engineer\referee_ui.o: E:\keil\core\ARM\ARMCC\Bin\..\include\stdio.h
+engineer\referee_ui.o: E:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+engineer\referee_ui.o: E:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 engineer\referee_ui.o: ..\APP\CRC8_CRC16.h
 engineer\referee_ui.o: ..\APP\protocol.h
 engineer\referee_ui.o: ..\APP\struct_typedef.h
 engineer\referee_ui.o: ..\APP\fifo.h
-engineer\referee_ui.o: E:\keil\core\ARM\ARMCC\Bin\..\include\stdlib.h
+engineer\referee_ui.o: E:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 engineer\referee_ui.o: ..\APP\referee.h
 engineer\referee_ui.o: ../BSP/bsp_referee.h
 engineer\referee_ui.o: ../Core/Inc/usart.h

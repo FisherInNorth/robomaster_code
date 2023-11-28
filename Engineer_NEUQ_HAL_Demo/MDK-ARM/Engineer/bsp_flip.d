@@ -2,7 +2,7 @@ engineer\bsp_flip.o: ..\BSP\BSP_Flip.c
 engineer\bsp_flip.o: ..\BSP\BSP_Flip.h
 engineer\bsp_flip.o: ../APP/pid/pid.h
 engineer\bsp_flip.o: ../BSP/BSP_Motor.h
-engineer\bsp_flip.o: E:\keil\core\ARM\ARMCC\Bin\..\include\stdint.h
+engineer\bsp_flip.o: E:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 engineer\bsp_flip.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h
 engineer\bsp_flip.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f427xx.h
 engineer\bsp_flip.o: ../Drivers/CMSIS/Include/core_cm4.h
@@ -17,7 +17,7 @@ engineer\bsp_flip.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h
 engineer\bsp_flip.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h
 engineer\bsp_flip.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h
 engineer\bsp_flip.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h
-engineer\bsp_flip.o: E:\keil\core\ARM\ARMCC\Bin\..\include\stddef.h
+engineer\bsp_flip.o: E:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
 engineer\bsp_flip.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc_ex.h
 engineer\bsp_flip.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio.h
 engineer\bsp_flip.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio_ex.h

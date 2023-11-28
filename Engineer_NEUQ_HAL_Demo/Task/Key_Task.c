@@ -228,27 +228,14 @@ void Key_Task(void)
 			Push_B = ht; Push_F = qt; Push_Task(Push_F, Push_B);
 		}	
 
-		/****空接模式****/
-		if(rc_ctrl.key.v & KEY_CTRL && (!(rc_ctrl.key.v & KEY_Q)))
-		{
-	    if(rc_ctrl.key.v & KEY_B)
-      {
-				AirMineral_Mode=0;
-      }
-		}
-		else if((!(rc_ctrl.key.v & KEY_CTRL)) && (!(rc_ctrl.key.v & KEY_Q)))
-		{
-	    if(rc_ctrl.key.v & KEY_B)
-      {
-				AirMineral_Mode=1;
-      }
-		}
+
 
 	/*******一键取矿*******/
 	if((rc_ctrl.key.v & KEY_Q)  &&  (!(rc_ctrl.key.v & KEY_CTRL)))
 	{
 		if(BigSource_Mode==0)
 			BigSource_Mode=1;		//大资源岛一键取矿打开
+		  BigSource_Reset=1;
 	} 
 	if((!(rc_ctrl.key.v & KEY_Q)) && (!(rc_ctrl.key.v & KEY_CTRL)))
 	{
@@ -291,54 +278,6 @@ void Key_Task(void)
 		}
 	}
 	
-	
-	
-	/*******一键取矿空接*******/
-	if((rc_ctrl.key.v & KEY_CTRL) && (rc_ctrl.key.v & KEY_Q))
-	{
-		if(AirSource_Mode==0)
-			AirSource_Mode=1;		//空接一键取矿打开
-	} 
-	if((!(rc_ctrl.key.v & KEY_CTRL)) && (!(rc_ctrl.key.v & KEY_Q)))
-	{
-		if(AirSource_Mode==1)
-			AirSource_Mode=0;		//空接一键取矿关闭
-		if(Air_mark==1)
-			Air_mark=0;
-	} 
-	
-	if(AirSource_Mode==1)
-	{       
-		if(Air_mark == 0)						//时间起始位记录
-		{
-			Air_Time = HAL_GetTick();//2200  4300
-			Air_mark = 1; 
-		}
-		if((HAL_GetTick()-Air_Time)>0 && (HAL_GetTick()-Air_Time)<4300)
-		{
-			Push_B = ht; Push_F = qs; Push_Task(Push_F, Push_B);
-		}
-		else if((HAL_GetTick()-Air_Time)>4300 && (HAL_GetTick()-Air_Time)<4400)
-		{
-			Push_B = ht; Push_F = qt; Push_Task(Push_F, Push_B);
-		}
-		if((HAL_GetTick()-Air_Time)>2500 && (HAL_GetTick()-Air_Time)<4000)
-		{
-			Handle_Task(in);//out
-		}
-		else if((HAL_GetTick()-Air_Time)>3950 && (HAL_GetTick()-Air_Time)<20000)
-		{
-			Handle_Task(stop);//stop
-		}		
-		if((HAL_GetTick()-Air_Time)>3250 && (HAL_GetTick()-Air_Time)<4000)
-		{
-			Flip_Task(in);//out
-		}
-		else if((HAL_GetTick()-Air_Time)>4000 && (HAL_GetTick()-Air_Time)<20000)
-		{
-			Flip_Task(stop);
-		}
-	}
 	if(AirMineral_Mode==1)
 	{
 		AirMineral_Task();
@@ -353,8 +292,10 @@ void Key_Task(void)
 	if((!(rc_ctrl.key.v & KEY_CTRL)) && (rc_ctrl.key.v & KEY_V)&& (!(rc_ctrl.key.v & KEY_Q)))
 	{
 	  if(GroundSource_Mode==0)
+		{
 			GroundSource_Mode=1;		//地面取矿打开
 			Ground_Reset=1;
+		}
 	} 
 	if((!(rc_ctrl.key.v & KEY_CTRL)) && (!(rc_ctrl.key.v & KEY_V))&& (!(rc_ctrl.key.v & KEY_Q)))
 	{
@@ -555,57 +496,7 @@ void Key_Task(void)
 				}
 			}
 		}
-		/*******一键取矿空接*******/
 
-	if((rc_ctrl.key.v & KEY_CTRL) && (rc_ctrl.key.v & KEY_Q)&& (!(rc_ctrl.key.v & KEY_C)))
-	{
-		if(AirSource_Mode==0)
-			AirSource_Mode=1;		//空接一键取矿打开
-	} 
-	if((!(rc_ctrl.key.v & KEY_CTRL)) && (!(rc_ctrl.key.v & KEY_Q))&& (!(rc_ctrl.key.v & KEY_C)))
-	{
-		if(AirSource_Mode==1)
-			AirSource_Mode=0;		//空接一键取矿关闭
-		if(Air_mark==1)
-			Air_mark=0;
-	} 
-	
-	if(AirSource_Mode==1)
-	{       
-		if(Air_mark == 0)						//时间起始位记录
-		{
-			Air_Time = HAL_GetTick();//2200  4300
-			Air_mark = 1; 
-		}
-		if((HAL_GetTick()-Air_Time)>0 && (HAL_GetTick()-Air_Time)<4300)
-		{
-			Push_B = ht; Push_F = qs; Push_Task(Push_F, Push_B);
-		}
-		else if((HAL_GetTick()-Air_Time)>4300 && (HAL_GetTick()-Air_Time)<4400)
-		{
-			Push_B = ht; Push_F = qt; Push_Task(Push_F, Push_B);
-		}
-		if((HAL_GetTick()-Air_Time)>2500 && (HAL_GetTick()-Air_Time)<4000)
-		{
-			Handle_Task(in);//out
-		}
-		else if((HAL_GetTick()-Air_Time)>3950 && (HAL_GetTick()-Air_Time)<4400)
-		{
-			Handle_Task(stop);//stop
-		}		
-		if((HAL_GetTick()-Air_Time)>3250 && (HAL_GetTick()-Air_Time)<4000)
-		{
-			Flip_Task(in);//out
-		}
-		else if((HAL_GetTick()-Air_Time)>4000 && (HAL_GetTick()-Air_Time)<4400)
-		{
-			Flip_Task(stop);
-		}
-	}
-	if(AirMineral_Mode==1)
-	{
-		AirMineral_Task();
-	}
  }
 }
 
