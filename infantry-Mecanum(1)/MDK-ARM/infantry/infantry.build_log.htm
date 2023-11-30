@@ -1,0 +1,85 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Tool Versions:</h2>
+IDE-Version: ¦ÌVision V5.14.0.0
+Copyright (C) 2015 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: LI ZIXUAN, neuq, LIC=8MZ45-G1RDY-9XEUW-QZ2VS-AENBS-U2HYV
+ 
+Tool Versions:
+Toolchain:       MDK-ARM Professional  Version: 5.14.0.0
+Toolchain Path:  C:\Keil_v5\ARM\ARMCC\Bin
+C Compiler:      Armcc.exe V5.05 update 1 (build 106)
+Assembler:       Armasm.exe V5.05 update 1 (build 106)
+Linker/Locator:  ArmLink.exe V5.05 update 1 (build 106)
+Library Manager: ArmAr.exe V5.05 update 1 (build 106)
+Hex Converter:   FromElf.exe V5.05 update 1 (build 106)
+CPU DLL:         SARMCM3.DLL V5.14.0.0
+Dialog DLL:      DCM.DLL V1.13.1.0
+Target DLL:      Segger\JL2CM3.dll V2.99.13.0
+Dialog DLL:      TCM.DLL V1.14.4.0
+ 
+<h2>Project:</h2>
+C:\Users\Àî×Ïè¯\Desktop\infantry-Mecanum\MDK-ARM\infantry.uvprojx
+Project File Date:  03/08/2022
+
+<h2>Output:</h2>
+Build target 'infantry'
+compiling dma.c...
+compiling my_init.c...
+compiling main.c...
+compiling gpio.c...
+compiling can.c...
+compiling tim.c...
+compiling usart.c...
+compiling stm32f4xx_it.c...
+compiling stm32f4xx_hal_msp.c...
+compiling pid.c...
+compiling kinematics.c...
+compiling chassis_move.c...
+..\APP\chassis_move\chassis_move.c(77): warning:  #177-D: function "power_limitation_jugement" was declared but never referenced
+  static void power_limitation_jugement(void)
+..\APP\chassis_move\chassis_move.c(173): warning:  #177-D: function "speed_optimize" was declared but never referenced
+  static void speed_optimize(void)
+..\APP\chassis_move\chassis_move.c: 2 warnings, 0 errors
+compiling chassis_task.c...
+compiling remote_control.c...
+..\APP\remote_control\remote_control.c(11): warning:  #69-D: integer conversion resulted in truncation
+  RC_ctrl_t rc_ctrl = {{0x0400,0x0400,0x0400,0x0400,2,2,0x0400},{0,0,0,0,0,},{0}};
+..\APP\remote_control\remote_control.c: 1 warning, 0 errors
+compiling referee.c...
+compiling supercap.c...
+compiling bsp_can.c...
+..\BSP\bsp_can\bsp_can.c(281): warning:  #1-D: last line of file ends without a newline
+  }
+..\BSP\bsp_can\bsp_can.c(265): warning:  #550-D: variable "status" was set but never used
+        uint8_t status;
+..\BSP\bsp_can\bsp_can.c: 2 warnings, 0 errors
+compiling bsp_referee.c...
+compiling CRC8_CRC16.c...
+linking...
+Program Size: Code=20206 RO-data=1514 RW-data=148 ZI-data=6524  
+FromELF: creating hex file...
+"infantry\infantry.axf" - 0 Error(s), 5 Warning(s).
+
+<h2>Software Packages used:</h2>
+
+Package Vendor: ARM
+                http://www.keil.com/pack/ARM.CMSIS.4.2.0.pack
+                ARM::CMSIS:CORE:3.40.0
+                CMSIS (Cortex Microcontroller Software Interface Standard)
+   * Component: CORE Version: 3.40.0
+
+<h2>Collection of Component include folders:</h2>
+  C:\Users\Àî×Ïè¯\Desktop\infantry-Mecanum\MDK-ARM\RTE
+  C:\mdk\ARM\CMSIS\4.2.0\CMSIS\Include
+  C:\mdk\Keil\STM32F4xx_DFP\2.15.0
+
+<h2>Collection of Component Files used:</h2>
+
+   * Component: ARM::CMSIS:CORE:3.40.0
+      Source file:   CMSIS\UserCodeTemplates\ARM\ITM_Retarget.c
+</pre>
+</body>
+</html>
